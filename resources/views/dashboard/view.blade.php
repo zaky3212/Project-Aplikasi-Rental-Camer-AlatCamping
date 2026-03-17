@@ -22,7 +22,7 @@
                 <a href="#" class="flex items-center gap-3 px-4 py-3 bg-teal-800 rounded-lg text-white font-medium transition-colors shadow-inner">
                     <i class="fas fa-layer-group w-5"></i> Overview
                 </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 text-teal-100 hover:bg-teal-800 hover:text-white rounded-lg font-medium transition-colors">
+                <a href="{{ route('item.list') }}" class="flex items-center gap-3 px-4 py-3 text-teal-100 hover:bg-teal-800 hover:text-white rounded-lg font-medium transition-colors">
                     <i class="fas fa-camera w-5"></i> List Barang
                 </a>
             </nav>
@@ -45,7 +45,7 @@
                     <div class="flex items-center gap-3 cursor-pointer">
                         <img src="https://ui-avatars.com/api/?name=Admin+Lenscape&background=0f766e&color=fff" alt="Profile" class="w-10 h-10 rounded-full shadow-sm border-2 border-teal-100">
                         <div class="hidden md:block">
-                            <p class="text-sm font-semibold text-stone-700">Administrator</p>
+                            <a href="{{ route('login.login') }}" class="text-sm font-semibold text-stone-700">Administrator</a>
                             <p class="text-xs text-stone-500">Super Admin</p>
                         </div>
                     </div>

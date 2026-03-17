@@ -21,7 +21,7 @@
             </div>
 
             <nav class="flex-1 px-4 py-6 space-y-2 hidden md:block">
-                <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 text-teal-100 hover:bg-teal-800 hover:text-white rounded-lg font-medium transition-colors">
+                <a href="{{ route('dashboard.view') }}" class="flex items-center gap-3 px-4 py-3 text-teal-100 hover:bg-teal-800 hover:text-white rounded-lg font-medium transition-colors">
                     <i class="fas fa-layer-group w-5"></i> Overview
                 </a>
 
