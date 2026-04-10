@@ -1,10 +1,21 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ItemController;
 
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard.view');
-Route::get('/login', [LoginController::class, 'index'])->name('login.login');
-Route::get('/item', [ItemController::class, 'index'])->name('item.list');
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Pelanggan\PelangganController;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+});
+
+Route::middleware(['auth', 'role:pelanggan'])->prefix('pelanggan')->name('pelanggan.')->group(function () {
+    Route::get('/dashboard', [PelangganController::class, 'index'])->name('dashboard');
+});
+
+require __DIR__.'/auth.php';
