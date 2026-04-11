@@ -5,8 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Pelanggan\PelangganController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\BarangController;
 
 
 Route::get('/', function () {
@@ -23,12 +21,3 @@ Route::middleware(['auth', 'role:pelanggan'])->prefix('pelanggan')->name('pelang
 
 require __DIR__.'/auth.php';
 
-Route::prefix('admin')->group(function () {
-    // Route untuk Dashboard Utama
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-
-    // Route Resource untuk Manajemen Barang (CRUD)
-    Route::resource('barang', BarangController::class);
-    
-    // Route lainnya bisa ditambahkan di sini (Kategori, Penyewaan, dll)
-});
