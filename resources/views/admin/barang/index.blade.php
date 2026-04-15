@@ -23,7 +23,7 @@
                     <i class="fas fa-home w-5"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 hover:bg-white/5 p-4 transition text-gray-400">
+                <a href="{{ route('admin.kategori.index') }}" class="flex items-center space-x-3 hover:bg-white/5 p-4 transition text-gray-400">
                     <i class="fas fa-list w-5"></i>
                     <span>Kategori</span>
                 </a>
