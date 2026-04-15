@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class KategoriController extends Controller
@@ -15,9 +16,9 @@ class KategoriController extends Controller
         ];
     }
 
-    public function tampilkan()
+    public function index()
     {
         $data = $this->getData();
-        return view('kategori', compact('data'));
+        return view('admin.kategori', compact('data'));
     }
 }
