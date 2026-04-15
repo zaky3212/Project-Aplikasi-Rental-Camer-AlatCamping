@@ -9,7 +9,6 @@ use App\Http\Controllers\Pelanggan\PelangganController;
 use App\Http\Controllers\Admin\KategoriController;
 
 
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -24,6 +23,4 @@ Route::middleware(['auth', 'role:pelanggan'])->prefix('pelanggan')->name('pelang
 });
 
 require __DIR__.'/auth.php';
-
-
 
