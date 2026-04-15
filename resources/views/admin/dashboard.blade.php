@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,26 +8,26 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body class="bg-[#f8f9fa] font-sans">
 
     <div class="flex min-h-screen">
         <aside class="w-64 bg-[#0f172a] text-white flex flex-col sticky top-0 h-screen">
             <div class="p-6">
                 <h1 class="text-2xl font-bold tracking-tight">
-    <span class="text-white">Lens</span><span class="text-[#f3a933]">cape</span>
-</h1>
+                    <span class="text-white">Lens</span><span class="text-[#f3a933]">cape</span>
+                </h1>
             </div>
-            
+
             <nav class="flex-1 px-0 space-y-1">
-                <a href="#"class="flex items-center space-x-3 bg-[#f3a933] text-[#0f172a] p-4 rounded-r-full mr-4 font-semibold shadow-lg"
- >                    <i class="fas fa-home w-5"></i>
+                <a href="#" class="flex items-center space-x-3 bg-[#f3a933] text-[#0f172a] p-4 rounded-r-full mr-4 font-semibold shadow-lg"> <i class="fas fa-home w-5"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="{{ route('item.list') }}" class="flex items-center space-x-3 hover:bg-white/5 p-4 transition text-gray-400" >
+                <a href="#" class="flex items-center space-x-3 hover:bg-white/5 p-4 transition text-gray-400">
                     <i class="fas fa-list w-5"></i>
                     <span>Kategori</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 hover:bg-white/5 p-4 transition text-gray-400">
+                <a href="{{ route('admin.barang.index') }}" class="flex items-center space-x-3 hover:bg-white/5 p-4 transition text-gray-400">
                     <i class="fas fa-box w-5"></i>
                     <span>Barang</span>
                 </a>
@@ -46,7 +47,7 @@
                         <p class="text-[10px] text-gray-500 uppercase tracking-wider">Administrator</p>
                     </div>
                 </div>
-                
+
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="w-full group flex items-center justify-center space-x-2 bg-red-500/5 hover:bg-red-600 p-2.5 rounded-xl transition-all duration-300 border border-red-500/20 hover:border-red-600 shadow-sm">
@@ -158,4 +159,5 @@
     </div>
 
 </body>
+
 </html>
