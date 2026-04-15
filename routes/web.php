@@ -10,6 +10,7 @@ use App\Http\Controllers\KategoriController;
 
 Route::get('/kategori', [KategoriController::class, 'tampilkan'])->name('kategori');
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -23,4 +24,6 @@ Route::middleware(['auth', 'role:pelanggan'])->prefix('pelanggan')->name('pelang
 });
 
 require __DIR__.'/auth.php';
+
+
 
