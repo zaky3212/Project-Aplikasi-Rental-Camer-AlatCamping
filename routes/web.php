@@ -7,18 +7,24 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Pelanggan\PelangganController;
 use App\Http\Controllers\Admin\BarangController;
 use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\PenyewaanController;
+
+
+Route::get('/kategori', [KategoriController::class, 'tampilkan'])->name('kategori');
+
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// GRUP ADMIN
+
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     
-    // 🔥 Nah ini kita gabungin dua-duanya biar akur bre!
+    
     Route::resource('barang', BarangController::class);
     Route::resource('kategori', KategoriController::class);
+    Route::resource('penyewaan', PenyewaanController::class);
 });
 
 // GRUP PELANGGAN

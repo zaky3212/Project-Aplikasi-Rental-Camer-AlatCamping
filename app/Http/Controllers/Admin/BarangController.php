@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
+use App\Models\Kategori; // Tambahkan ini
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -11,22 +12,21 @@ class BarangController extends Controller
 {
     public function index()
     {
-        // Ambil semua barang tanpa relasi kategori
-        $barang = Barang::latest()->get();
-        return view('admin.barang.index', compact('barang'));
-    }
+        // Ambil barang beserta relasi kategorinya
+        $barang = Barang::with('kategori')->latest()->get();
+        
+        // Ambil semua kategori untuk modal tambah barang
+        $kategori = Kategori::all(); 
 
-    public function create()
-    {
-        return view('admin.barang.create');
+        return view('admin.barang.index', compact('barang', 'kategori'));
     }
 
     public function store(Request $request)
     {
-        // Validasi tanpa kategori
+        // Tambahkan 'kategori_id' ke validasi
         $request->validate([
             'nama' => 'required|string|max:255',
-            'deskripsi' => 'required',
+            'kategori_id' => 'required|exists:kategoris,id', // Sesuai dengan nama tabel kategori Anda
             'harga_sewa' => 'required|numeric',
             'stok' => 'required|integer',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -50,15 +50,16 @@ class BarangController extends Controller
     public function edit(string $id)
     {
         $barang = Barang::findOrFail($id);
-        return view('admin.barang.edit', compact('barang'));
+        $kategori = Kategori::all(); // Tambahkan kategori agar bisa ganti kategori saat edit
+        
+        return view('admin.barang.edit', compact('barang', 'kategori'));
     }
 
     public function update(Request $request, string $id)
     {
-        // Validasi tanpa kategori
         $request->validate([
             'nama' => 'required|string|max:255',
-            'deskripsi' => 'required',
+            'kategori_id' => 'required|exists:kategoris,id',
             'harga_sewa' => 'required|numeric',
             'stok' => 'required|integer',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -68,6 +69,7 @@ class BarangController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('gambar')) {
+            // Hapus gambar lama jika ada
             if ($barang->gambar && File::exists(public_path($barang->gambar))) {
                 File::delete(public_path($barang->gambar));
             }

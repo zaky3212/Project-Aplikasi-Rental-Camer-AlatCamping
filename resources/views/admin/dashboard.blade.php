@@ -31,7 +31,7 @@
                     <i class="fas fa-box w-5"></i>
                     <span>Barang</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 hover:bg-white/5 p-4 transition text-gray-400">
+                <a href="{{ route('admin.penyewaan.index') }}" class="flex items-center space-x-3 hover:bg-white/5 p-4 transition text-gray-400">
                     <i class="fas fa-file-invoice w-5"></i>
                     <span>Penyewaan</span>
                 </a>
