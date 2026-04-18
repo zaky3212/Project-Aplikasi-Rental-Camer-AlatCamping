@@ -161,11 +161,17 @@
         @endfor
         </div>
 
-        <div class="text-center">
-            <a href="#" class="inline-block px-8 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl hover:bg-gray-200 transition text-sm">
-                Lihat Lebih Banyak
-            </a>
-        </div>
+      <div class="text-center">
+    @auth
+        <a href="{{ route('Katalog.Katalog_Camera') }}" class="inline-block px-8 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl hover:bg-gray-200 transition text-sm">
+            Lihat Lebih Banyak
+        </a>
+    @else
+        <a href="{{ route('login') }}" class="inline-block px-8 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl hover:bg-gray-200 transition text-sm">
+            Lihat Lebih Banyak
+        </a>
+    @endauth
+</div>
     </section>
 
     <section id="camping" class="container mx-auto px-6 py-16">
