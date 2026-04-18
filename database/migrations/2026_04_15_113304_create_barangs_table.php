@@ -10,14 +10,14 @@ return new class extends Migration
     {
         Schema::create('barangs', function (Blueprint $table) {
             $table->id();
-            
-            // Murni tabel barang aja, tanpa foreign key kategori
+
+            $table->foreignId('kategori_id')->constrained('kategoris')->onDelete('cascade');
             $table->string('nama');
             $table->text('deskripsi');
-            $table->integer('harga_sewa'); 
+            $table->integer('harga_sewa');
             $table->integer('stok');
-            $table->string('gambar')->nullable(); 
-            
+            $table->string('gambar')->nullable();
+
             $table->timestamps();
         });
     }

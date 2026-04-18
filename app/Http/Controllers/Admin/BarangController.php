@@ -4,37 +4,49 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
-use App\Models\Kategori; // Tambahkan ini
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
 class BarangController extends Controller
 {
-    public function index()
+    /**
+     * Menampilkan halaman utama (Tabel + Modals)
+     */
+    public function index(Request $request)
     {
-        // Ambil barang beserta relasi kategorinya
-        $barang = Barang::with('kategori')->latest()->get();
-        
-        // Ambil semua kategori untuk modal tambah barang
-        $kategori = Kategori::all(); 
+        $query = Barang::with('kategori')->latest();
+
+        if ($request->has('search') && $request->search != '') {
+            $query->where('nama', 'like', '%' . $request->search . '%');
+        }
+
+        // 🔥 UBAH ->get() JADI ->paginate()
+        // Angka 5 berarti nampilin 5 barang per halaman. Bisa lu ganti 10 atau berapapun.
+        $barang = $query->paginate(5);
+
+        $kategori = Kategori::all();
 
         return view('admin.barang.index', compact('barang', 'kategori'));
     }
 
+    /**
+     * Menyimpan data baru dari Modal Tambah
+     */
     public function store(Request $request)
     {
-        // Tambahkan 'kategori_id' ke validasi
         $request->validate([
             'nama' => 'required|string|max:255',
-            'kategori_id' => 'required|exists:kategoris,id', // Sesuai dengan nama tabel kategori Anda
+            'kategori_id' => 'required|exists:kategoris,id',
             'harga_sewa' => 'required|numeric',
             'stok' => 'required|integer',
+            'deskripsi' => 'required',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $data = $request->all();
 
-        // Logika Upload Gambar
+        // Proses Upload Gambar
         if ($request->hasFile('gambar')) {
             $image = $request->file('gambar');
             $imageName = time() . '_' . $image->getClientOriginalName();
@@ -44,17 +56,12 @@ class BarangController extends Controller
 
         Barang::create($data);
 
-        return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil ditambahkan!');
+        return redirect()->route('admin.barang.index')->with('success', 'Barang baru berhasil ditambahkan!');
     }
 
-    public function edit(string $id)
-    {
-        $barang = Barang::findOrFail($id);
-        $kategori = Kategori::all(); // Tambahkan kategori agar bisa ganti kategori saat edit
-        
-        return view('admin.barang.edit', compact('barang', 'kategori'));
-    }
-
+    /**
+     * Update data dari Modal Edit
+     */
     public function update(Request $request, string $id)
     {
         $request->validate([
@@ -62,14 +69,15 @@ class BarangController extends Controller
             'kategori_id' => 'required|exists:kategoris,id',
             'harga_sewa' => 'required|numeric',
             'stok' => 'required|integer',
+            'deskripsi' => 'required',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $barang = Barang::findOrFail($id);
         $data = $request->all();
 
+        // Proses Update Gambar (Hapus yang lama, simpan yang baru)
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama jika ada
             if ($barang->gambar && File::exists(public_path($barang->gambar))) {
                 File::delete(public_path($barang->gambar));
             }
@@ -82,19 +90,27 @@ class BarangController extends Controller
 
         $barang->update($data);
 
-        return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil diupdate!');
+        return redirect()->route('admin.barang.index')->with('success', 'Data barang berhasil diperbarui!');
     }
 
+    /**
+     * Hapus data
+     */
     public function destroy(string $id)
     {
         $barang = Barang::findOrFail($id);
 
+        // Hapus file fisik gambar biar nggak menuhin memori hosting
         if ($barang->gambar && File::exists(public_path($barang->gambar))) {
             File::delete(public_path($barang->gambar));
         }
 
         $barang->delete();
 
-        return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil dihapus!');
+        return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil dihapus dari sistem!');
     }
+
+    public function create() {}
+    public function show(string $id) {}
+    public function edit(string $id) {}
 }

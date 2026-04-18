@@ -11,12 +11,17 @@ class Barang extends Model
 
     protected $table = 'barangs';
 
-    // Kolom yang diizinkan untuk diisi, tanpa kategori_id
     protected $fillable = [
+        'kategori_id',
         'nama',
         'deskripsi',
         'harga_sewa',
         'stok',
         'gambar',
     ];
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'kategori_id');
+    }
 }
