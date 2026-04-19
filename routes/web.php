@@ -28,14 +28,16 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
 // 3. PELANGGAN ROUTES (Katalog & Dashboard Pelanggan)
 // Pastikan katalog berada di dalam middleware 'role:pelanggan' agar sinkron dengan dashboard
+
+
 Route::middleware(['auth', 'role:pelanggan'])->prefix('pelanggan')->name('pelanggan.')->group(function () {
-    
-    // Dashboard Pelanggan - Gunakan Controller agar data profil muncul
+    // Rute Dashboard Pelanggan
     Route::get('/dashboard', [PelangganController::class, 'index'])->name('dashboard');
 
-    // Katalog (Sekarang URL-nya menjadi: /pelanggan/katalog/camera)
+    // Grup Katalog
     Route::prefix('katalog')->name('Katalog.')->group(function () {
         Route::get('/camera', [KatalogController::class, 'katalogCamera'])->name('Katalog_Camera');
+        Route::get('/camping', [KatalogController::class, 'katalogCamping'])->name('Katalog_Camping');
     });
 });
 

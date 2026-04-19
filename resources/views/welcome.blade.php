@@ -135,20 +135,17 @@
         </div>
     </section>
 
-    <section id="kamera" class="container mx-auto px-6 py-16">
-        <div class="text-center mb-12">
-            <p class="text-gray-500 font-semibold text-sm tracking-wider mb-2">Favorite</p>
-            <h3 class="text-4xl font-serif font-black text-[#181e4b]">Kamera</h3>
-        </div>
+  <section id="kamera" class="container mx-auto px-6 py-16">
+    <div class="text-center mb-12">
+        <p class="text-gray-500 font-semibold text-sm tracking-wider mb-2">Favorite</p>
+        <h3 class="text-4xl font-serif font-black text-[#181e4b]">Kamera</h3>
+    </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
-            @for ($i = 0; $i < 4; $i++)
-                <div class="bg-white border border-gray-100 rounded-2xl p-4 hover:shadow-xl transition relative group">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+        @for ($i = 0; $i < 4; $i++)
+            <div class="bg-white border border-gray-100 rounded-2xl p-4 hover:shadow-xl transition relative group">
                 <div class="relative h-[200px] bg-gray-50 rounded-xl mb-4 overflow-hidden flex items-center justify-center">
                     <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Kamera" class="object-cover h-full w-full group-hover:scale-110 transition duration-500">
-                    <button class="absolute top-3 right-3 bg-white w-8 h-8 rounded-full shadow flex items-center justify-center text-gray-400 hover:text-red-500 transition">
-                        <i class="far fa-heart"></i>
-                    </button>
                 </div>
                 <h4 class="font-bold text-[#181e4b] text-base truncate pr-2">Sony Alpha A6000</h4>
                 <div class="flex justify-between items-center mt-3">
@@ -157,37 +154,29 @@
                         <i class="fas fa-plus text-xs"></i>
                     </a>
                 </div>
-        </div>
+            </div>
         @endfor
-        </div>
+    </div>
 
-      <div class="text-center">
-    @auth
-        <a href="{{ route('Katalog.Katalog_Camera') }}" class="inline-block px-8 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl hover:bg-gray-200 transition text-sm">
+    <div class="text-center">
+        <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" 
+           class="inline-block px-8 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl border-2 border-transparent hover:bg-[#f3a933] hover:text-white hover:border-[#f3a933] transition-all duration-300 text-sm shadow-sm">
             Lihat Lebih Banyak
         </a>
-    @else
-        <a href="{{ route('login') }}" class="inline-block px-8 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl hover:bg-gray-200 transition text-sm">
-            Lihat Lebih Banyak
-        </a>
-    @endauth
-</div>
-    </section>
+    </div>
+</section>
 
-    <section id="camping" class="container mx-auto px-6 py-16">
-        <div class="text-center mb-12">
-            <p class="text-gray-500 font-semibold text-sm tracking-wider mb-2">Favorite</p>
-            <h3 class="text-4xl font-serif font-black text-[#181e4b]">Alat Camping</h3>
-        </div>
+<section id="camping" class="container mx-auto px-6 py-16">
+    <div class="text-center mb-12">
+        <p class="text-gray-500 font-semibold text-sm tracking-wider mb-2">Favorite</p>
+        <h3 class="text-4xl font-serif font-black text-[#181e4b]">Alat Camping</h3>
+    </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
-            @for ($i = 0; $i < 4; $i++)
-                <div class="bg-white border border-gray-100 rounded-2xl p-4 transition duration-300 hover:shadow-xl relative group">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+        @for ($i = 0; $i < 4; $i++)
+            <div class="bg-white border border-gray-100 rounded-2xl p-4 transition duration-300 hover:shadow-xl relative group">
                 <div class="relative h-[200px] bg-gray-50 rounded-xl mb-4 overflow-hidden flex items-center justify-center">
                     <img src="https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Tenda" class="object-cover h-full w-full group-hover:scale-110 transition duration-500">
-                    <button class="absolute top-3 right-3 bg-white w-8 h-8 rounded-full shadow flex items-center justify-center text-gray-400 hover:text-red-500 transition">
-                        <i class="far fa-heart"></i>
-                    </button>
                 </div>
                 <h4 class="font-bold text-[#181e4b] text-base truncate pr-2">Tenda Dome Kapasitas 4</h4>
                 <div class="flex justify-between items-center mt-3">
@@ -196,16 +185,17 @@
                         <i class="fas fa-plus text-xs"></i>
                     </a>
                 </div>
-        </div>
+            </div>
         @endfor
-        </div>
+    </div>
 
-        <div class="text-center">
-            <a href="#" class="inline-block px-8 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl hover:bg-gray-200 transition text-sm">
-                Lihat Lebih Banyak
-            </a>
-        </div>
-    </section>
+    <div class="text-center">
+        <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" 
+           class="inline-block px-8 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl border-2 border-transparent hover:bg-[#f3a933] hover:text-white hover:border-[#f3a933] transition-all duration-300 text-sm shadow-sm">
+            Lihat Lebih Banyak
+        </a>
+    </div>
+</section>
 
     <section id="tentang" class="container mx-auto px-6 py-20 relative">
         <div class="text-center mb-16">
