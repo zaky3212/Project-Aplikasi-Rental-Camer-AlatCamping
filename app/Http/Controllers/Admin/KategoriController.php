@@ -8,9 +8,16 @@ use Illuminate\Http\Request;
 
 class KategoriController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $kategori = Kategori::latest()->get();
+        $query = Kategori::latest();
+
+        if ($request->has('search') && $request->search != '') {
+            $query->where('nama_kategori', 'like', '%' . $request->search . '%');
+        }
+
+        $kategori = $query->get();
+
         return view('admin.kategori.index', compact('kategori'));
     }
 
