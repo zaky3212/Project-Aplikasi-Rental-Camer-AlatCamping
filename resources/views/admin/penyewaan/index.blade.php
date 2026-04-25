@@ -14,6 +14,56 @@
 </head>
 <body class="bg-[#f8f9fa] font-sans overflow-x-hidden">
 
+@php
+    // Simulasi data user yang login
+    if(!Auth::check()) {
+        $user = new stdClass();
+        $user->name = "Admin Lenscape";
+        auth()->loginUsingId(1); // Hanya jika di lingkungan Laravel
+    }
+
+    // Simulasi data Barang untuk Dropdown Modal
+    $barang = collect([
+        (object)['id' => 1, 'nama' => 'Sony A7III', 'harga_sewa' => 250000],
+        (object)['id' => 2, 'nama' => 'Canon EOS R6', 'harga_sewa' => 300000],
+        (object)['id' => 3, 'nama' => 'Fujifilm X-T4', 'harga_sewa' => 200000],
+    ]);
+
+    // Simulasi data Penyewaan untuk Tabel
+    $penyewaan = collect([
+        (object)[
+            'id' => 1,
+            'nama_penyewa' => 'Ahmad Zarkasi',
+            'barang' => (object)['nama' => 'Sony A7III', 'kategori' => (object)['nama_kategori' => 'Kamera']],
+            'no_hp' => '081234567890',
+            'lama_sewa' => 2,
+            'tanggal_sewa' => '2023-10-25',
+            'total_harga' => 500000,
+            'status' => 'disewa'
+        ],
+        (object)[
+            'id' => 2,
+            'nama_penyewa' => 'Siti Sarah',
+            'barang' => (object)['nama' => 'Tripod Beike', 'kategori' => (object)['nama_kategori' => 'Aksesoris']],
+            'no_hp' => '085711223344',
+            'lama_sewa' => 1,
+            'tanggal_sewa' => '2023-10-24',
+            'total_harga' => 50000,
+            'status' => 'kembali'
+        ],
+        (object)[
+            'id' => 3,
+            'nama_penyewa' => 'Budi Doremi',
+            'barang' => (object)['nama' => 'Lensa 50mm f1.8', 'kategori' => (object)['nama_kategori' => 'Lensa']],
+            'no_hp' => '089988776655',
+            'lama_sewa' => 3,
+            'tanggal_sewa' => '2023-10-20',
+            'total_harga' => 300000,
+            'status' => 'kembali'
+        ]
+    ]);
+@endphp
+
     <div class="flex flex-col md:flex-row min-h-screen">
         
         <header class="md:hidden bg-[#0f172a] text-white p-4 flex justify-between items-center sticky top-0 z-50">
@@ -145,7 +195,18 @@
                                         @endif
                                     </td>
                                     <td class="px-6 py-4">
-                                        <div class="flex justify-center">
+                                       <div class="flex justify-center items-center space-x-2">
+        <button onclick="openEditModal({{ json_encode([
+            'id' => $item->id,
+            'nama_penyewa' => $item->nama_penyewa,
+            'barang_id' => $item->barang_id ?? ($item->barang->id ?? null),
+            'no_hp' => $item->no_hp,
+            'tanggal_sewa' => $item->tanggal_sewa,
+            'tanggal_kembali' => $item->tanggal_kembali ?? ''
+        ]) }})" 
+        class="text-blue-500 hover:text-blue-700 transition-colors p-2">
+            <i class="fas fa-edit text-xs"></i>
+        </button>
                                             <form action="{{ route('admin.penyewaan.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus data?');">
                                                 @csrf @method('DELETE')
                                                 <button type="submit" class="text-red-400 hover:text-red-600 transition-colors p-2">
@@ -249,5 +310,26 @@
             document.body.style.overflow = 'auto';
         }
     </script>
+    
+    <script>
+        function openEditModal(data) {
+    
+    const modal = document.getElementById('modalEdit');
+    const form = document.getElementById('formEdit');
+
+    
+    form.action = `/admin/penyewaan/${data.id}`;
+
+    
+    document.getElementById('edit_nama_penyewa').value = data.nama_penyewa;
+    document.getElementById('edit_barang_id').value = data.barang_id;
+    document.getElementById('edit_no_hp').value = data.no_hp;
+    document.getElementById('edit_tanggal_sewa').value = data.tanggal_sewa;
+
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+    </script>
+    
 </body>
 </html>

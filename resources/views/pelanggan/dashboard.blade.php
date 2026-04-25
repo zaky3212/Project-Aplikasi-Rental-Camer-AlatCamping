@@ -26,7 +26,7 @@
                 </button>
             </div>
 
-            <nav class="flex-1 px-0 space-y-1 overflow-y-auto">
+         <nav class="flex-1 px-0 space-y-1 overflow-y-auto">
     <a href="{{ route('pelanggan.dashboard') }}" 
        class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold 
        {{ request()->routeIs('pelanggan.dashboard') ? 'bg-[#f3a933] text-[#0f172a] shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}"> 
@@ -34,20 +34,26 @@
         <span>Dashboard</span>
     </a>
 
-   <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" 
-   class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold
-   {{ request()->routeIs('pelanggan.Katalog.Katalog_Camera') ? 'bg-[#f3a933] text-[#0f172a] shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
-    <i class="fas fa-camera-retro w-5"></i>
-    <span>Katalog Camera</span>
-</a>
+    <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" 
+       class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold
+       {{ request()->routeIs('pelanggan.Katalog.Katalog_Camera') ? 'bg-[#f3a933] text-[#0f172a] shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+        <i class="fas fa-camera-retro w-5"></i>
+        <span>Katalog Camera</span>
+    </a>
 
-<a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" 
-   class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold
-   {{ request()->routeIs('pelanggan.Katalog.Katalog_Camping') ? 'bg-[#f3a933] text-[#0f172a] shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
-    <i class="fas fa-campground w-5"></i>
-    <span>Katalog Alat Camping</span>
-</a>
+    <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" 
+       class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold
+       {{ request()->routeIs('pelanggan.Katalog.Katalog_Camping') ? 'bg-[#f3a933] text-[#0f172a] shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+        <i class="fas fa-campground w-5"></i>
+        <span>Katalog Alat Camping</span>
+    </a>
 
+    <a href="{{ route('pelanggan.penyewaan') }}" 
+       class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold 
+       {{ request()->routeIs('pelanggan.penyewaan') ? 'bg-[#f3a933] text-[#0f172a] shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}"> 
+        <i class="fas fa-shopping-cart w-5"></i>
+        <span>Sewa Alat</span>
+    </a>
 
     <a href="#" 
        class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold text-gray-400 hover:bg-white/5 hover:text-white">

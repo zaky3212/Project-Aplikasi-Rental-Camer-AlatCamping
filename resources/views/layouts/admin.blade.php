@@ -39,6 +39,10 @@
                 <a href="{{ route('admin.penyewaan.index') }}" class="flex items-center space-x-3 p-4 transition {{ Route::is('admin.penyewaan.*') ? 'bg-[#f3a933] text-[#0f172a] rounded-r-full mr-4 font-semibold shadow-lg' : 'hover:bg-white/5 text-gray-400' }}">
                     <i class="fas fa-file-invoice w-5"></i><span>Penyewaan</span>
                 </a>
+                <a href="{{ route('admin.user.index') }}" class="flex items-center space-x-3 p-4 transition {{ Route::is('admin.user.*') ? 'bg-[#f3a933] text-[#0f172a] rounded-r-full mr-4 font-semibold shadow-lg' : 'hover:bg-white/5 text-gray-400' }}">
+                    <i class="fas fa-file-invoice w-5"></i><span>Kelola User</span>
+                </a>
+</a>
             </nav>
 
             <div class="p-4 border-t border-white/5 bg-[#0f172a]">

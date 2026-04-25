@@ -21,7 +21,7 @@
         <div class="flex items-center gap-3 md:gap-6">
             <a href="{{ route('pelanggan.dashboard') }}" class="text-white hover:text-[#f3a933] text-sm font-semibold transition flex items-center gap-2">
                 <i class="fas fa-arrow-left"></i>
-                <span class="hidden sm:inline">Kembali</span>
+                <span class="hidden sm:inline"></span>
             </a>
             
             <div class="h-6 w-[1px] bg-white/20 hidden xs:block"></div>

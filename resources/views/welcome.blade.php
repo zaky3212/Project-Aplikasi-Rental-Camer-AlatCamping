@@ -76,14 +76,8 @@
                 Pusat penyewaan kamera dan alat camping terlengkap di Batam. Kualitas terjamin, harga bersahabat, siap menemani setiap perjalanan epikmu.
             </p>
             <div class="flex items-center gap-6">
-                <a href="#" class="px-8 py-4 bg-[#f3a933] text-white text-sm font-bold rounded-xl hover:bg-yellow-500 transition shadow-[0_15px_30px_rgba(243,169,51,0.4)]">
+                <a href="{{ route('register') }}" class="px-8 py-4 bg-[#f3a933] text-white text-sm font-bold rounded-xl hover:bg-yellow-500 transition shadow-[0_15px_30px_rgba(243,169,51,0.4)]">
                     Sewa Sekarang
-                </a>
-                <a href="#" class="flex items-center gap-3 text-gray-600 font-medium hover:text-[#f3a933] transition">
-                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-[0_15px_30px_rgba(0,0,0,0.1)] text-[#f3a933]">
-                        <i class="fas fa-play ml-1"></i>
-                    </div>
-                    Play Demo
                 </a>
             </div>
         </div>
@@ -197,7 +191,7 @@
     </div>
 </section>
 
-    <section id="tentang" class="container mx-auto px-6 py-20 relative">
+    <!-- <section id="tentang" class="container mx-auto px-6 py-20 relative">
         <div class="text-center mb-16">
             <p class="text-gray-500 font-semibold text-sm tracking-wider uppercase mb-2">Topselling</p>
             <h3 class="text-4xl font-serif font-black text-[#181e4b]">Destinasi Favorit</h3>
@@ -242,7 +236,7 @@
             </div>
             <div class="absolute -bottom-10 -right-16 text-[#f3a933] text-[150px] leading-none opacity-20 -z-10 font-serif">@</div>
         </div>
-    </section>
+    </section> -->
 
     <footer class="container mx-auto px-6 py-16 mt-10 border-t border-gray-100">
         <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-12">
