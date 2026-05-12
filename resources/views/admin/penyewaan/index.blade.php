@@ -102,6 +102,11 @@
                     <i class="fas fa-file-invoice w-5 text-center"></i>
                     <span>Penyewaan</span>
                 </a>
+                  <a href="{{ route('admin.user.index') }}"
+                    class="flex items-center space-x-3 hover:bg-white/5 p-4 transition text-gray-400">
+                    <i class="fas fa-file-invoice w-5"></i>
+                    <span>Kelola User</span>
+                </a>
             </nav>
 
             <div class="p-4 border-t border-white/5 bg-[#0f172a]">

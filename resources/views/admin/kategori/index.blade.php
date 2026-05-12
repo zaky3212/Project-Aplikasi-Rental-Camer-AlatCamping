@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Mencegah scroll pada body saat sidebar mobile terbuka */
+      
         .sidebar-open {
             overflow: hidden;
         }
@@ -16,12 +16,12 @@
 </head>
 
 <body class="bg-[#f8f9fa] font-sans">
-
     <div class="flex min-h-screen relative">
 
         <div id="sidebarOverlay" onclick="toggleSidebar()"
             class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden transition-opacity duration-300"></div>
 
+        <!-- SIDEBAR (TIDAK DIUBAH SESUAI PERMINTAAN) -->
         <aside id="sidebar"
             class="fixed lg:sticky top-0 left-0 w-64 bg-[#0f172a] text-white flex flex-col h-screen shadow-xl z-50 transition-transform duration-300 -translate-x-full lg:translate-x-0">
             <div class="p-6 flex justify-between items-center">
@@ -65,10 +65,10 @@
                 <div class="flex items-center space-x-3 mb-6 px-2">
                     <div
                         class="w-10 h-10 min-w-[40px] bg-[#f3a933] rounded-full flex items-center justify-center font-bold text-[#0f172a] uppercase shadow-md">
-                        {{ substr(Auth::user()->name, 0, 1) }}
+                        {{ substr(Auth::user()->name ?? 'A', 0, 1) }}
                     </div>
                     <div class="overflow-hidden">
-                        <p class="text-sm font-semibold truncate">{{ Auth::user()->name }}</p>
+                        <p class="text-sm font-semibold truncate">{{ Auth::user()->name ?? 'Admin' }}</p>
                         <p class="text-[10px] text-gray-500 uppercase tracking-wider">Administrator</p>
                     </div>
                 </div>
@@ -108,8 +108,7 @@
                         </div>
                         <button onclick="openModal()"
                             class="w-full md:w-auto bg-[#0f172a] hover:bg-gray-800 text-white px-5 py-2.5 rounded-xl shadow-sm font-semibold transition flex items-center justify-center gap-2 text-sm">
-                            <i class="fas fa-plus text-[#f3a933]"></i> <span class="whitespace-nowrap">Tambah
-                                Kategori</span>
+                            <i class="fas fa-plus text-[#f3a933]"></i> <span class="whitespace-nowrap">Tambah Kategori</span>
                         </button>
                     </div>
                 </div>
@@ -125,8 +124,7 @@
                 </div>
 
                 @if(session('success'))
-                    <div
-                        class="bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 p-4 rounded-xl shadow-sm mb-6 flex items-center gap-3">
+                    <div class="bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 p-4 rounded-xl shadow-sm mb-6 flex items-center gap-3">
                         <i class="fas fa-check-circle"></i>
                         <p class="font-medium text-xs md:text-sm">{{ session('success') }}</p>
                     </div>
@@ -138,46 +136,57 @@
                             <thead class="bg-gray-50 border-b border-gray-100 text-gray-600">
                                 <tr>
                                     <th class="px-6 py-4 font-semibold w-20">No</th>
+                                    <th class="px-6 py-4 font-semibold w-24">Foto</th>
+                                    <th class="px-6 py-4 font-semibold">Nama Barang</th>
                                     <th class="px-6 py-4 font-semibold">Nama Kategori</th>
-                                    <th class="px-6 py-4 font-semibold text-center w-48">Aksi</th>
+                                    <th class="px-6 py-4 font-semibold w-24">Stok</th>
+                                    <th class="px-6 py-4 font-semibold text-center w-32">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-50">
-                                @forelse ($kategori as $item)
-                                    <tr class="hover:bg-gray-50/50 transition">
-                                        <td class="px-6 py-4 text-gray-500">{{ $loop->iteration }}</td>
-                                        <td class="px-6 py-4 font-bold text-gray-800 whitespace-nowrap">
-                                            {{ $item->nama_kategori }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <div class="flex items-center justify-center gap-2">
-                                                <button
-                                                    onclick="openModalEdit({{ $item->id }}, '{{ $item->nama_kategori }}')"
-                                                    class="p-2 text-[#f3a933] bg-[#f3a933]/10 rounded-lg hover:bg-[#f3a933] hover:text-white transition">
-                                                    <i class="fas fa-pen text-xs"></i>
-                                                </button>
-                                                <form action="{{ route('admin.kategori.destroy', $item->id) }}"
-                                                    method="POST"
-                                                    onsubmit="return confirm('Yakin ingin menghapus kategori ini?');"
-                                                    class="inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="p-2 text-red-600 bg-red-50 rounded-lg hover:bg-red-500 hover:text-white transition">
-                                                        <i class="fas fa-trash text-xs"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="3" class="px-6 py-12 text-center">
-                                            <i class="fas fa-folder-open text-4xl text-gray-300 mb-3 block"></i>
-                                            <p class="text-gray-500 font-medium italic">Belum ada data kategori.</p>
-                                        </td>
-                                    </tr>
-                                @endforelse
+                              <tbody class="divide-y divide-gray-50">
+    <!-- Data Dummy 1 -->
+    <tr class="hover:bg-gray-50/50 transition">
+        <td class="px-6 py-4 text-gray-500">1</td>
+        <td class="px-6 py-4">
+            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=100" class="w-12 h-12 rounded-lg object-cover border" alt="foto">
+        </td>
+        <td class="px-6 py-4 font-medium text-gray-800">Canon EOS R6</td>
+        <td class="px-6 py-4 text-gray-600">Kamera DSLR</td>
+        <td class="px-6 py-4 font-bold text-emerald-600">12</td>
+        <td class="px-6 py-4 text-center">
+            <div class="flex items-center justify-center gap-2">
+                <button onclick="openModalEdit(1, 'Kamera DSLR')" class="p-2 text-[#f3a933] bg-[#f3a933]/10 rounded-lg hover:bg-[#f3a933] hover:text-white transition">
+                    <i class="fas fa-pen text-xs"></i>
+                </button>
+                <button class="p-2 text-red-600 bg-red-50 rounded-lg hover:bg-red-500 hover:text-white transition">
+                    <i class="fas fa-trash text-xs"></i>
+                </button>
+            </div>
+        </td>
+    </tr>
+
+    <!-- Data Dummy 2 -->
+    <tr class="hover:bg-gray-50/50 transition">
+        <td class="px-6 py-4 text-gray-500">2</td>
+        <td class="px-6 py-4">
+            <img src="https://images.unsplash.com/photo-1617005082133-548c4dd27f35?w=100" class="w-12 h-12 rounded-lg object-cover border" alt="foto">
+        </td>
+        <td class="px-6 py-4 font-medium text-gray-800">Sony FE 24-70mm</td>
+        <td class="px-6 py-4 text-gray-600">Lensa</td>
+        <td class="px-6 py-4 font-bold text-emerald-600">5</td>
+        <td class="px-6 py-4 text-center">
+            <div class="flex items-center justify-center gap-2">
+                <button onclick="openModalEdit(2, 'Lensa')" class="p-2 text-[#f3a933] bg-[#f3a933]/10 rounded-lg hover:bg-[#f3a933] hover:text-white transition">
+                    <i class="fas fa-pen text-xs"></i>
+                </button>
+                <button class="p-2 text-red-600 bg-red-50 rounded-lg hover:bg-red-500 hover:text-white transition">
+                    <i class="fas fa-trash text-xs"></i>
+                </button>
+            </div>
+        </td>
+    </tr>
+</tbody>
                             </tbody>
                         </table>
                     </div>
@@ -189,89 +198,61 @@
             </div>
         </main>
     </div>
-    <!-- Modal Tambah -->
+
+    <!-- Modal Tambah (Disesuaikan dengan Thead) -->
     <div id="modalTambah" class="fixed inset-0 z-[60] hidden overflow-y-auto p-4 sm:p-6">
         <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
-
         <div class="flex items-center justify-center min-h-screen">
-            <div
-                class="relative bg-white rounded-2xl shadow-2xl w-full max-w-md transform transition-all overflow-hidden border border-gray-100">
-
+            <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden border border-gray-100">
                 <div class="bg-[#0f172a] p-4 flex justify-between items-center">
-                    <h3 class="text-white font-bold flex items-center gap-2">
-                        <i class="fas fa-folder-plus text-[#f3a933]"></i> Tambah Kategori
-                    </h3>
-                    <button onclick="closeModal()" class="text-gray-400 hover:text-white transition p-1">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <h3 class="text-white font-bold flex items-center gap-2"><i class="fas fa-folder-plus text-[#f3a933]"></i> Tambah Kategori</h3>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
                 </div>
-
-                <form action="{{ route('admin.kategori.store') }}" method="POST" class="p-6">
+                <form action="{{ route('admin.kategori.store') }}" method="POST" class="p-6 space-y-4">
                     @csrf
-                    <div class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">Nama Kategori</label>
+                        <input type="text" name="nama_kategori" required class="w-full bg-gray-50 border rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-[#f3a933] outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">Nama Barang Pertama</label>
+                        <input type="text" name="nama_barang" required class="w-full bg-gray-50 border rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-[#f3a933] outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label
-                                class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">Nama
-                                Kategori</label>
-                            <input type="text" name="nama_kategori" required placeholder="Contoh: Kamera DSLR..."
-                                class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#f3a933] transition">
+                            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">Stok</label>
+                            <input type="number" name="stok" required class="w-full bg-gray-50 border rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-[#f3a933] outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">URL Foto</label>
+                            <input type="text" name="foto" required class="w-full bg-gray-50 border rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-[#f3a933] outline-none">
                         </div>
                     </div>
-
-                    <div class="mt-8 flex flex-col sm:flex-row justify-end gap-2">
-                        <button type="button" onclick="closeModal()"
-                            class="w-full sm:w-auto px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-xl text-xs font-bold transition order-2 sm:order-1">
-                            Batal
-                        </button>
-                        <button type="submit"
-                            class="w-full sm:w-auto px-6 py-2 bg-[#f3a933] hover:bg-[#d98e1d] text-[#0f172a] rounded-xl text-xs font-bold shadow-md transition order-1 sm:order-2">
-                            Simpan Kategori
-                        </button>
+                    <div class="mt-6 flex gap-2">
+                        <button type="button" onclick="closeModal()" class="flex-1 px-4 py-2 bg-gray-100 text-gray-600 rounded-xl font-bold text-xs">Batal</button>
+                        <button type="submit" class="flex-1 px-4 py-2 bg-[#f3a933] text-[#0f172a] rounded-xl font-bold text-xs shadow-md">Simpan</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
     <!-- Modal Edit -->
     <div id="modalEdit" class="fixed inset-0 z-[60] hidden overflow-y-auto p-4 sm:p-6">
         <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModalEdit()"></div>
-
         <div class="flex items-center justify-center min-h-screen">
-            <div
-                class="relative bg-white rounded-2xl shadow-2xl w-full max-w-md transform transition-all overflow-hidden border border-gray-100">
-
-                <div class="bg-[#0f172a] p-4 flex justify-between items-center">
-                    <h3 class="text-white font-bold flex items-center gap-2">
-                        <i class="fas fa-pen text-[#f3a933]"></i> Edit Kategori
-                    </h3>
-                    <button onclick="closeModalEdit()" class="text-gray-400 hover:text-white transition p-1">
-                        <i class="fas fa-times"></i>
-                    </button>
+            <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden border border-gray-100">
+                <div class="bg-[#0f172a] p-4 flex justify-between items-center text-white font-bold">
+                    <span><i class="fas fa-pen text-[#f3a933] mr-2"></i>Edit Kategori</span>
+                    <button onclick="closeModalEdit()"><i class="fas fa-times text-gray-400"></i></button>
                 </div>
-
-                <form id="formEdit" action="" method="POST" class="p-6">
-                    @csrf
-                    @method('PUT')
-                    <div class="space-y-4">
-                        <div>
-                            <label
-                                class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">Nama
-                                Kategori</label>
-                            <input type="text" id="editNamaKategori" name="nama_kategori" required
-                                placeholder="Contoh: Kamera DSLR..."
-                                class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#f3a933] transition">
-                        </div>
-                    </div>
-
-                    <div class="mt-8 flex flex-col sm:flex-row justify-end gap-2">
-                        <button type="button" onclick="closeModalEdit()"
-                            class="w-full sm:w-auto px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-xl text-xs font-bold transition order-2 sm:order-1">
-                            Batal
-                        </button>
-                        <button type="submit"
-                            class="w-full sm:w-auto px-6 py-2 bg-[#f3a933] hover:bg-[#d98e1d] text-[#0f172a] rounded-xl text-xs font-bold shadow-md transition order-1 sm:order-2">
-                            Simpan Perubahan
-                        </button>
+                <form id="formEdit" method="POST" class="p-6">
+                    @csrf @method('PUT')
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">Nama Kategori</label>
+                    <input type="text" id="editNamaKategori" name="nama_kategori" required class="w-full bg-gray-50 border rounded-xl px-4 py-2 text-sm mb-6">
+                    <div class="flex gap-2">
+                        <button type="button" onclick="closeModalEdit()" class="flex-1 px-4 py-2 bg-gray-100 text-gray-600 rounded-xl font-bold text-xs">Batal</button>
+                        <button type="submit" class="flex-1 px-4 py-2 bg-[#f3a933] text-[#0f172a] rounded-xl font-bold text-xs">Simpan Perubahan</button>
                     </div>
                 </form>
             </div>
@@ -279,54 +260,30 @@
     </div>
 
     <script>
-        // Logic Sidebar Mobile
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
-
-            if (sidebar.classList.contains('-translate-x-full')) {
-                sidebar.classList.remove('-translate-x-full');
-                overlay.classList.remove('hidden');
-                document.body.classList.add('sidebar-open');
-            } else {
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.add('hidden');
-                document.body.classList.remove('sidebar-open');
-            }
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
         }
 
-        // Logic Modal
         function openModal() {
             document.getElementById('modalTambah').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
             document.getElementById('modalTambah').classList.add('hidden');
-            if (!document.body.classList.contains('sidebar-open')) {
-                document.body.style.overflow = 'auto';
-            }
         }
-        // Logic Modal Edit
+
         function openModalEdit(id, namaKategori) {
             document.getElementById('editNamaKategori').value = namaKategori;
             document.getElementById('formEdit').action = `/admin/kategori/${id}`;
             document.getElementById('modalEdit').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
         }
 
         function closeModalEdit() {
             document.getElementById('modalEdit').classList.add('hidden');
-            if (!document.body.classList.contains('sidebar-open')) {
-                document.body.style.overflow = 'auto';
-            }
         }
-
-        <?php if ($errors->any()): ?>
-        window.addEventListener('load', function () {
-            openModal();
-        });
-        <?php endif; ?>
     </script>
 
 </body>

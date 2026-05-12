@@ -18,7 +18,7 @@
     </div>
 </div>
 
-{{-- Form Pencarian --}}
+
 <div class="mb-6 relative max-w-2xl">
     <form action="{{ route('admin.barang.index') }}" method="GET">
         <span class="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -50,7 +50,60 @@
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-50">
-            @forelse ($barang as $item)
+            {{-- DATA DUMMY MANUAL (Akan muncul jika data kosong) --}}
+            @if($barang->isEmpty())
+                <!-- Dummy 1 -->
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-6 py-4">
+                        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=100" class="w-12 h-12 object-cover rounded-lg border border-gray-200 shadow-sm">
+                    </td>
+                    <td class="px-6 py-4 font-bold text-gray-800">Canon EOS 90D (Dummy)</td>
+                    <td class="px-6 py-4">
+                        <span class="bg-gray-100 text-gray-600 px-2.5 py-1.5 rounded-md border border-gray-200 text-xs font-semibold whitespace-nowrap">Kamera</span>
+                    </td>
+                    <td class="px-6 py-4 font-bold text-emerald-600 whitespace-nowrap">Rp 150.000</td>
+                    <td class="px-6 py-4 font-bold text-gray-700 text-center">5</td>
+                    <td class="px-6 py-4">
+                <div class="flex items-center justify-center gap-2">
+                    {{-- Tombol Edit Dummy --}}
+                    <button type="button" class="bg-[#f3a933]/10 text-[#f3a933] hover:bg-[#f3a933] hover:text-white px-3 py-2 rounded-lg font-bold transition text-xs flex items-center gap-1">
+                        <i class="fas fa-pen"></i> <span class="hidden sm:inline">Edit</span>
+                    </button>
+                    {{-- Tombol Hapus Dummy --}}
+                    <button type="button" class="bg-red-50 text-red-600 hover:bg-red-500 hover:text-white px-3 py-2 rounded-lg font-bold transition text-xs flex items-center gap-1">
+                        <i class="fas fa-trash"></i> <span class="hidden sm:inline">Hapus</span>
+                    </button>
+                </div>
+            </td>
+                </tr>
+                <!-- Dummy 2 -->
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-6 py-4">
+                        <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=100" class="w-12 h-12 object-cover rounded-lg border border-gray-200 shadow-sm">
+                    </td>
+                    <td class="px-6 py-4 font-bold text-gray-800">Tenda Kapasitas 4 (Dummy)</td>
+                    <td class="px-6 py-4">
+                        <span class="bg-gray-100 text-gray-600 px-2.5 py-1.5 rounded-md border border-gray-200 text-xs font-semibold whitespace-nowrap">Alat Camping</span>
+                    </td>
+                    <td class="px-6 py-4 font-bold text-emerald-600 whitespace-nowrap">Rp 75.000</td>
+                    <td class="px-6 py-4 font-bold text-gray-700 text-center">10</td>
+                    <td class="px-6 py-4">
+                <div class="flex items-center justify-center gap-2">
+                    {{-- Tombol Edit Dummy --}}
+                    <button type="button" class="bg-[#f3a933]/10 text-[#f3a933] hover:bg-[#f3a933] hover:text-white px-3 py-2 rounded-lg font-bold transition text-xs flex items-center gap-1">
+                        <i class="fas fa-pen"></i> <span class="hidden sm:inline">Edit</span>
+                    </button>
+                    {{-- Tombol Hapus Dummy --}}
+                    <button type="button" class="bg-red-50 text-red-600 hover:bg-red-500 hover:text-white px-3 py-2 rounded-lg font-bold transition text-xs flex items-center gap-1">
+                        <i class="fas fa-trash"></i> <span class="hidden sm:inline">Hapus</span>
+                    </button>
+                </div>
+            </td>
+                </tr>
+            @endif
+
+            {{-- DATA ASLI DARI DATABASE --}}
+            @foreach ($barang as $item)
             <tr class="hover:bg-gray-50 transition">
                 <td class="px-6 py-4">
                     @if($item->gambar)
@@ -82,14 +135,7 @@
                     </div>
                 </td>
             </tr>
-            @empty
-            <tr>
-                <td colspan="6" class="px-6 py-20 text-center text-gray-500 font-medium">
-                    <i class="fas fa-box-open text-4xl text-gray-300 mb-3 block"></i>
-                    Belum Ada Data Barang
-                </td>
-            </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
 </div>
@@ -97,105 +143,4 @@
 <div class="mb-8">
     {{ $barang->withQueryString()->links() }}
 </div>
-
-{{-- MODAL TAMBAH --}}
-<div id="modalTambah" class="fixed inset-0 z-50 hidden overflow-y-auto">
-    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modalTambah')"></div>
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
-            <div class="bg-[#0f172a] p-5 flex justify-between items-center">
-                <h3 class="text-white font-bold flex items-center gap-3">
-                    <i class="fas fa-plus-circle text-[#f3a933]"></i> Tambah Barang Baru
-                </h3>
-                <button type="button" onclick="closeModal('modalTambah')" class="text-gray-400 hover:text-white transition"><i class="fas fa-times"></i></button>
-            </div>
-            <form action="{{ route('admin.barang.store') }}" method="POST" enctype="multipart/form-data" class="p-8">
-                @csrf
-                <div class="space-y-5">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Nama Barang</label>
-                            <input type="text" name="nama" required class="w-full bg-gray-50 border rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f3a933]">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Kategori</label>
-                            <select name="kategori_id" required class="w-full bg-gray-50 border rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f3a933]">
-                                <option value="">Pilih Kategori</option>
-                                @foreach($kategori as $kat)
-                                <option value="{{ $kat->id }}">{{ $kat->nama_kategori }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Harga Sewa / Hari</label>
-                            <input type="number" name="harga_sewa" required class="w-full bg-gray-50 border rounded-xl px-4 py-2.5 text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Stok</label>
-                            <input type="number" name="stok" required class="w-full bg-gray-50 border rounded-xl px-4 py-2.5 text-sm">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Deskripsi</label>
-                        <textarea name="deskripsi" required class="w-full bg-gray-50 border rounded-xl px-4 py-2.5 text-sm" rows="3"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Foto Barang</label>
-                        <input type="file" name="gambar" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-xs">
-                    </div>
-                </div>
-                <div class="mt-8 flex justify-end gap-3">
-                    <button type="button" onclick="closeModal('modalTambah')" class="px-6 py-2 bg-gray-100 text-gray-600 rounded-xl text-xs font-bold">Batal</button>
-                    <button type="submit" class="px-8 py-2 bg-[#f3a933] text-[#0f172a] rounded-xl text-xs font-bold shadow-lg">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-{{-- MODAL EDIT --}}
-@foreach ($barang as $item)
-<div id="modalEdit-{{ $item->id }}" class="fixed inset-0 z-50 hidden overflow-y-auto">
-    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modalEdit-{{ $item->id }}')"></div>
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
-            <div class="bg-[#0f172a] p-5 flex justify-between items-center">
-                <h3 class="text-white font-bold flex items-center gap-3">
-                    <i class="fas fa-pen text-[#f3a933]"></i> Edit Barang
-                </h3>
-                <button type="button" onclick="closeModal('modalEdit-{{ $item->id }}')" class="text-gray-400 hover:text-white transition"><i class="fas fa-times"></i></button>
-            </div>
-            <form action="{{ route('admin.barang.update', $item->id) }}" method="POST" enctype="multipart/form-data" class="p-8">
-                @csrf
-                @method('PUT')
-                <div class="space-y-5">
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Nama Barang</label>
-                        <input type="text" name="nama" value="{{ $item->nama }}" required class="w-full bg-gray-50 border rounded-xl px-4 py-2.5 text-sm">
-                    </div>
-                    {{-- Input lainnya sesuaikan seperti modal tambah --}}
-                </div>
-                <div class="mt-8 flex justify-end gap-3">
-                    <button type="button" onclick="closeModal('modalEdit-{{ $item->id }}')" class="px-6 py-2 bg-gray-100 text-gray-600 rounded-xl text-xs font-bold">Batal</button>
-                    <button type="submit" class="px-8 py-2 bg-[#f3a933] text-[#0f172a] rounded-xl text-xs font-bold shadow-lg">Update</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-@endforeach
-
-{{-- Script Modal --}}
-<script>
-    function openModal(id) {
-        document.getElementById(id).classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
-    function closeModal(id) {
-        document.getElementById(id).classList.add('hidden');
-        document.body.style.overflow = 'auto';
-    }
-</script>
 @endsection
