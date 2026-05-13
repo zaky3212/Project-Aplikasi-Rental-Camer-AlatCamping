@@ -33,14 +33,14 @@
 
     <div class="absolute top-0 right-0 -z-10 w-[500px] h-[500px] bg-[#fff5e8] rounded-full blur-3xl opacity-60"></div>
 
-    <header class="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100 transition-all duration-300">
+    <header class="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100 transition-all duration-300 relative">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-2">
                 <h1 class="text-3xl font-serif font-black text-[#0f172a] tracking-tight">Lens<span class="text-[#f3a933]">cape</span></h1>
             </div>
 
             <nav class="hidden md:flex items-center gap-10 font-medium text-sm text-gray-700">
-                <a href="#" class="hover:text-[#f3a933] transition">Beranda</a>
+                <a href="#beranda" class="hover:text-[#f3a933] transition">Beranda</a>
                 <a href="#kamera" class="hover:text-[#f3a933] transition">Kamera</a>
                 <a href="#camping" class="hover:text-[#f3a933] transition">Alat Camping</a>
                 <a href="#tentang" class="hover:text-[#f3a933] transition">Tentang Kami</a>
@@ -59,13 +59,34 @@
                 @endauth
             </div>
 
-            <button class="md:hidden text-2xl text-gray-800">
+            <button id="mobile-menu-btn" class="md:hidden text-2xl text-gray-800">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
-    </header>
 
-    <section class="container mx-auto px-6 pt-10 pb-20 flex flex-col-reverse md:flex-row items-center gap-12 relative z-10">
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 px-6 py-6 md:hidden flex flex-col gap-6">
+            <nav class="flex flex-col gap-4 font-medium text-sm text-gray-700">
+                <a href="#beranda" class="mobile-link hover:text-[#f3a933] transition">Beranda</a>
+                <a href="#kamera" class="mobile-link hover:text-[#f3a933] transition">Kamera</a>
+                <a href="#camping" class="mobile-link hover:text-[#f3a933] transition">Alat Camping</a>
+                <a href="#tentang" class="mobile-link hover:text-[#f3a933] transition">Tentang Kami</a>
+            </nav>
+            <div class="flex flex-col gap-3 pt-4 border-t border-gray-100">
+                @auth
+                <a href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('pelanggan.dashboard') }}" class="text-center px-5 py-2 bg-[#0f172a] text-white text-sm font-semibold rounded-lg hover:bg-gray-800 transition shadow-lg">
+                    Ke Dashboard
+                </a>
+                @else
+                <a href="{{ route('login') }}" class="text-center font-medium text-sm text-gray-800 hover:text-[#f3a933] transition">Login</a>
+                <a href="{{ route('register') }}" class="text-center px-5 py-2 bg-[#f3a933] text-[#0f172a] text-sm font-semibold rounded-lg hover:bg-yellow-500 transition shadow-md">
+                    Daftar
+                </a>
+                @endauth
+            </div>
+        </div>
+        </header>
+
+    <section id="beranda" class="container mx-auto px-6 pt-10 pb-20 flex flex-col-reverse md:flex-row items-center gap-12 relative z-10">
 
         <div class="w-full md:w-1/2 flex flex-col items-start">
             <p class="text-[#f3a933] font-bold text-sm tracking-widest uppercase mb-4">Gaya Terbaik Untuk Petualanganmu</p>
@@ -191,54 +212,7 @@
     </div>
 </section>
 
-    <!-- <section id="tentang" class="container mx-auto px-6 py-20 relative">
-        <div class="text-center mb-16">
-            <p class="text-gray-500 font-semibold text-sm tracking-wider uppercase mb-2">Topselling</p>
-            <h3 class="text-4xl font-serif font-black text-[#181e4b]">Destinasi Favorit</h3>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-5xl mx-auto relative z-10">
-            <div class="bg-white rounded-3xl overflow-hidden shadow-xl group">
-                <div class="h-64 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1542314831-c6a4d14effea?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Destinasi" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                </div>
-                <div class="p-6">
-                    <div class="flex justify-between text-[#181e4b] font-semibold mb-3 text-lg">
-                        <h4>Gunung Bromo</h4>
-                        <p>IDR 2.5jt</p>
-                    </div>
-                    <p class="text-gray-500 text-sm flex items-center gap-3"><i class="fas fa-location-arrow"></i> 3 Hari Trip</p>
-                </div>
-            </div>
-            <div class="bg-white rounded-3xl overflow-hidden shadow-xl group relative">
-                <div class="h-64 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Destinasi" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                </div>
-                <div class="p-6">
-                    <div class="flex justify-between text-[#181e4b] font-semibold mb-3 text-lg">
-                        <h4>Danau Toba</h4>
-                        <p>IDR 1.2jt</p>
-                    </div>
-                    <p class="text-gray-500 text-sm flex items-center gap-3"><i class="fas fa-location-arrow"></i> 2 Hari Trip</p>
-                </div>
-            </div>
-            <div class="bg-white rounded-3xl overflow-hidden shadow-xl group">
-                <div class="h-64 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Destinasi" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                </div>
-                <div class="p-6">
-                    <div class="flex justify-between text-[#181e4b] font-semibold mb-3 text-lg">
-                        <h4>Raja Ampat</h4>
-                        <p>IDR 5.5jt</p>
-                    </div>
-                    <p class="text-gray-500 text-sm flex items-center gap-3"><i class="fas fa-location-arrow"></i> 5 Hari Trip</p>
-                </div>
-            </div>
-            <div class="absolute -bottom-10 -right-16 text-[#f3a933] text-[150px] leading-none opacity-20 -z-10 font-serif">@</div>
-        </div>
-    </section> -->
-
-    <footer class="container mx-auto px-6 py-16 mt-10 border-t border-gray-100">
+    <footer id="tentang" class="container mx-auto px-6 py-16 mt-10 border-t border-gray-100">
         <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-12">
             <div class="md:col-span-2">
                 <h1 class="text-4xl font-serif font-black text-[#181e4b] mb-4 tracking-tight">Lens<span class="text-[#f3a933]">cape.</span></h1>
@@ -290,6 +264,23 @@
         </div>
     </footer>
 
+    <script>
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const links = document.querySelectorAll('.mobile-link');
+
+        // Buka tutup menu kalau logo burger dipencet
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Tutup menu otomatis kalau salah satu link dipencet
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+    </script>
 </body>
 
 </html>
