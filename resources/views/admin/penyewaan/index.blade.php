@@ -90,6 +90,26 @@
     </form>
 </div>
 
+@if ($errors->any())
+<div class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-xl shadow-sm mb-6">
+    <div class="flex items-center gap-2 font-bold mb-2 text-sm">
+        <i class="fas fa-exclamation-triangle"></i> Oops! Ada yang salah pas nyimpen:
+    </div>
+    <ul class="list-disc pl-5 text-xs font-medium space-y-1">
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
+@if(session('success'))
+<div class="bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 p-4 rounded-xl shadow-sm mb-6 flex items-center gap-3">
+    <i class="fas fa-check-circle"></i>
+    <p class="font-medium text-sm">{{ session('success') }}</p>
+</div>
+@endif
+
 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
     <div class="overflow-x-auto">
         <table class="min-w-full text-sm text-left">
@@ -168,9 +188,8 @@
 
 {{-- MODALS KITA MASUKIN KE PUSH --}}
 @push('modals')
-<!-- Modal Tambah -->
 <div id="modalTambah" class="fixed inset-0 z-[100] hidden overflow-y-auto">
-    <div class="fixed inset-0 bg-[#0f172a]/60 backdrop-blur-sm"></div>
+    <div class="fixed inset-0 bg-[#0f172a]/60 backdrop-blur-sm" onclick="closeModal()"></div>
     <div class="flex items-center justify-center min-h-screen p-4 md:p-6">
         <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden">
             <div class="bg-gray-50 p-4 border-b border-gray-100 flex justify-between items-center">
@@ -228,9 +247,8 @@
     </div>
 </div>
 
-<!-- Modal Edit (Gua tambahin biar script edit lu jalan) -->
 <div id="modalEdit" class="fixed inset-0 z-[100] hidden overflow-y-auto">
-    <div class="fixed inset-0 bg-[#0f172a]/60 backdrop-blur-sm"></div>
+    <div class="fixed inset-0 bg-[#0f172a]/60 backdrop-blur-sm" onclick="closeEditModal()"></div>
     <div class="flex items-center justify-center min-h-screen p-4 md:p-6">
         <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden">
             <div class="bg-gray-50 p-4 border-b border-gray-100 flex justify-between items-center">
@@ -245,26 +263,30 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Nama Penyewa</label>
-                            <input type="text" id="edit_nama_penyewa" name="nama_penyewa" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none">
+                            <input type="text" id="edit_nama_penyewa" name="nama_penyewa" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#f3a933]">
                         </div>
                         <div>
                             <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Pilih Alat</label>
-                            <select id="edit_barang_id" name="barang_id" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none">
+                            <select id="edit_barang_id" name="barang_id" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#f3a933]">
                                 <option value="">Pilih Barang...</option>
                                 @foreach($barang as $b)
                                     <option value="{{ $b->id }}">{{ $b->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Tanggal Mulai</label>
+                            <input type="date" id="edit_tanggal_sewa" name="tanggal_sewa" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#f3a933]">
+                        </div>
                     </div>
                     <div class="space-y-4">
                         <div>
                             <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">No Handphone</label>
-                            <input type="text" id="edit_no_hp" name="no_hp" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none">
+                            <input type="text" id="edit_no_hp" name="no_hp" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#f3a933]">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Tanggal Mulai</label>
-                            <input type="date" id="edit_tanggal_sewa" name="tanggal_sewa" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none">
+                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Tanggal Kembali</label>
+                            <input type="date" id="edit_tanggal_kembali" name="tanggal_kembali" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#f3a933]">
                         </div>
                     </div>
                 </div>
@@ -302,6 +324,8 @@
         document.getElementById('edit_barang_id').value = data.barang_id;
         document.getElementById('edit_no_hp').value = data.no_hp;
         document.getElementById('edit_tanggal_sewa').value = data.tanggal_sewa;
+        // Tambahan buat nangkep data tanggal kembali
+        document.getElementById('edit_tanggal_kembali').value = data.tanggal_kembali;
 
         modal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
