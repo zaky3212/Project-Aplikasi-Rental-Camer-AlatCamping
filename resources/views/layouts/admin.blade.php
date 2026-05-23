@@ -9,7 +9,8 @@
     <style>
         #sidebar { transition: transform 0.3s ease-in-out; }
     </style>
-    @stack('styles') </head>
+    @stack('styles')
+</head>
 
 <body class="bg-[#f8f9fa] font-sans">
 
@@ -40,10 +41,8 @@
                     <i class="fas fa-file-invoice w-5"></i><span>Penyewaan</span>
                 </a>
                 <a href="{{ route('admin.user.index') }}" class="flex items-center space-x-3 p-4 transition {{ Route::is('admin.user.*') ? 'bg-[#f3a933] text-[#0f172a] rounded-r-full mr-4 font-semibold shadow-lg' : 'hover:bg-white/5 text-gray-400' }}">
-                    <i class="fas fa-file-invoice w-5"></i><span>Kelola User</span>
-                </a>
-</a>
-            </nav>
+                    <i class="fas fa-user-cog w-5"></i><span>Kelola User</span> </a>
+                </nav>
 
             <div class="p-4 border-t border-white/5 bg-[#0f172a]">
                 <div class="flex items-center space-x-3 mb-6 px-2">
@@ -85,6 +84,9 @@
         </main>
     </div>
 
+    {{-- PERBAIKAN UTAMA: Tempat merender tumpukan kode HTML Modal dari child-view --}}
+    @stack('modals')
+
     <script>
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -101,5 +103,6 @@
             }
         }
     </script>
-    @stack('scripts') </body>
+    @stack('scripts')
+</body>
 </html>
