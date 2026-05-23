@@ -3,240 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Pelanggan - Lenscape</title>
+    <title>Beranda Pelanggan - Lenscape</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .sidebar-open { overflow: hidden; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
     </style>
 </head>
-<body class="bg-[#f8f9fa] font-sans">
+<body class="bg-gray-50 text-slate-900 overflow-x-hidden">
 
-    <div class="flex min-h-screen relative">
+    <!-- ================= NAVBAR ================= -->
+    <nav class="fixed top-0 w-full z-50 bg-[#0f172a]/90 backdrop-blur-lg border-b border-white/10 py-3 md:py-4 px-4 md:px-12 flex justify-between items-center transition-all">
         
-        <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden transition-opacity duration-300"></div>
-
-        <aside id="sidebar" class="fixed lg:sticky top-0 left-0 w-64 bg-[#0f172a] text-white flex flex-col h-screen shadow-xl z-50 transition-transform duration-300 -translate-x-full lg:translate-x-0">
-            <div class="p-6 flex justify-between items-center">
-                <h1 class="text-2xl font-bold tracking-tight">
-                    <span class="text-white">Lens</span><span class="text-[#f3a933]">cape</span>
-                </h1>
-                <button onclick="toggleSidebar()" class="lg:hidden text-gray-400 hover:text-white">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-
-         <nav class="flex-1 px-0 space-y-1 overflow-y-auto">
-    <a href="{{ route('pelanggan.dashboard') }}" 
-       class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold 
-       {{ request()->routeIs('pelanggan.dashboard') ? 'bg-[#f3a933] text-[#0f172a] shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}"> 
-        <i class="fas fa-home w-5"></i>
-        <span>Dashboard</span>
-    </a>
-
-    <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" 
-       class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold
-       {{ request()->routeIs('pelanggan.Katalog.Katalog_Camera') ? 'bg-[#f3a933] text-[#0f172a] shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
-        <i class="fas fa-camera-retro w-5"></i>
-        <span>Katalog Camera</span>
-    </a>
-
-    <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" 
-       class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold
-       {{ request()->routeIs('pelanggan.Katalog.Katalog_Camping') ? 'bg-[#f3a933] text-[#0f172a] shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
-        <i class="fas fa-campground w-5"></i>
-        <span>Katalog Alat Camping</span>
-    </a>
-
-    <a href="{{ route('pelanggan.penyewaan') }}" 
-       class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold 
-       {{ request()->routeIs('pelanggan.penyewaan') ? 'bg-[#f3a933] text-[#0f172a] shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}"> 
-        <i class="fas fa-shopping-cart w-5"></i>
-        <span>Sewa Alat</span>
-    </a>
-
-    <a href="#" 
-       class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold text-gray-400 hover:bg-white/5 hover:text-white">
-        <i class="fas fa-history w-5"></i>
-        <span>Riwayat Sewa</span>
-    </a>
-</nav>
-
-            <div class="p-4 border-t border-white/5 bg-[#0f172a]">
-                <div class="flex items-center space-x-3 mb-6 px-2">
-                    <div class="w-10 h-10 min-w-[40px] bg-[#f3a933] rounded-full flex items-center justify-center font-bold text-[#0f172a] uppercase shadow-md">
-                        {{ substr(Auth::user()->name, 0, 1) }}
-                    </div>
-                    <div class="overflow-hidden">
-                        <p class="text-sm font-semibold truncate text-white">{{ Auth::user()->name }}</p>
-                        <p class="text-[10px] text-gray-500 uppercase tracking-wider">Pelanggan Aktif</p>
-                    </div>
-                </div>
-
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="w-full group flex items-center justify-center space-x-2 bg-red-500/5 hover:bg-red-600 p-2.5 rounded-xl transition-all duration-300 border border-red-500/20 hover:border-red-600 shadow-sm">
-                        <i class="fas fa-power-off text-red-500 group-hover:text-white transition-colors"></i>
-                        <span class="text-red-500 group-hover:text-white text-xs font-bold uppercase tracking-widest">Keluar</span>
-                    </button>
-                </form>
-            </div>
-        </aside>
-
-        <main class="flex-1 min-w-0 h-screen overflow-y-auto">
+        <!-- Kiri: Logo -->
+        <a href="{{ route('pelanggan.dashboard') }}" class="text-xl md:text-2xl font-bold tracking-tight text-white z-10">
+            Lens<span class="text-[#f3a933]">cape</span>
+        </a>
+        
+        <!-- Tengah: Menu Navigasi (Sembunyi di HP, Tampil di Laptop) -->
+        <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 text-sm font-semibold text-gray-300">
+            <a href="{{ route('pelanggan.dashboard') }}" class="text-[#f3a933] transition">Beranda</a>
+            <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" class="hover:text-[#f3a933] transition">Katalog Camera</a>
+            <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" class="hover:text-[#f3a933] transition">Katalog Camping</a>
+            <a href="#" class="hover:text-[#f3a933] transition">Riwayat Sewa</a>
+            <a href="{{ route('pelanggan.profile') }}" class="hover:text-[#f3a933] transition">Profil</a>
+        </div>
+        
+        <!-- Kanan: Keranjang & Akun -->
+        <div class="flex items-center gap-4 md:gap-6 z-10">
             
-            <header class="lg:hidden bg-white border-b border-gray-100 p-4 flex justify-between items-center sticky top-0 z-30 shadow-sm">
-                <h1 class="font-bold text-xl text-[#0f172a]">Lens<span class="text-[#f3a933]">cape</span></h1>
-                <button onclick="toggleSidebar()" class="p-2 bg-gray-50 rounded-lg text-[#0f172a]">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </header>
+            <!-- Icon Keranjang -->
+            <a href="{{ route('pelanggan.keranjang.index') }}" class="text-white hover:text-[#f3a933] transition relative flex items-center mt-1">
+                <i class="fas fa-shopping-cart text-lg"></i>
+                <!-- Badge Notif Angka -->
+                <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full border border-[#0f172a]">2</span>
+            </a>
 
-            <div class="p-4 md:p-8">
-                <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
-                    <div>
-                        <h2 class="text-xl md:text-2xl font-bold text-gray-800">Dashboard Overview</h2>
-                        <p class="text-xs md:text-sm text-gray-500 mt-1">Pantau aktivitas penyewaan alat Anda hari ini.</p>
-                    </div>
-                    <div class="hidden sm:block text-sm text-gray-400 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100">
-                        <i class="far fa-calendar-alt mr-2 text-[#f3a933]"></i> {{ date('d F Y') }}
-                    </div>
+            <div class="h-6 w-[1px] bg-white/20 hidden xs:block"></div>
+            
+            <!-- Profil Singkat -->
+            <div class="flex items-center gap-2 md:gap-3">
+                <span class="text-white text-[10px] md:text-xs hidden md:block uppercase tracking-wider font-medium">{{ Auth::user()->name ?? 'Pelanggan' }}</span>
+                <div class="w-8 h-8 md:w-10 md:h-10 bg-[#f3a933] rounded-full flex items-center justify-center font-bold text-[#0f172a] text-xs md:text-sm shadow-inner cursor-pointer">
+                    {{ substr(Auth::user()->name ?? 'P', 0, 1) }}
                 </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
-                    <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center space-x-4 border-l-4 border-[#f3a933]">
-                        <div class="p-3 bg-[#f3a933]/10 rounded-xl text-[#f3a933]"><i class="fas fa-camera"></i></div>
-                        <div>
-                            <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Sedang Disewa</p>
-                            <p class="text-xl md:text-2xl font-bold">1 <span class="text-xs font-normal text-gray-400">Unit</span></p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center space-x-4 border-l-4 border-blue-400">
-                        <div class="p-3 bg-blue-50 rounded-xl text-blue-600"><i class="fas fa-history"></i></div>
-                        <div>
-                            <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Total Riwayat</p>
-                            <p class="text-xl md:text-2xl font-bold">4</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center space-x-4 border-l-4 border-emerald-400">
-                        <div class="p-3 bg-emerald-50 rounded-xl text-emerald-600"><i class="fas fa-check-circle"></i></div>
-                        <div>
-                            <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Status Akun</p>
-                            <p class="text-sm font-bold text-emerald-600 uppercase">Terverifikasi</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    
-                    <div class="lg:col-span-2 space-y-6">
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                            <div class="flex justify-between items-center mb-6 border-b border-gray-50 pb-4">
-                                <h3 class="font-bold text-gray-800 flex items-center gap-2">
-                                    <i class="fas fa-user-circle text-[#f3a933]"></i> Profil Saya
-                                </h3>
-                                <button class="text-[10px] font-bold text-blue-500 hover:underline uppercase">Ubah Data</button>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div class="space-y-4">
-                                    <div>
-                                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">Nama Lengkap</p>
-                                        <p class="text-sm font-bold text-gray-800">{{ Auth::user()->name }}</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">Alamat Email</p>
-                                        <p class="text-sm font-bold text-gray-800">{{ Auth::user()->email }}</p>
-                                    </div>
-                                </div>
-                                <div class="space-y-4">
-                                    <div>
-                                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">Nomor HP</p>
-                                        <p class="text-sm font-bold text-gray-800">0812-3456-7890</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">ID Pelanggan</p>
-                                        <p class="text-sm font-bold text-gray-800">#CS-0{{ Auth::user()->id }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                            <div class="p-6 flex justify-between items-center">
-                                <h3 class="font-bold text-gray-800">Aktivitas Terakhir</h3>
-                                <a href="#" class="text-[10px] text-[#f3a933] font-bold uppercase hover:underline">Lihat Semua</a>
-                            </div>
-                            <div class="overflow-x-auto px-6 pb-6">
-                                <div class="space-y-3">
-                                    @foreach([['Selesai', 'emerald', 'Kamera Canon EOS'], ['Proses', 'blue', 'Tenda Dome'], ['Selesai', 'emerald', 'Tripod Vinten']] as $act)
-                                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition border border-transparent hover:border-gray-200">
-                                        <div class="flex items-center space-x-4">
-                                            <span class="px-2 py-1 bg-{{ $act[1] }}-100 text-{{ $act[1] }}-600 text-[9px] rounded-lg font-bold uppercase">{{ $act[0] }}</span>
-                                            <p class="text-xs text-gray-700">Berhasil menyewa <strong>{{ $act[2] }}</strong></p>
-                                        </div>
-                                        <span class="text-[10px] text-gray-400 italic">2 Jam lalu</span>
-                                    </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="space-y-6">
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                            <h3 class="font-bold text-gray-800 mb-4 text-sm flex items-center gap-2">
-                                <i class="fas fa-bolt text-[#f3a933]"></i> Akses Cepat
-                            </h3>
-                            <div class="grid grid-cols-1 gap-3">
-                                <button class="w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-[#f3a933]/5 hover:border-[#f3a933]/30 border border-gray-100 rounded-xl text-xs font-bold transition">
-                                    Sewa Alat Baru <i class="fas fa-plus-circle text-gray-300"></i>
-                                </button>
-                                <button class="w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-blue-50 hover:border-blue-100 border border-gray-100 rounded-xl text-xs font-bold transition text-blue-600">
-                                    Panduan Sewa <i class="fas fa-info-circle"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="bg-[#0f172a] p-6 rounded-2xl shadow-lg text-white relative overflow-hidden group border border-white/5">
-                            <div class="flex items-center justify-between mb-4 relative z-10">
-                                <h3 class="font-bold text-xs uppercase tracking-widest text-gray-400">Status Layanan</h3>
-                                <span class="relative flex h-2 w-2">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                                </span>
-                            </div>
-                            <p class="text-[10px] text-gray-400 leading-relaxed relative z-10 italic">Aplikasi Lenscape siap digunakan. Server dalam kondisi prima.</p>
-                            <div class="mt-6 pt-4 border-t border-white/5 text-[9px] font-mono text-gray-500 relative z-10 flex justify-between">
-                                <span>PBL IT TEAM</span>
-                                <span>Ver. 1.0.4</span>
-                            </div>
-                            <i class="fas fa-shield-halved absolute -bottom-4 -right-4 text-white/5 text-6xl group-hover:rotate-12 transition duration-500"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <footer class="mt-12 pb-8 text-center text-[10px] text-gray-400 uppercase tracking-widest">
-                    <p>&copy; {{ date('Y') }} Lenscape - Project Based Learning</p>
-                </footer>
             </div>
-        </main>
+
+            <!-- Tombol Hamburger Mobile -->
+            <button id="btnMobileMenu" class="lg:hidden text-white text-xl hover:text-[#f3a933] transition">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ================= MOBILE MENU DROPDOWN ================= -->
+    <div id="mobileMenu" class="fixed top-[60px] w-full bg-[#0f172a] border-b border-white/10 z-40 hidden flex flex-col px-6 py-6 gap-5 shadow-2xl lg:hidden">
+        <a href="{{ route('pelanggan.dashboard') }}" class="text-[#f3a933] font-bold text-sm uppercase tracking-wider">Beranda</a>
+        <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" class="text-gray-300 hover:text-[#f3a933] font-bold text-sm uppercase tracking-wider transition">Katalog Camera</a>
+        <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" class="text-gray-300 hover:text-[#f3a933] font-bold text-sm uppercase tracking-wider transition">Katalog Camping</a>
+        <a href="#" class="text-gray-300 hover:text-[#f3a933] font-bold text-sm uppercase tracking-wider transition">Riwayat Sewa</a>
+        <a href="{{ route('profile.edit') }}" class="text-gray-300 hover:text-[#f3a933] font-bold text-sm uppercase tracking-wider transition">Profil</a>
     </div>
 
+    <!-- ================= HERO SECTION ================= -->
+    <section class="relative h-[60vh] md:h-[500px] mt-[60px] md:mt-[70px] overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1542332213-9b5a5a3fad35?q=80&w=1638&auto=format&fit=crop" class="w-full h-full object-cover brightness-[0.4]" alt="Banner Home">
+        <div class="absolute inset-0 flex items-center px-6 md:px-20 max-w-7xl mx-auto w-full">
+            <div class="text-white mt-10 w-full">
+                <div class="inline-block px-3 py-1 bg-[#f3a933]/20 border border-[#f3a933]/30 rounded-full text-[#f3a933] text-[9px] md:text-[10px] font-bold uppercase tracking-widest mb-4">
+                    Pusat Rental Batam
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-7xl font-extrabold leading-tight">Mulai Petualangan<br><span class="text-[#f3a933]">Tanpa Batas</span></h1>
+                <p class="mt-4 text-gray-300 max-w-lg text-xs md:text-base leading-relaxed opacity-90">Sewa perlengkapan camping dan kamera profesional dengan mudah, cepat, dan terpercaya. Kualitas terjamin untuk setiap momen epik Anda.</p>
+                <div class="mt-8 flex gap-4">
+                    <a href="#kamera-pilihan" class="px-6 py-3 bg-[#f3a933] text-[#0f172a] text-xs font-black uppercase tracking-widest rounded-xl hover:bg-[#d98e1d] transition shadow-lg shadow-[#f3a933]/30">Sewa Sekarang</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-20 space-y-16 md:space-y-24">
+        
+        <!-- ================= HIGHLIGHT KAMERA ================= -->
+        <section id="kamera-pilihan">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 md:mb-10 gap-4">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 flex items-center gap-3 md:gap-4">
+                        <span class="p-2 md:p-3 bg-white shadow-sm rounded-xl md:rounded-2xl text-[#f3a933]">
+                            <i class="fas fa-camera fa-fw"></i>
+                        </span>
+                        Kamera Pilihan
+                    </h2>
+                    <div class="h-1 w-16 md:w-20 bg-[#f3a933] mt-3 rounded-full"></div>
+                </div>
+                <!-- Tombol Lihat Lebih Banyak (Ngarah ke Katalog Kamera) -->
+                <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" class="px-4 py-2 bg-gray-100 hover:bg-[#0f172a] hover:text-[#f3a933] text-gray-700 rounded-lg transition-colors flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-wider">
+                    Lihat Lebih Banyak <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Grid Dummy Barang (Cuma nampilin 4 item) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                @for($i = 0; $i < 4; $i++)
+                <div class="bg-white rounded-[1.5rem] shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 overflow-hidden group relative flex flex-col">
+                    <div class="absolute top-3 right-3 z-10">
+                        <span class="px-2 py-1 bg-emerald-100 text-emerald-700 border border-emerald-200 text-[8px] font-black uppercase rounded-full shadow-sm"><i class="fas fa-star text-[7px] mr-1"></i> Sangat Baik</span>
+                    </div>
+
+                    <div class="aspect-[4/3] bg-gray-50 p-4 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=400" 
+                             class="max-h-full object-contain transition-transform duration-700 group-hover:scale-110" alt="Kamera">
+                    </div>
+
+                    <div class="p-5 flex-grow flex flex-col">
+                        <p class="text-[9px] text-gray-400 font-black uppercase tracking-widest mb-1">Sony</p>
+                        <h3 class="font-bold text-gray-800 text-sm truncate group-hover:text-[#f3a933] transition-colors mb-3">Sony Alpha A6000</h3>
+                        
+                        <div class="mt-auto pt-4 border-t border-gray-50">
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="flex flex-col">
+                                    <span class="text-lg font-black text-[#0f172a]">Rp 150k<span class="text-[10px] text-gray-400 font-normal">/hari</span></span>
+                                </div>
+                            </div>
+                            
+                            <button class="w-full py-2.5 bg-[#f3a933] text-[#0f172a] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#d98e1d] transition shadow-md flex justify-center items-center gap-2">
+                                <i class="fas fa-cart-plus"></i> Tambah Sewa
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                @endfor
+            </div>
+        </section>
+
+        <!-- ================= HIGHLIGHT CAMPING ================= -->
+        <section>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 md:mb-10 gap-4">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 flex items-center gap-3 md:gap-4">
+                        <span class="p-2 md:p-3 bg-white shadow-sm rounded-xl md:rounded-2xl text-[#f3a933]">
+                            <i class="fas fa-campground fa-fw"></i>
+                        </span>
+                        Alat Camping Favorit
+                    </h2>
+                    <div class="h-1 w-16 md:w-20 bg-[#f3a933] mt-3 rounded-full"></div>
+                </div>
+                <!-- Tombol Lihat Lebih Banyak (Ngarah ke Katalog Camping) -->
+                <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" class="px-4 py-2 bg-gray-100 hover:bg-[#0f172a] hover:text-[#f3a933] text-gray-700 rounded-lg transition-colors flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-wider">
+                    Lihat Lebih Banyak <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Grid Dummy Barang -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                @for($i = 0; $i < 4; $i++)
+                <div class="bg-white rounded-[1.5rem] shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 overflow-hidden group relative flex flex-col">
+                    <div class="absolute top-3 right-3 z-10">
+                        <span class="px-2 py-1 bg-blue-100 text-blue-700 border border-blue-200 text-[8px] font-black uppercase rounded-full shadow-sm"><i class="fas fa-check text-[7px] mr-1"></i> Baik</span>
+                    </div>
+
+                    <div class="aspect-[4/3] bg-gray-50 p-4 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?auto=format&fit=crop&q=80&w=400" 
+                             class="max-h-full object-contain transition-transform duration-700 group-hover:scale-110" alt="Tenda">
+                    </div>
+
+                    <div class="p-5 flex-grow flex flex-col">
+                        <p class="text-[9px] text-gray-400 font-black uppercase tracking-widest mb-1">Eiger</p>
+                        <h3 class="font-bold text-gray-800 text-sm truncate group-hover:text-[#f3a933] transition-colors mb-3">Tenda Dome Kapasitas 4</h3>
+                        
+                        <div class="mt-auto pt-4 border-t border-gray-50">
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="flex flex-col">
+                                    <span class="text-lg font-black text-[#0f172a]">Rp 45k<span class="text-[10px] text-gray-400 font-normal">/hari</span></span>
+                                </div>
+                            </div>
+                            
+                            <button class="w-full py-2.5 bg-[#f3a933] text-[#0f172a] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#d98e1d] transition shadow-md flex justify-center items-center gap-2">
+                                <i class="fas fa-cart-plus"></i> Tambah Sewa
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                @endfor
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-[#0f172a] text-white py-12 md:py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-6 md:px-8">
+            <div class="flex flex-col lg:flex-row justify-between items-center lg:items-start gap-10 border-b border-white/5 pb-12 mb-12 text-center lg:text-left">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Lens<span class="text-[#f3a933]">cape</span></h2>
+                    <p class="text-gray-500 text-xs md:text-sm mt-2">Penyedia jasa rental kamera & camping equipment terpercaya.</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-6 md:gap-8 text-gray-400 text-[10px] md:text-xs font-bold uppercase tracking-widest">
+                    <a href="#" class="hover:text-[#f3a933] transition">Kebijakan</a>
+                    <a href="#" class="hover:text-[#f3a933] transition">Syarat</a>
+                    <a href="#" class="hover:text-[#f3a933] transition">Bantuan</a>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-[8px] md:text-[10px] text-gray-500 uppercase tracking-[0.2em] text-center">
+                <p>&copy; {{ date('Y') }} Lenscape Team | PBL Informatics</p>
+                <p class="flex items-center gap-2">
+                    <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span> 
+                    Server Online: Batam, ID
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPT BUAT BUKA TUTUP MENU DI HP -->
     <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-            
-            if (sidebar.classList.contains('-translate-x-full')) {
-                sidebar.classList.remove('-translate-x-full');
-                overlay.classList.remove('hidden');
-                document.body.classList.add('sidebar-open');
-            } else {
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.add('hidden');
-                document.body.classList.remove('sidebar-open');
-            }
-        }
+        const btnMenu = document.getElementById('btnMobileMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        btnMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
     </script>
 </body>
 </html>

@@ -13,25 +13,46 @@
 </head>
 <body class="bg-gray-50 text-slate-900 overflow-x-hidden">
 
-    <nav class="fixed top-0 w-full z-50 bg-[#0f172a]/90 backdrop-blur-lg border-b border-white/10 py-3 md:py-4 px-4 md:px-12 flex justify-between items-center">
-        <a href="{{ route('pelanggan.dashboard') }}" class="text-xl md:text-2xl font-bold tracking-tight text-white">
+     <nav class="fixed top-0 w-full z-50 bg-[#0f172a]/90 backdrop-blur-lg border-b border-white/10 py-3 md:py-4 px-4 md:px-12 flex justify-between items-center transition-all">
+        
+        <!-- Kiri: Logo -->
+        <a href="{{ route('pelanggan.dashboard') }}" class="text-xl md:text-2xl font-bold tracking-tight text-white z-10">
             Lens<span class="text-[#f3a933]">cape</span>
         </a>
         
-        <div class="flex items-center gap-3 md:gap-6">
-            <a href="{{ route('pelanggan.dashboard') }}" class="text-white hover:text-[#f3a933] text-sm font-semibold transition flex items-center gap-2">
-                <i class="fas fa-arrow-left"></i>
-                <span class="hidden sm:inline"></span>
-            </a>
+        <!-- Tengah: Menu Navigasi (Sembunyi di HP, Tampil di Laptop) -->
+        <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 text-sm font-semibold text-gray-300">
+            <a href="{{ route('pelanggan.dashboard') }}" class="text-[#f3a933] transition">Beranda</a>
+            <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" class="hover:text-[#f3a933] transition">Katalog Camera</a>
+            <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" class="hover:text-[#f3a933] transition">Katalog Camping</a>
+            <a href="#" class="hover:text-[#f3a933] transition">Riwayat Sewa</a>
+            <a href="{{ route('pelanggan.profile') }}" class="hover:text-[#f3a933] transition">Profil</a>
+        </div>
+        
+        <!-- Kanan: Keranjang & Akun -->
+        <div class="flex items-center gap-4 md:gap-6 z-10">
             
+            <!-- Icon Keranjang -->
+            <a href="{{ route('pelanggan.keranjang.index') }}" class="text-white hover:text-[#f3a933] transition relative flex items-center mt-1">
+                <i class="fas fa-shopping-cart text-lg"></i>
+                <!-- Badge Notif Angka -->
+                <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full border border-[#0f172a]">2</span>
+            </a>
+
             <div class="h-6 w-[1px] bg-white/20 hidden xs:block"></div>
             
+            <!-- Profil Singkat -->
             <div class="flex items-center gap-2 md:gap-3">
-                <span class="text-white text-[10px] md:text-xs hidden lg:block uppercase tracking-wider font-medium">{{ Auth::user()->name }}</span>
-                <div class="w-8 h-8 md:w-10 md:h-10 bg-[#f3a933] rounded-full flex items-center justify-center font-bold text-[#0f172a] text-xs md:text-sm shadow-inner">
-                    {{ substr(Auth::user()->name, 0, 1) }}
+                <span class="text-white text-[10px] md:text-xs hidden md:block uppercase tracking-wider font-medium">{{ Auth::user()->name ?? 'Pelanggan' }}</span>
+                <div class="w-8 h-8 md:w-10 md:h-10 bg-[#f3a933] rounded-full flex items-center justify-center font-bold text-[#0f172a] text-xs md:text-sm shadow-inner cursor-pointer">
+                    {{ substr(Auth::user()->name ?? 'P', 0, 1) }}
                 </div>
             </div>
+
+            <!-- Tombol Hamburger Mobile -->
+            <button id="btnMobileMenu" class="lg:hidden text-white text-xl hover:text-[#f3a933] transition">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </nav>
 
