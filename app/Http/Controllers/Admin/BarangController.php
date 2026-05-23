@@ -11,33 +11,36 @@ use Illuminate\Support\Facades\File;
 class BarangController extends Controller
 {
     /**
-     * Menampilkan halaman utama (Tabel + Modals)
+     * Menampilkan daftar barang dengan fitur pencarian dan paginasi.
      */
     public function index(Request $request)
     {
         $query = Barang::with('kategori')->latest();
 
+        // Fitur pencarian berdasarkan Nama atau Merk
         if ($request->has('search') && $request->search != '') {
-            $query->where('nama', 'like', '%' . $request->search . '%');
+            $query->where(function($q) use ($request) {
+                $q->where('nama', 'like', '%' . $request->search . '%')
+                  ->orWhere('merk', 'like', '%' . $request->search . '%');
+            });
         }
 
-        // 🔥 UBAH ->get() JADI ->paginate()
-        // Angka 5 berarti nampilin 5 barang per halaman. Bisa lu ganti 10 atau berapapun.
         $barang = $query->paginate(5);
-
         $kategori = Kategori::all();
 
         return view('admin.barang.index', compact('barang', 'kategori'));
     }
 
     /**
-     * Menyimpan data baru dari Modal Tambah
+     * Memproses penyimpanan data barang baru ke database.
      */
     public function store(Request $request)
-    {
+{
         $request->validate([
+            'merk' => 'required|string|max:100',
             'nama' => 'required|string|max:255',
             'kategori_id' => 'required|exists:kategoris,id',
+            'kondisi' => 'required|string', // Validasi Kondisi
             'harga_sewa' => 'required|numeric',
             'stok' => 'required|integer',
             'deskripsi' => 'required',
@@ -46,7 +49,7 @@ class BarangController extends Controller
 
         $data = $request->all();
 
-        // Proses Upload Gambar
+        // Penanganan unggah file gambar
         if ($request->hasFile('gambar')) {
             $image = $request->file('gambar');
             $imageName = time() . '_' . $image->getClientOriginalName();
@@ -60,13 +63,15 @@ class BarangController extends Controller
     }
 
     /**
-     * Update data dari Modal Edit
+     * Memperbarui data barang yang sudah ada.
      */
     public function update(Request $request, string $id)
-    {
+{
         $request->validate([
+            'merk' => 'required|string|max:100',
             'nama' => 'required|string|max:255',
             'kategori_id' => 'required|exists:kategoris,id',
+            'kondisi' => 'required|string', // Validasi Kondisi
             'harga_sewa' => 'required|numeric',
             'stok' => 'required|integer',
             'deskripsi' => 'required',
@@ -76,7 +81,7 @@ class BarangController extends Controller
         $barang = Barang::findOrFail($id);
         $data = $request->all();
 
-        // Proses Update Gambar (Hapus yang lama, simpan yang baru)
+        // Penanganan pembaruan file gambar
         if ($request->hasFile('gambar')) {
             if ($barang->gambar && File::exists(public_path($barang->gambar))) {
                 File::delete(public_path($barang->gambar));
@@ -94,13 +99,12 @@ class BarangController extends Controller
     }
 
     /**
-     * Hapus data
+     * Menghapus data barang dan file gambarnya dari server.
      */
     public function destroy(string $id)
     {
         $barang = Barang::findOrFail($id);
 
-        // Hapus file fisik gambar biar nggak menuhin memori hosting
         if ($barang->gambar && File::exists(public_path($barang->gambar))) {
             File::delete(public_path($barang->gambar));
         }
@@ -110,6 +114,7 @@ class BarangController extends Controller
         return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil dihapus dari sistem!');
     }
 
+    // Method view form (Tidak digunakan karena menggunakan Modal)
     public function create() {}
     public function show(string $id) {}
     public function edit(string $id) {}

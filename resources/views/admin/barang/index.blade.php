@@ -6,7 +6,7 @@
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
     <div>
         <h2 class="text-2xl font-bold text-gray-800">Daftar Barang</h2>
-        <p class="text-sm text-gray-500 mt-1">Kelola inventaris alat camping dan kamera.</p>
+        <p class="text-sm text-gray-500 mt-1">Kelola inventaris alat camping dan kamera terintegrasi.</p>
     </div>
     <div class="flex items-center gap-4">
         <div class="hidden sm:block text-sm text-gray-400 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100">
@@ -24,7 +24,7 @@
             <i class="fas fa-search text-gray-400"></i>
         </span>
         <input type="text" name="search" value="{{ request('search') }}"
-            placeholder="Cari Barang (contoh: Tenda)..."
+            placeholder="Cari Nama atau Merk (contoh: Canon)..."
             class="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#f3a933] text-sm">
     </form>
 </div>
@@ -39,7 +39,7 @@
 @if ($errors->any())
 <div class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-xl shadow-sm mb-6 mt-4">
     <div class="flex items-center gap-2 font-bold mb-2 text-sm">
-        <i class="fas fa-exclamation-triangle"></i> Oops! Ada yang salah pas nyimpen:
+        <i class="fas fa-exclamation-triangle"></i> Oops! Gagal memproses data:
     </div>
     <ul class="list-disc pl-5 text-xs font-medium space-y-1">
         @foreach ($errors->all() as $error)
@@ -54,75 +54,41 @@
         <thead class="bg-gray-50 border-b border-gray-100 text-gray-600 whitespace-nowrap">
             <tr>
                 <th class="px-6 py-4 font-semibold">Foto</th>
-                <th class="px-6 py-4 font-semibold">Nama Barang</th>
+                <th class="px-6 py-4 font-semibold">Info Barang</th>
                 <th class="px-6 py-4 font-semibold">Kategori</th>
+                <th class="px-6 py-4 font-semibold">Kondisi</th>
                 <th class="px-6 py-4 font-semibold">Harga/Hari</th>
                 <th class="px-6 py-4 font-semibold text-center">Stok</th>
                 <th class="px-6 py-4 font-semibold text-center">Aksi</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-50">
-            {{-- DATA DUMMY MANUAL (Akan muncul jika data kosong) --}}
-            @if($barang->isEmpty())
-                <tr class="hover:bg-gray-50 transition">
-                    <td class="px-6 py-4">
-                        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=100" class="w-12 h-12 object-cover rounded-lg border border-gray-200 shadow-sm">
-                    </td>
-                    <td class="px-6 py-4 font-bold text-gray-800">Canon EOS 90D (Dummy)</td>
-                    <td class="px-6 py-4">
-                        <span class="bg-gray-100 text-gray-600 px-2.5 py-1.5 rounded-md border border-gray-200 text-xs font-semibold whitespace-nowrap">Kamera</span>
-                    </td>
-                    <td class="px-6 py-4 font-bold text-emerald-600 whitespace-nowrap">Rp 150.000</td>
-                    <td class="px-6 py-4 font-bold text-gray-700 text-center">5</td>
-                    <td class="px-6 py-4">
-                        <div class="flex items-center justify-center gap-2">
-                            <button type="button" class="bg-[#f3a933]/10 text-[#f3a933] hover:bg-[#f3a933] hover:text-white px-3 py-2 rounded-lg font-bold transition text-xs flex items-center gap-1">
-                                <i class="fas fa-pen"></i> <span class="hidden sm:inline">Edit</span>
-                            </button>
-                            <button type="button" class="bg-red-50 text-red-600 hover:bg-red-500 hover:text-white px-3 py-2 rounded-lg font-bold transition text-xs flex items-center gap-1">
-                                <i class="fas fa-trash"></i> <span class="hidden sm:inline">Hapus</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="hover:bg-gray-50 transition">
-                    <td class="px-6 py-4">
-                        <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=100" class="w-12 h-12 object-cover rounded-lg border border-gray-200 shadow-sm">
-                    </td>
-                    <td class="px-6 py-4 font-bold text-gray-800">Tenda Kapasitas 4 (Dummy)</td>
-                    <td class="px-6 py-4">
-                        <span class="bg-gray-100 text-gray-600 px-2.5 py-1.5 rounded-md border border-gray-200 text-xs font-semibold whitespace-nowrap">Alat Camping</span>
-                    </td>
-                    <td class="px-6 py-4 font-bold text-emerald-600 whitespace-nowrap">Rp 75.000</td>
-                    <td class="px-6 py-4 font-bold text-gray-700 text-center">10</td>
-                    <td class="px-6 py-4">
-                        <div class="flex items-center justify-center gap-2">
-                            <button type="button" class="bg-[#f3a933]/10 text-[#f3a933] hover:bg-[#f3a933] hover:text-white px-3 py-2 rounded-lg font-bold transition text-xs flex items-center gap-1">
-                                <i class="fas fa-pen"></i> <span class="hidden sm:inline">Edit</span>
-                            </button>
-                            <button type="button" class="bg-red-50 text-red-600 hover:bg-red-500 hover:text-white px-3 py-2 rounded-lg font-bold transition text-xs flex items-center gap-1">
-                                <i class="fas fa-trash"></i> <span class="hidden sm:inline">Hapus</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            @endif
-
-            {{-- DATA ASLI DARI DATABASE --}}
-            @foreach ($barang as $item)
+            @forelse ($barang as $item)
             <tr class="hover:bg-gray-50 transition">
                 <td class="px-6 py-4">
                     @if($item->gambar)
-                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}" class="w-12 h-12 object-cover rounded-lg border border-gray-200 shadow-sm">
+                    <img src="{{ asset($item->gambar) }}" alt="{{ $item->nama }}" class="w-12 h-12 object-cover rounded-lg border border-gray-200 shadow-sm">
                     @else
                     <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-xs text-gray-400 border border-gray-200"><i class="fas fa-image"></i></div>
                     @endif
                 </td>
-                <td class="px-6 py-4 font-bold text-gray-800">{{ $item->nama }}</td>
+                <td class="px-6 py-4">
+                    <div class="font-bold text-gray-500 uppercase text-[10px] tracking-wider mb-0.5">{{ $item->merk }}</div>
+                    <div class="font-bold text-gray-800">{{ $item->nama }}</div>
+                </td>
                 <td class="px-6 py-4">
                     <span class="bg-gray-100 text-gray-600 px-2.5 py-1.5 rounded-md border border-gray-200 text-xs font-semibold whitespace-nowrap">
                         {{ $item->kategori->nama_kategori ?? 'Tanpa Kategori' }}
                     </span>
+                </td>
+                <td class="px-6 py-4">
+                    @if($item->kondisi == 'Sangat Baik')
+                        <span class="bg-emerald-100 text-emerald-700 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md whitespace-nowrap"><i class="fas fa-star mr-1"></i> Sangat Baik</span>
+                    @elseif($item->kondisi == 'Baik')
+                        <span class="bg-blue-100 text-blue-700 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md whitespace-nowrap"><i class="fas fa-check mr-1"></i> Baik</span>
+                    @else
+                        <span class="bg-amber-100 text-amber-700 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md whitespace-nowrap"><i class="fas fa-exclamation-circle mr-1"></i> {{ $item->kondisi }}</span>
+                    @endif
                 </td>
                 <td class="px-6 py-4 font-bold text-emerald-600 whitespace-nowrap">Rp {{ number_format($item->harga_sewa, 0, ',', '.') }}</td>
                 <td class="px-6 py-4 font-bold text-gray-700 text-center">{{ $item->stok }}</td>
@@ -141,7 +107,14 @@
                     </div>
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td colspan="8" class="px-6 py-10 text-center text-gray-500">
+                    <i class="fas fa-box-open text-3xl mb-3 block text-gray-300"></i>
+                    Belum ada data barang.
+                </td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
 </div>
@@ -166,9 +139,16 @@
                 <div class="space-y-5">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Merk / Brand</label>
+                            <input type="text" name="merk" required placeholder="Contoh: Sony, Eiger" class="w-full bg-gray-50 border rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f3a933]">
+                        </div>
+                        <div>
                             <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Nama Barang</label>
                             <input type="text" name="nama" required class="w-full bg-gray-50 border rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f3a933]">
                         </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Kategori</label>
                             <select name="kategori_id" required class="w-full bg-gray-50 border rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f3a933]">
@@ -176,6 +156,14 @@
                                 @foreach($kategori as $kat)
                                 <option value="{{ $kat->id }}">{{ $kat->nama_kategori }}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Kondisi Barang</label>
+                            <select name="kondisi" required class="w-full bg-gray-50 border rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f3a933]">
+                                <option value="Sangat Baik">Sangat Baik (Seperti Baru)</option>
+                                <option value="Baik" selected>Baik (Normal)</option>
+                                <option value="Minus Pemakaian">Minus Pemakaian (Lecet Wajar)</option>
                             </select>
                         </div>
                     </div>
@@ -203,7 +191,7 @@
                 </div>
                 <div class="mt-8 flex justify-end gap-3">
                     <button type="button" onclick="closeModal('modalTambah')" class="px-6 py-2 bg-gray-100 text-gray-600 rounded-xl text-xs font-bold transition hover:bg-gray-200">Batal</button>
-                    <button type="submit" class="px-8 py-2 bg-[#f3a933] hover:bg-yellow-500 text-[#0f172a] rounded-xl text-xs font-bold shadow-lg transition">Simpan Barang</button>
+                    <button type="submit" class="px-8 py-2 bg-[#f3a933] hover:bg-yellow-500 text-[#0f172a] rounded-xl text-xs font-bold shadow-lg transition">Simpan</button>
                 </div>
             </form>
         </div>
@@ -228,9 +216,16 @@
                 <div class="space-y-5">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Merk / Brand</label>
+                            <input type="text" name="merk" value="{{ $item->merk }}" required class="w-full bg-gray-50 border rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f3a933]">
+                        </div>
+                        <div>
                             <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Nama Barang</label>
                             <input type="text" name="nama" value="{{ $item->nama }}" required class="w-full bg-gray-50 border rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f3a933]">
                         </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Kategori</label>
                             <select name="kategori_id" required class="w-full bg-gray-50 border rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f3a933]">
@@ -239,6 +234,14 @@
                                     {{ $kat->nama_kategori }}
                                 </option>
                                 @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1.5">Kondisi Barang</label>
+                            <select name="kondisi" required class="w-full bg-gray-50 border rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f3a933]">
+                                <option value="Sangat Baik" {{ $item->kondisi == 'Sangat Baik' ? 'selected' : '' }}>Sangat Baik (Seperti Baru)</option>
+                                <option value="Baik" {{ $item->kondisi == 'Baik' ? 'selected' : '' }}>Baik (Normal)</option>
+                                <option value="Minus Pemakaian" {{ $item->kondisi == 'Minus Pemakaian' ? 'selected' : '' }}>Minus Pemakaian (Lecet Wajar)</option>
                             </select>
                         </div>
                     </div>
@@ -269,7 +272,7 @@
                 </div>
                 <div class="mt-8 flex justify-end gap-3">
                     <button type="button" onclick="closeModal('modalEdit-{{ $item->id }}')" class="px-6 py-2 bg-gray-100 text-gray-600 rounded-xl text-xs font-bold transition hover:bg-gray-200">Batal</button>
-                    <button type="submit" class="px-8 py-2 bg-[#f3a933] hover:bg-yellow-500 text-[#0f172a] rounded-xl text-xs font-bold shadow-lg transition">Update Barang</button>
+                    <button type="submit" class="px-8 py-2 bg-[#f3a933] hover:bg-yellow-500 text-[#0f172a] rounded-xl text-xs font-bold shadow-lg transition">Update Data</button>
                 </div>
             </form>
         </div>
@@ -281,12 +284,15 @@
 
 @push('scripts')
 <script>
+    // Pengendali tampilan antarmuka Modal
     function openModal(modalId) {
         document.getElementById(modalId).classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // Mencegah scroll body saat modal aktif
     }
 
     function closeModal(modalId) {
         document.getElementById(modalId).classList.add('hidden');
+        document.body.style.overflow = 'auto';
     }
 </script>
 @endpush

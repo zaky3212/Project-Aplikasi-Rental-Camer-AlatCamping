@@ -12,7 +12,9 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('kategori_id')->constrained('kategoris')->onDelete('cascade');
+            $table->string('merk');
             $table->string('nama');
+            $table->string('kondisi'); // Tambahan Kolom Kondisi
             $table->text('deskripsi');
             $table->integer('harga_sewa');
             $table->integer('stok');
