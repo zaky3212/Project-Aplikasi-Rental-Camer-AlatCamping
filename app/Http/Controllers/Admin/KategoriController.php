@@ -10,13 +10,18 @@ class KategoriController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Kategori::latest();
+        // mengambil kategori + relasi barang
+        $query = Kategori::with('barang')->latest();
 
+        // fitur search
         if ($request->has('search') && $request->search != '') {
+
             $query->where('nama_kategori', 'like', '%' . $request->search . '%');
+
         }
 
-        $kategori = $query->get();
+        // pagination
+        $kategori = $query->paginate(10);
 
         return view('admin.kategori.index', compact('kategori'));
     }
@@ -48,6 +53,10 @@ class KategoriController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nama_kategori' => 'required'
+        ]);
+
         $kategori = Kategori::findOrFail($id);
 
         $kategori->update([
@@ -60,7 +69,14 @@ class KategoriController extends Controller
 
     public function destroy($id)
     {
-        $kategori = Kategori::findOrFail($id);
+        $kategori = Kategori::with('barang')->findOrFail($id);
+
+        // cek apakah kategori masih dipakai barang
+        if ($kategori->barang->count() > 0) {
+
+            return redirect()->route('admin.kategori.index')
+                ->with('error', 'Kategori tidak bisa dihapus karena masih memiliki barang!');
+        }
         $kategori->delete();
 
         return redirect()->route('admin.kategori.index')
