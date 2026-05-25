@@ -73,7 +73,6 @@
                 <tr>
                     <th class="px-6 py-4 font-semibold">No</th>
                     <th class="px-6 py-4 font-semibold">Nama Kategori</th>
-                    <th class="px-6 py-4 font-semibold text-center">Jumlah Barang</th>
                     <th class="px-6 py-4 font-semibold">Barang Terkait</th>
                     <th class="px-6 py-4 font-semibold text-center">Aksi</th>
                 </tr>
@@ -91,12 +90,6 @@
                             <div class="font-bold text-gray-800">
                                 {{ $item->nama_kategori }}
                             </div>
-                        </td>
-
-                        <td class="px-6 py-4 text-center">
-                            <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-lg text-xs font-bold">
-                                {{ $item->barang->count() }}
-                            </span>
                         </td>
 
                         <td class="px-6 py-4">
