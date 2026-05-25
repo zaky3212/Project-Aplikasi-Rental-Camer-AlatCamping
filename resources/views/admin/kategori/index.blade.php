@@ -73,7 +73,6 @@
                 <tr>
                     <th class="px-6 py-4 font-semibold">No</th>
                     <th class="px-6 py-4 font-semibold">Nama Kategori</th>
-                    <th class="px-6 py-4 font-semibold">Barang Terkait</th>
                     <th class="px-6 py-4 font-semibold text-center">Aksi</th>
                 </tr>
             </thead>
@@ -91,33 +90,7 @@
                                 {{ $item->nama_kategori }}
                             </div>
                         </td>
-
-                        <td class="px-6 py-4">
-                            @if($item->barang->count() > 0)
-
-                                <div class="flex flex-wrap gap-2">
-                                    @foreach($item->barang->take(3) as $barang)
-                                        <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded-md text-xs font-semibold">
-                                            {{ $barang->nama }}
-                                        </span>
-                                    @endforeach
-
-                                    @if($item->barang->count() > 3)
-                                        <span class="bg-[#f3a933]/10 text-[#f3a933] px-2 py-1 rounded-md text-xs font-bold">
-                                            +{{ $item->barang->count() - 3 }} lainnya
-                                        </span>
-                                    @endif
-                                </div>
-
-                            @else
-
-                                <span class="text-gray-400 text-xs italic">
-                                    Belum ada barang
-                                </span>
-
-                            @endif
-                        </td>
-
+                        
                         <td class="px-6 py-4">
                             <div class="flex items-center justify-center gap-2">
 
