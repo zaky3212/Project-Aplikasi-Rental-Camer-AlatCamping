@@ -14,10 +14,8 @@
 
     <div class="flex min-h-screen relative">
         
-        <!-- Sidebar Overlay (Mobile) -->
         <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden transition-opacity duration-300"></div>
 
-        <!-- Sidebar -->
         <aside id="sidebar" class="fixed lg:sticky top-0 left-0 w-64 bg-[#0f172a] text-white flex flex-col h-screen shadow-xl z-50 transition-transform duration-300 -translate-x-full lg:translate-x-0">
             <div class="p-6 flex justify-between items-center">
                 <h1 class="text-2xl font-bold tracking-tight">
@@ -30,25 +28,25 @@
 
             <nav class="flex-1 px-0 space-y-1 overflow-y-auto">
                 <a href="{{ route('pelanggan.dashboard') }}" 
-                   class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold text-gray-400 hover:bg-white/5 hover:text-white"> 
+                   class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold {{ Route::is('pelanggan.dashboard') ? 'bg-[#f3a933]/10 text-[#f3a933]' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}"> 
                     <i class="fas fa-home w-5"></i>
                     <span>Dashboard</span>
                 </a>
 
                 <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" 
-                   class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold text-gray-400 hover:bg-white/5 hover:text-white">
+                   class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold {{ Route::is('pelanggan.Katalog.Katalog_Camera') ? 'bg-[#f3a933]/10 text-[#f3a933]' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
                     <i class="fas fa-camera-retro w-5"></i>
                     <span>Katalog Camera</span>
                 </a>
 
                 <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" 
-                   class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold text-gray-400 hover:bg-white/5 hover:text-white">
+                   class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold {{ Route::is('pelanggan.Katalog.Katalog_Camping') ? 'bg-[#f3a933]/10 text-[#f3a933]' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
                     <i class="fas fa-campground w-5"></i>
                     <span>Katalog Alat Camping</span>
                 </a>
 
                 <a href="{{ route('pelanggan.penyewaan') }}" 
-                   class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold text-gray-400 hover:bg-white/5 hover:text-white"> 
+                   class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold {{ Route::is('pelanggan.penyewaan') ? 'bg-[#f3a933]/10 text-[#f3a933]' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}"> 
                     <i class="fas fa-shopping-cart w-5"></i>
                     <span>Sewa Alat</span>
                 </a>
@@ -61,13 +59,13 @@
             </nav>
 
             <div class="p-4 border-t border-white/5 bg-[#0f172a]">
-                <div class="flex items-center space-x-3 mb-6 px-2">
+                <div class="flex items-center space-x-3 mb-6 px-2 p-2 rounded-xl bg-white/5 border border-white/10">
                     <div class="w-10 h-10 min-w-[40px] bg-[#f3a933] rounded-full flex items-center justify-center font-bold text-[#0f172a] uppercase shadow-md">
                         {{ substr(Auth::user()->name, 0, 1) }}
                     </div>
                     <div class="overflow-hidden">
                         <p class="text-sm font-semibold truncate text-white">{{ Auth::user()->name }}</p>
-                        <p class="text-[10px] text-gray-500 uppercase tracking-wider">Pelanggan Aktif</p>
+                        <p class="text-[10px] text-[#f3a933] uppercase tracking-wider font-bold">Pelanggan Aktif</p>
                     </div>
                 </div>
 
@@ -81,10 +79,8 @@
             </div>
         </aside>
 
-        <!-- Main Content -->
         <main class="flex-1 min-w-0 h-screen overflow-y-auto">
             
-            <!-- Header Mobile -->
             <header class="lg:hidden bg-white border-b border-gray-100 p-4 flex justify-between items-center sticky top-0 z-30 shadow-sm">
                 <h1 class="font-bold text-xl text-[#0f172a]">Lens<span class="text-[#f3a933]">cape</span></h1>
                 <button onclick="toggleSidebar()" class="p-2 bg-gray-50 rounded-lg text-[#0f172a]">
@@ -92,7 +88,6 @@
                 </button>
             </header>
 
-            <!-- Isi Konten Profil -->
             <div class="p-4 md:p-8 max-w-5xl mx-auto">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
                     <div>
@@ -101,7 +96,6 @@
                     </div>
                 </div>
 
-                <!-- Notifikasi Sukses Update (Bawaan Laravel Profile) -->
                 @if (session('status') === 'profile-updated' || session('status') === 'password-updated')
                 <div class="bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 p-4 rounded-xl shadow-sm mb-6 flex items-center gap-3">
                     <i class="fas fa-check-circle"></i>
@@ -111,7 +105,6 @@
 
                 <div class="space-y-6">
                     
-                    <!-- Form Ubah Data Diri -->
                     <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
                         <div class="mb-6 border-b border-gray-50 pb-4">
                             <h3 class="font-bold text-gray-800 flex items-center gap-2 text-lg">
@@ -120,7 +113,6 @@
                             <p class="text-xs text-gray-500 mt-1">Perbarui nama lengkap dan alamat email akun Anda.</p>
                         </div>
 
-                        <!-- Form ini mengarah ke route default Laravel Breeze (profile.update) -->
                         <form method="post" action="{{ route('profile.update') }}" class="space-y-5 max-w-2xl">
                             @csrf
                             @method('patch')
@@ -151,7 +143,6 @@
                         </form>
                     </div>
 
-                    <!-- Form Ubah Password -->
                     <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
                         <div class="mb-6 border-b border-gray-50 pb-4">
                             <h3 class="font-bold text-gray-800 flex items-center gap-2 text-lg">
@@ -160,7 +151,6 @@
                             <p class="text-xs text-gray-500 mt-1">Pastikan akun Anda menggunakan kata sandi yang panjang dan acak agar tetap aman.</p>
                         </div>
 
-                        <!-- Form ini mengarah ke route default Laravel Breeze (password.update) -->
                         <form method="post" action="{{ route('password.update') }}" class="space-y-5 max-w-2xl">
                             @csrf
                             @method('put')
