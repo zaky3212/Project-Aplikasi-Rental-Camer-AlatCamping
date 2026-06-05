@@ -33,17 +33,20 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
 // ================= ROUTE PELANGGAN =================
 Route::middleware(['auth', 'role:pelanggan'])->prefix('pelanggan')->name('pelanggan.')->group(function () {
-    
+
     // UPDATED: Sekarang mengarah ke DashboardController agar data produk otomatis ter-update
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    
+
     Route::get('/profile', [PelangganController::class, 'profile'])->name('profile');
 
     Route::get('/penyewaan', [PenyewaanPelangganController::class, 'index'])->name('penyewaan');
     Route::post('/penyewaan/proses', [PenyewaanPelangganController::class, 'store'])->name('penyewaan.store');
-    
+
+    // Ganti route keranjang lu sebelumnya dengan ini:
     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
-    Route::delete('/keranjang/{id}', [KeranjangController::class, 'destroy'])->name('keranjang.destroy');
+    Route::post('/keranjang', [KeranjangController::class, 'store'])->name('keranjang.store'); // Buat nambah
+    Route::put('/keranjang/{id}', [KeranjangController::class, 'update'])->name('keranjang.update'); // Buat plus minus hari
+    Route::delete('/keranjang/{id}', [KeranjangController::class, 'destroy'])->name('keranjang.destroy'); // Buat hapus
 
     // Group Katalog Perlengkapan
     Route::prefix('katalog')->name('Katalog.')->group(function () {
@@ -64,4 +67,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

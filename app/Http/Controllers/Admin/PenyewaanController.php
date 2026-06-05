@@ -81,4 +81,6 @@ class PenyewaanController extends Controller
         return redirect()->route('admin.penyewaan.index')
             ->with('success', 'Data penyewaan berhasil dihapus!');
     }
+
+    
 } 

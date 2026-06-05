@@ -4,27 +4,33 @@
 
 @push('styles')
 <style>
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 </style>
 @endpush
 
 @section('content')
 
 @if(session('success'))
-    <div class="mb-4 p-4 bg-emerald-100 text-emerald-700 rounded-xl font-bold text-sm">
-        {{ session('success') }}
-    </div>
+<div class="mb-4 p-4 bg-emerald-100 text-emerald-700 rounded-xl font-bold text-sm">
+    {{ session('success') }}
+</div>
 @endif
 
 @if($errors->any())
-    <div class="mb-4 p-4 bg-red-100 text-red-700 rounded-xl text-sm">
-        <ul class="list-disc pl-5 font-bold">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+<div class="mb-4 p-4 bg-red-100 text-red-700 rounded-xl text-sm">
+    <ul class="list-disc pl-5 font-bold">
+        @foreach($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
 @endif
 
 <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-8">
@@ -32,7 +38,7 @@
         <h2 class="text-xl md:text-2xl font-bold text-gray-800">Kelola User</h2>
         <p class="text-xs md:text-sm text-gray-500 mt-1">Daftar semua user/pelanggan yang tersedia di Lenscape</p>
     </div>
-    
+
     <button onclick="openUserModal('modalTambah')" class="bg-[#f3a933] hover:bg-[#d98e1d] text-[#0f172a] px-5 py-2.5 rounded-lg shadow-md font-bold transition flex items-center justify-center gap-2 text-sm w-full lg:w-auto">
         <i class="fas fa-plus"></i> <span>Tambah User</span>
     </button>
@@ -42,9 +48,10 @@
     <span class="absolute inset-y-0 left-0 flex items-center pl-3">
         <i class="fas fa-search text-gray-400 text-sm"></i>
     </span>
-    <input type="text" id="searchInput" placeholder="Cari User berdasarkan Nama, Email, atau No HP..." 
+    <input type="text" id="searchInput" placeholder="Cari User berdasarkan Nama, Email, atau No HP..."
         class="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#f3a933] text-sm">
 </div>
+
 
 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
     <div class="overflow-x-auto">
@@ -71,10 +78,10 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex justify-center space-x-2">
-                          <button onclick="openEditUser(this)" data-user="{{ json_encode($user) }}" class="bg-[#f3a933] text-[#0f172a] px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-[#d98e1d] transition">
-    Edit
-</button>
-                            
+                            <button onclick="openEditUser(this)" data-user="{{ json_encode($user) }}" class="bg-[#f3a933] text-[#0f172a] px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-[#d98e1d] transition">
+                                Edit
+                            </button>
+
                             <form action="{{ url('admin/user/' . $user->id) }}" method="POST" class="inline" onsubmit="return confirm('Hapus user {{ $user->name }}?')">
                                 @csrf
                                 @method('DELETE')
@@ -221,21 +228,21 @@
         document.body.style.overflow = 'auto';
     }
 
-   function openEditUser(button) {
-    // Mengambil data string JSON dari atribut data-user tombol yang diklik, lalu mengubahnya ke objek
-    let user = JSON.parse(button.getAttribute('data-user'));
+    function openEditUser(button) {
+        // Mengambil data string JSON dari atribut data-user tombol yang diklik, lalu mengubahnya ke objek
+        let user = JSON.parse(button.getAttribute('data-user'));
 
-    // Menyuntikkan nilai data user ke input-input form edit
-    document.getElementById('edit_name').value = user.name;
-    document.getElementById('edit_no_hp').value = user.no_hp ?? '';
-    document.getElementById('edit_email').value = user.email;
-    document.getElementById('edit_role').value = user.role;
-    
-    // Membuat route action form edit menjadi dinamis sesuai ID user yang diklik
-    document.getElementById('formEditUser').action = `{{ url('admin/user') }}/${user.id}`;
-    
-    openUserModal('modalEdit');
-}
+        // Menyuntikkan nilai data user ke input-input form edit
+        document.getElementById('edit_name').value = user.name;
+        document.getElementById('edit_no_hp').value = user.no_hp ?? '';
+        document.getElementById('edit_email').value = user.email;
+        document.getElementById('edit_role').value = user.role;
+
+        // Membuat route action form edit menjadi dinamis sesuai ID user yang diklik
+        document.getElementById('formEditUser').action = `{{ url('admin/user') }}/${user.id}`;
+
+        openUserModal('modalEdit');
+    }
 
     // FUNGSI SEARCH REAL-TIME (Nama, Email, No HP)
     document.getElementById('searchInput').addEventListener('keyup', function() {
