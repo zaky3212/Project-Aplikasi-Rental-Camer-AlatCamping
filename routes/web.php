@@ -14,8 +14,9 @@ use App\Http\Controllers\Pelanggan\PelangganController;
 use App\Http\Controllers\Pelanggan\KatalogController;
 use App\Http\Controllers\Pelanggan\KeranjangController;
 use App\Http\Controllers\Pelanggan\PenyewaanPelangganController;
+use App\Http\Controllers\Pelanggan\CheckoutController; // TAMBAHAN CHECKOUT
 
-// Dashboard Controller Utama (Menangani sinkronisasi database ke dashboard pelanggan)
+// Dashboard Controller Utama 
 use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
@@ -29,24 +30,27 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('kategori', KategoriController::class);
     Route::resource('penyewaan', PenyewaanController::class);
     Route::resource('user', UserController::class);
+
+    Route::put('/penyewaan/{id}/status', [PenyewaanController::class, 'updateStatus'])->name('penyewaan.updateStatus');
 });
 
 // ================= ROUTE PELANGGAN =================
 Route::middleware(['auth', 'role:pelanggan'])->prefix('pelanggan')->name('pelanggan.')->group(function () {
 
-    // UPDATED: Sekarang mengarah ke DashboardController agar data produk otomatis ter-update
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
     Route::get('/profile', [PelangganController::class, 'profile'])->name('profile');
 
     Route::get('/penyewaan', [PenyewaanPelangganController::class, 'index'])->name('penyewaan');
     Route::post('/penyewaan/proses', [PenyewaanPelangganController::class, 'store'])->name('penyewaan.store');
 
-    // Ganti route keranjang lu sebelumnya dengan ini:
+    // Route Keranjang
     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
-    Route::post('/keranjang', [KeranjangController::class, 'store'])->name('keranjang.store'); // Buat nambah
-    Route::put('/keranjang/{id}', [KeranjangController::class, 'update'])->name('keranjang.update'); // Buat plus minus hari
-    Route::delete('/keranjang/{id}', [KeranjangController::class, 'destroy'])->name('keranjang.destroy'); // Buat hapus
+    Route::post('/keranjang', [KeranjangController::class, 'store'])->name('keranjang.store');
+    Route::put('/keranjang/{id}', [KeranjangController::class, 'update'])->name('keranjang.update');
+    Route::delete('/keranjang/{id}', [KeranjangController::class, 'destroy'])->name('keranjang.destroy');
+
+    // TAMBAHAN: Route Checkout Midtrans
+    Route::post('/checkout', [CheckoutController::class, 'prosesCheckout'])->name('checkout.proses');
 
     // Group Katalog Perlengkapan
     Route::prefix('katalog')->name('Katalog.')->group(function () {
@@ -68,3 +72,6 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+// ================= ROUTE MIDTRANS CALLBACK (Tanpa Auth) =================
+Route::post('/midtrans/callback', [CheckoutController::class, 'callback']);

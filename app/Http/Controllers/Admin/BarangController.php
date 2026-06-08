@@ -81,7 +81,6 @@ class BarangController extends Controller
         $barang = Barang::findOrFail($id);
         $data = $request->all();
 
-        // Penanganan pembaruan file gambar
         if ($request->hasFile('gambar')) {
             if ($barang->gambar && File::exists(public_path($barang->gambar))) {
                 File::delete(public_path($barang->gambar));
@@ -114,7 +113,6 @@ class BarangController extends Controller
         return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil dihapus dari sistem!');
     }
 
-    // Method view form (Tidak digunakan karena menggunakan Modal)
     public function create() {}
     public function show(string $id) {}
     public function edit(string $id) {}

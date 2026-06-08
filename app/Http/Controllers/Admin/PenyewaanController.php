@@ -3,84 +3,67 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Penyewaan;
-use App\Models\Barang;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use App\Models\Penyewaan;
+use App\Models\DetailPenyewaan;
+use App\Models\Barang;
 
 class PenyewaanController extends Controller
 {
+    // Nampilin semua transaksi dari database
     public function index(Request $request)
     {
-        $query = Penyewaan::with('barang');
+        $query = Penyewaan::with(['user', 'detail_penyewaan.barang'])->latest();
 
+        // Fitur pencarian nama penyewa atau kode transaksi
         if ($request->has('search')) {
-            $query->where('nama_penyewa', 'like', '%' . $request->search . '%');
+            $search = $request->search;
+            $query->whereHas('user', function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%");
+            })->orWhere('kode_transaksi', 'like', "%{$search}%");
         }
 
-        $penyewaan = $query->latest()->get();
-        $barang = Barang::all(); 
-        
-        return view('admin.penyewaan.index', compact('penyewaan', 'barang'));
+        $penyewaans = $query->get();
+
+        return view('admin.penyewaan.index', compact('penyewaans'));
     }
 
-    public function store(Request $request)
+    // Fungsi sakti buat ngubah status dan ngatur stok barang
+    public function updateStatus(Request $request, $id)
     {
-        $request->validate([
-            'nama_penyewa' => 'required',
-            'barang_id' => 'required',
-            'no_hp' => 'required',
-            'tanggal_sewa' => 'required|date',
-            'tanggal_kembali' => 'required|date|after:tanggal_sewa',
-        ]);
+        $penyewaan = Penyewaan::with('detail_penyewaan')->findOrFail($id);
+        $statusBaru = $request->status;
 
-        $barang = Barang::findOrFail($request->barang_id);
-        
-        $start = Carbon::parse($request->tanggal_sewa);
-        $end = Carbon::parse($request->tanggal_kembali);
-        $days = $start->diffInDays($end) ?: 1; 
-        $total = $days * $barang->harga_sewa;
-
-        Penyewaan::create([
-            'nama_penyewa' => $request->nama_penyewa,
-            'barang_id' => $request->barang_id,
-            'no_hp' => $request->no_hp,
-            'tanggal_sewa' => $request->tanggal_sewa,
-            'tanggal_kembali' => $request->tanggal_kembali,
-            'lama_sewa' => $days,
-            'total_harga' => $total,
-            'status' => 'disewa'
-        ]);
-
-        return redirect()->route('admin.penyewaan.index')
-            ->with('success', 'Transaksi penyewaan berhasil dicatat!');
-    }
-
-    // Method UPDATE dipindahkan ke DALAM sini
-    public function update(Request $request, $id)
-    {
-        $penyewaan = Penyewaan::findOrFail($id);
-
-        if ($request->status == 'kembali') {
-            $penyewaan->update([
-                'status' => 'kembali'
-            ]);
-            
-            return redirect()->route('admin.penyewaan.index')
-                ->with('success', 'Barang telah berhasil dikembalikan!');
+        // 1. Kalau barang diserahkan ke pelanggan -> STOK BERKURANG
+        if ($statusBaru == 'Disewa' && $penyewaan->status == 'Paid') {
+            foreach ($penyewaan->detail_penyewaan as $detail) {
+                $barang = Barang::find($detail->barang_id);
+                if ($barang && $barang->stok > 0) {
+                    $barang->decrement('stok', 1); // Kurangi 1 stok per item
+                }
+            }
         }
 
-        return redirect()->route('admin.penyewaan.index');
+        // 2. Kalau barang dikembalikan -> STOK BERTAMBAH
+        if ($statusBaru == 'Selesai' && $penyewaan->status == 'Disewa') {
+            foreach ($penyewaan->detail_penyewaan as $detail) {
+                $barang = Barang::find($detail->barang_id);
+                if ($barang) {
+                    $barang->increment('stok', 1); // Balikin 1 stok per item
+                }
+            }
+        }
+
+        // Update status di database
+        $penyewaan->status = $statusBaru;
+        $penyewaan->save();
+
+        return redirect()->route('admin.penyewaan.index')->with('success', 'Status transaksi berhasil diupdate dan stok sudah disesuaikan!');
     }
 
     public function destroy($id)
     {
-        $penyewaan = Penyewaan::findOrFail($id);
-        $penyewaan->delete();
-
-        return redirect()->route('admin.penyewaan.index')
-            ->with('success', 'Data penyewaan berhasil dihapus!');
+        Penyewaan::findOrFail($id)->delete();
+        return redirect()->route('admin.penyewaan.index')->with('success', 'Data transaksi dihapus.');
     }
-
-    
-} 
+}

@@ -74,6 +74,16 @@
         </div>
         @endif
 
+        @if(session('error'))
+        <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6 flex items-center gap-3">
+            <i class="fas fa-exclamation-triangle text-xl"></i>
+            <div>
+                <span class="text-sm font-bold block">Gagal Checkout!</span>
+                <span class="text-xs">{{ session('error') }}</span>
+            </div>
+        </div>
+        @endif
+
         <div class="flex flex-col lg:flex-row gap-8 items-start">
 
             <div class="w-full lg:w-2/3 space-y-4">
@@ -156,7 +166,7 @@
                         <span class="text-2xl font-black text-[#f3a933]">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
                     </div>
 
-                    <form action="#" method="POST" class="relative z-10">
+                    <form action="{{ route('pelanggan.checkout.proses') }}" method="POST" class="relative z-10">
                         @csrf
                         <button type="submit" class="w-full py-4 bg-[#f3a933] text-[#0f172a] rounded-xl text-xs font-black uppercase tracking-widest hover:bg-[#d98e1d] transition shadow-[0_10px_20px_rgba(243,169,51,0.3)] flex justify-center items-center gap-2" {{ empty($keranjang) ? 'disabled' : '' }}>
                             Lanjut Pembayaran <i class="fas fa-arrow-right"></i>

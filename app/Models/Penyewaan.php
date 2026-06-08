@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models; // <--- Pastikan baris ini ada
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,21 +9,16 @@ class Penyewaan extends Model
 {
     use HasFactory;
 
-    protected $table = 'penyewaans'; // Nama tabel di database
+    protected $table = 'penyewaans';
+    protected $guarded = ['id'];
 
-    protected $fillable = [
-        'nama_penyewa', 
-        'barang_id', 
-        'no_hp', 
-        'tanggal_sewa', 
-        'tanggal_kembali', 
-        'lama_sewa', 
-        'total_harga', 
-        'status'
-    ];
-
-    public function barang()
+    public function detail_penyewaan()
     {
-        return $this->belongsTo(Barang::class);
+        return $this->hasMany(DetailPenyewaan::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
