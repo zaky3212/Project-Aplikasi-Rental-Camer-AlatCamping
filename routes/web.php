@@ -15,6 +15,7 @@ use App\Http\Controllers\Pelanggan\KatalogController;
 use App\Http\Controllers\Pelanggan\KeranjangController;
 use App\Http\Controllers\Pelanggan\PenyewaanPelangganController;
 use App\Http\Controllers\Pelanggan\CheckoutController; // TAMBAHAN CHECKOUT
+use App\Http\Controllers\Pelanggan\RiwayatController;
 
 // Dashboard Controller Utama 
 use App\Http\Controllers\DashboardController;
@@ -61,6 +62,11 @@ Route::middleware(['auth', 'role:pelanggan'])->prefix('pelanggan')->name('pelang
         Route::get('/camping/semua', [KatalogController::class, 'lihatSemuaCamping'])->name('Katalog_Camping.semua');
 
         Route::get('/barang/{id}', [KatalogController::class, 'detailBarang'])->name('detail_barang');
+    });
+    
+    Route::prefix('riwayat')->name('riwayat.')->group(function () {
+        Route::get('/', [RiwayatController::class, 'index'])->name('index');
+        Route::get('/{id}', [RiwayatController::class, 'show'])->name('detail');
     });
 });
 
