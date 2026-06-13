@@ -17,36 +17,40 @@ class CheckoutController extends Controller
      */
     public function prosesCheckout(Request $request)
     {
-        $keranjang = session('keranjang');
+        $keranjangUtama = session('keranjang');
 
-        // 1. Validasi Keranjang Kosong
-        if (empty($keranjang)) {
-            return redirect()->route('pelanggan.keranjang.index')->with('error', 'Keranjang lu masih kosong bre!');
+        $selectedIds = explode(',', $request->selected_items);
+
+        if (empty($keranjangUtama) || empty($selectedIds) || $selectedIds[0] == '') {
+            return redirect()->route('pelanggan.keranjang.index')->with('error', 'Pilih minimal satu barang dulu bre buat dicheckout!');
         }
 
-        // 2. Hitung Total Harga Sewa
+        $keranjangCheckout = [];
         $totalHarga = 0;
-        foreach ($keranjang as $item) {
-            $totalHarga += $item['harga_sewa'] * $item['lama_sewa'];
+
+        foreach ($selectedIds as $id) {
+            if (isset($keranjangUtama[$id])) {
+                $keranjangCheckout[$id] = $keranjangUtama[$id];
+                $totalHarga += $keranjangUtama[$id]['harga_sewa'] * $keranjangUtama[$id]['lama_sewa'];
+            }
         }
 
         // 3. Simpan Transaksi Induk ke Tabel 'penyewaans'
         $penyewaan = new Penyewaan();
         $penyewaan->user_id = Auth::id();
-        // Bikin kode transaksi unik (LNS = Lenscape, + Tanggal + ID User)
         $penyewaan->kode_transaksi = 'LNS-' . date('YmdHis') . '-' . Auth::id();
         $penyewaan->tanggal_mulai = date('Y-m-d');
 
-        // Asumsi durasi sewa diambil dari item pertama di keranjang
-        $durasiPertama = current($keranjang)['lama_sewa'];
+        // Ambil durasi dari barang pertama yang di-checkout
+        $durasiPertama = current($keranjangCheckout)['lama_sewa'];
         $penyewaan->tanggal_selesai = date('Y-m-d', strtotime("+$durasiPertama days"));
 
         $penyewaan->total_harga = $totalHarga;
-        $penyewaan->status = 'Unpaid'; // Status awal sebelum dibayar
+        $penyewaan->status = 'Unpaid';
         $penyewaan->save();
 
         // 4. Simpan Detail Barang ke Tabel 'detail_penyewaans'
-        foreach ($keranjang as $item) {
+        foreach ($keranjangCheckout as $item) {
             $detail = new DetailPenyewaan();
             $detail->penyewaan_id = $penyewaan->id;
             $detail->barang_id = $item['id'];
@@ -56,13 +60,12 @@ class CheckoutController extends Controller
             $detail->save();
         }
 
-        // 5. Setup Konfigurasi Midtrans
+        // 5. Setup Midtrans
         Config::$serverKey = config('midtrans.server_key');
         Config::$isProduction = config('midtrans.is_production');
         Config::$isSanitized = config('midtrans.is_sanitized');
         Config::$is3ds = config('midtrans.is_3ds');
 
-        // 6. Susun Parameter Buat Dikirim ke Server Midtrans
         $params = [
             'transaction_details' => [
                 'order_id' => $penyewaan->kode_transaksi,
@@ -71,27 +74,27 @@ class CheckoutController extends Controller
             'customer_details' => [
                 'first_name' => Auth::user()->name,
                 'email' => Auth::user()->email,
-                'phone' => '081234567890', // Bisa diganti kalau ada kolom no_hp di database
+                'phone' => '081234567890',
             ],
         ];
 
-        // 7. Tembak ke Midtrans dan Ambil Tokennya
+        // 6. Tembak ke Midtrans dan Ambil Tokennya
         try {
             $snapToken = Snap::getSnapToken($params);
 
-            // Simpan token ke database buat histori
             $penyewaan->snap_token = $snapToken;
             $penyewaan->save();
 
-            // Bersihkan keranjang karena udah pindah ke checkout
-            session()->forget('keranjang');
+            // 7. BERSIHKAN KERANJANG (Tapi HANYA hapus barang yang barusan dicheckout)
+            foreach ($selectedIds as $id) {
+                unset($keranjangUtama[$id]);
+            }
+            session()->put('keranjang', $keranjangUtama); // Simpan sisa barang yang nggak ikut dicheckout
 
-            // Arahkan pelanggan ke halaman pembayaran (bawa Token dan Data Transaksi)
             return view('pelanggan.bayar', compact('snapToken', 'penyewaan'));
         } catch (\Exception $e) {
-            // Kalau gagal (misal server down/kunci salah), hapus transaksi yang barusan dibuat biar gak nyampah
             $penyewaan->delete();
-            return back()->with('error', 'Waduh, gagal memproses pembayaran ke Midtrans: ' . $e->getMessage());
+            return back()->with('error', 'Gagal memproses pembayaran ke Midtrans: ' . $e->getMessage());
         }
     }
 

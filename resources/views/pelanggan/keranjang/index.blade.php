@@ -23,14 +23,12 @@
             <i class="fas fa-arrow-left text-sm text-gray-400 hover:text-[#f3a933] transition hidden md:block"></i>
             Lens<span class="text-[#f3a933]">cape</span>
         </a>
-
         <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 text-sm font-semibold text-gray-300">
             <a href="{{ route('pelanggan.dashboard') }}" class="hover:text-[#f3a933] transition">Beranda</a>
             <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" class="hover:text-[#f3a933] transition">Katalog Camera</a>
             <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" class="hover:text-[#f3a933] transition">Katalog Camping</a>
             <a href="{{ route('profile.edit') }}" class="hover:text-[#f3a933] transition">Profil</a>
         </div>
-
         <div class="flex items-center gap-4 z-10">
             <a href="{{ route('pelanggan.keranjang.index') }}" class="text-white relative flex items-center mt-1">
                 <i class="fas fa-shopping-cart text-lg text-[#f3a933]"></i>
@@ -51,20 +49,13 @@
         </div>
     </nav>
 
-    <div id="mobileMenu" class="fixed top-[60px] w-full bg-[#0f172a] border-b border-white/10 z-40 hidden flex flex-col px-6 py-6 gap-5 shadow-2xl lg:hidden">
-        <a href="{{ route('pelanggan.dashboard') }}" class="text-gray-300 hover:text-[#f3a933] font-bold text-sm uppercase tracking-wider transition">Beranda</a>
-        <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" class="text-gray-300 hover:text-[#f3a933] font-bold text-sm uppercase tracking-wider transition">Katalog Camera</a>
-        <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" class="text-gray-300 hover:text-[#f3a933] font-bold text-sm uppercase tracking-wider transition">Katalog Camping</a>
-        <a href="{{ route('profile.edit') }}" class="text-gray-300 hover:text-[#f3a933] font-bold text-sm uppercase tracking-wider transition">Profil</a>
-    </div>
-
     <main class="max-w-7xl mx-auto px-4 md:px-6 pt-28 pb-20">
 
         <div class="mb-8">
             <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 flex items-center gap-3">
                 <i class="fas fa-shopping-cart text-[#f3a933]"></i> Keranjang Sewa
             </h1>
-            <p class="text-sm text-gray-500 mt-2">Pastikan alat dan durasi sewa sudah sesuai sebelum melanjutkan pembayaran.</p>
+            <p class="text-sm text-gray-500 mt-2">Pilih alat yang mau lu sewa sekarang.</p>
         </div>
 
         @if(session('success'))
@@ -87,8 +78,21 @@
         <div class="flex flex-col lg:flex-row gap-8 items-start">
 
             <div class="w-full lg:w-2/3 space-y-4">
+
+                @if(!empty($keranjang))
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex items-center gap-3">
+                    <input type="checkbox" id="check-all" class="w-5 h-5 accent-[#f3a933] cursor-pointer" checked>
+                    <label for="check-all" class="text-sm font-bold text-gray-700 cursor-pointer">Pilih Semua Alat</label>
+                </div>
+                @endif
+
                 @forelse($keranjang as $id => $item)
                 <div class="bg-white rounded-2xl p-4 md:p-5 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center gap-5 hover:shadow-md transition">
+
+                    <input type="checkbox" class="item-checkbox w-5 h-5 accent-[#f3a933] cursor-pointer mt-2 sm:mt-0"
+                        value="{{ $id }}"
+                        data-subtotal="{{ $item['harga_sewa'] * $item['lama_sewa'] }}"
+                        checked>
 
                     <div class="w-full sm:w-28 aspect-square bg-gray-50 rounded-xl overflow-hidden flex-shrink-0 relative border border-gray-100">
                         <img src="{{ $item['gambar'] }}" class="w-full h-full object-contain p-2" alt="{{ $item['nama'] }}">
@@ -111,21 +115,15 @@
                             <form action="{{ route('pelanggan.keranjang.update', $id) }}" method="POST">
                                 @csrf @method('PUT')
                                 <input type="hidden" name="action" value="minus">
-                                <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-md bg-white text-gray-600 hover:bg-gray-200 transition shadow-sm">
-                                    <i class="fas fa-minus text-[10px]"></i>
-                                </button>
+                                <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-md bg-white text-gray-600 hover:bg-gray-200 transition shadow-sm"><i class="fas fa-minus text-[10px]"></i></button>
                             </form>
-
                             <div class="flex flex-col items-center px-3">
                                 <span class="text-xs font-bold text-gray-800">{{ $item['lama_sewa'] }} Hari</span>
                             </div>
-
                             <form action="{{ route('pelanggan.keranjang.update', $id) }}" method="POST">
                                 @csrf @method('PUT')
                                 <input type="hidden" name="action" value="plus">
-                                <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-md bg-white text-gray-600 hover:bg-gray-200 transition shadow-sm">
-                                    <i class="fas fa-plus text-[10px]"></i>
-                                </button>
+                                <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-md bg-white text-gray-600 hover:bg-gray-200 transition shadow-sm"><i class="fas fa-plus text-[10px]"></i></button>
                             </form>
                         </div>
                     </div>
@@ -137,7 +135,7 @@
                     </div>
                     <h3 class="font-bold text-gray-800 text-lg mb-2">Keranjang Masih Kosong</h3>
                     <p class="text-gray-500 text-sm mb-6">Yuk, temukan perlengkapan camping dan kamera impianmu sekarang!</p>
-                    <a href="{{ route('pelanggan.dashboard') }}" class="px-6 py-2.5 bg-[#0f172a] text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#f3a933] hover:text-[#0f172a] transition shadow-lg">Mulai Jelajah</a>
+                    <a href="{{ route('pelanggan.dashboard') }}" class="px-6 py-2.5 bg-[#0f172a] text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#f3a933] transition shadow-lg">Mulai Jelajah</a>
                 </div>
                 @endforelse
             </div>
@@ -152,30 +150,28 @@
 
                     <div class="space-y-4 text-sm text-gray-300 mb-6 border-b border-white/10 pb-6 relative z-10">
                         <div class="flex justify-between items-center">
-                            <span>Total Item</span>
-                            <span class="font-medium">{{ count((array) session('keranjang')) }} Alat</span>
+                            <span>Total Item Dipilih</span>
+                            <span id="txt-total-item" class="font-medium">0 Alat</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span>Subtotal Harga</span>
-                            <span class="font-medium">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                            <span id="txt-subtotal" class="font-medium">Rp 0</span>
                         </div>
                     </div>
 
                     <div class="flex justify-between items-end mb-8 relative z-10">
                         <span class="text-xs uppercase tracking-widest font-bold text-gray-400">Total Akhir</span>
-                        <span class="text-2xl font-black text-[#f3a933]">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                        <span id="txt-total-akhir" class="text-2xl font-black text-[#f3a933]">Rp 0</span>
                     </div>
 
-                    <form action="{{ route('pelanggan.checkout.proses') }}" method="POST" class="relative z-10">
+                    <form action="{{ route('pelanggan.checkout.proses') }}" method="POST" id="form-checkout" class="relative z-10">
                         @csrf
-                        <button type="submit" class="w-full py-4 bg-[#f3a933] text-[#0f172a] rounded-xl text-xs font-black uppercase tracking-widest hover:bg-[#d98e1d] transition shadow-[0_10px_20px_rgba(243,169,51,0.3)] flex justify-center items-center gap-2" {{ empty($keranjang) ? 'disabled' : '' }}>
+                        <input type="hidden" name="selected_items" id="input-selected-items" value="">
+                        <button type="button" id="btn-checkout" class="w-full py-4 bg-[#f3a933] text-[#0f172a] rounded-xl text-xs font-black uppercase tracking-widest hover:bg-[#d98e1d] transition shadow-[0_10px_20px_rgba(243,169,51,0.3)] flex justify-center items-center gap-2">
                             Lanjut Pembayaran <i class="fas fa-arrow-right"></i>
                         </button>
                     </form>
 
-                    <p class="text-center text-[9px] text-gray-500 mt-4 uppercase tracking-wider relative z-10">
-                        <i class="fas fa-lock mr-1"></i> Transaksi Aman & Terenkripsi
-                    </p>
                 </div>
             </div>
 
@@ -183,11 +179,75 @@
     </main>
 
     <script>
-        const btnMenu = document.getElementById('btnMobileMenu');
-        const mobileMenu = document.getElementById('mobileMenu');
-        btnMenu.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+        // LOGIKA JAVASCRIPT BUAT HITUNG-HITUNGAN OTOMATIS
+        const checkAll = document.getElementById('check-all');
+        const checkboxes = document.querySelectorAll('.item-checkbox');
+        const txtTotalItem = document.getElementById('txt-total-item');
+        const txtSubtotal = document.getElementById('txt-subtotal');
+        const txtTotalAkhir = document.getElementById('txt-total-akhir');
+        const inputSelected = document.getElementById('input-selected-items');
+        const btnCheckout = document.getElementById('btn-checkout');
+        const formCheckout = document.getElementById('form-checkout');
+
+        function calculateCart() {
+            let totalItems = 0;
+            let totalPrice = 0;
+            let selectedIds = [];
+
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    totalItems++;
+                    totalPrice += parseInt(cb.dataset.subtotal);
+                    selectedIds.push(cb.value);
+                }
+            });
+
+            // Update UI
+            txtTotalItem.innerText = totalItems + ' Alat';
+            txtSubtotal.innerText = 'Rp ' + totalPrice.toLocaleString('id-ID');
+            txtTotalAkhir.innerText = 'Rp ' + totalPrice.toLocaleString('id-ID');
+
+            // Masukin ID ke input hidden buat dikirim ke Laravel
+            inputSelected.value = selectedIds.join(',');
+
+            // Matiin tombol kalau gak ada yang dipilih
+            if (totalItems === 0) {
+                btnCheckout.disabled = true;
+                btnCheckout.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                btnCheckout.disabled = false;
+                btnCheckout.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        // Kalau satu checkbox diubah
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                calculateCart();
+                // Batalin check-all kalau ada satu yang gak diceklis
+                if (!cb.checked && checkAll) checkAll.checked = false;
+            });
         });
+
+        // Kalau tombol pilih semua diklik
+        if (checkAll) {
+            checkAll.addEventListener('change', function() {
+                checkboxes.forEach(cb => {
+                    cb.checked = this.checked;
+                });
+                calculateCart();
+            });
+        }
+
+        // Eksekusi Submit Form Checkout
+        btnCheckout.addEventListener('click', function() {
+            if (inputSelected.value !== '') {
+                formCheckout.submit();
+            }
+        });
+
+        // Hitung awal pas halaman dimuat
+        calculateCart();
     </script>
 </body>
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,35 +9,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
     </style>
 </head>
+
 <body class="bg-gray-50 font-sans overflow-x-hidden pt-24">
 
     <nav class="fixed top-0 w-full z-50 bg-[#0f172a]/90 backdrop-blur-lg border-b border-white/10 py-3 md:py-4 px-4 md:px-12 flex justify-between items-center transition-all">
         <a href="{{ route('pelanggan.dashboard') }}" class="text-xl md:text-2xl font-bold tracking-tight text-white z-10">
             Lens<span class="text-[#f3a933]">cape</span>
         </a>
-        
+
         <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 text-sm font-semibold text-gray-300">
             <a href="{{ route('pelanggan.dashboard') }}" class="{{ Route::is('pelanggan.dashboard') ? 'text-[#f3a933]' : 'hover:text-[#f3a933]' }} transition">Beranda</a>
             <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" class="{{ Route::is('pelanggan.Katalog.Katalog_Camera') ? 'text-[#f3a933]' : 'hover:text-[#f3a933]' }} transition">Katalog Camera</a>
             <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" class="{{ Route::is('pelanggan.Katalog.Katalog_Camping') ? 'text-[#f3a933]' : 'hover:text-[#f3a933]' }} transition">Katalog Camping</a>
             <a href="#" class="hover:text-[#f3a933] transition">Riwayat Sewa</a>
-            <a href="{{ route('pelanggan.profile') }}" class="{{ Route::is('pelanggan.profile') ? 'text-[#f3a933]' : 'hover:text-[#f3a933]' }} transition">Profil</a>
+            <a href="{{ route('profile.edit') }}" class="{{ Route::is('profile.edit') ? 'text-[#f3a933]' : 'hover:text-[#f3a933]' }} transition">Profil</a>
         </div>
-        
+
         <div class="flex items-center gap-4 md:gap-6 z-10">
             <a href="{{ route('pelanggan.keranjang.index') }}" class="text-white hover:text-[#f3a933] transition relative flex items-center mt-1">
                 <i class="fas fa-shopping-cart text-lg"></i>
-                <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full border border-[#0f172a]">2</span>
+                <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full border border-[#0f172a]">{{ count((array) session('keranjang')) }}</span>
             </a>
 
             <div class="h-6 w-[1px] bg-white/20 hidden xs:block"></div>
-            
+
             <div class="relative flex items-center gap-2 md:gap-3">
                 <span class="text-white text-[10px] md:text-xs hidden md:block uppercase tracking-wider font-medium">{{ Auth::user()->name ?? 'Pelanggan' }}</span>
-                
+
                 <div id="profileMenuButton" class="w-8 h-8 md:w-10 md:h-10 bg-[#f3a933] rounded-full flex items-center justify-center font-bold text-[#0f172a] text-xs md:text-sm shadow-inner cursor-pointer select-none active:scale-95 transition-transform">
                     {{ substr(Auth::user()->name ?? 'P', 0, 1) }}
                 </div>
@@ -72,7 +77,7 @@
     </section>
 
     <div class="max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-20 space-y-16 md:space-y-24">
-        
+
         @foreach($categories as $cat)
         <section>
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 md:mb-10 gap-4">
@@ -91,32 +96,32 @@
             </div>
 
             <div class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-8">
-                
+
                 @foreach($cat->barang as $item)
                 <div class="bg-white rounded-[1.5rem] md:rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 overflow-hidden group relative flex flex-col">
-                    
+
                     <div class="absolute top-3 right-3 md:top-4 md:right-4 z-10">
                         @if($item->stok > 0)
-                            <span class="px-2 md:px-3 py-1 bg-emerald-500 text-white text-[8px] md:text-[9px] font-black uppercase rounded-full shadow-lg">Tersedia</span>
+                        <span class="px-2 md:px-3 py-1 bg-emerald-500 text-white text-[8px] md:text-[9px] font-black uppercase rounded-full shadow-lg">Tersedia</span>
                         @else
-                            <span class="px-2 md:px-3 py-1 bg-red-500 text-white text-[8px] md:text-[9px] font-black uppercase rounded-full shadow-lg">Habis</span>
+                        <span class="px-2 md:px-3 py-1 bg-red-500 text-white text-[8px] md:text-[9px] font-black uppercase rounded-full shadow-lg">Habis</span>
                         @endif
                     </div>
 
                     <a href="{{ route('pelanggan.Katalog.detail_barang', $item->id) }}" class="block flex-grow flex flex-col">
-                        
+
                         <div class="aspect-square bg-gray-50 p-4 md:p-6 flex items-center justify-center relative overflow-hidden w-full">
                             <div class="absolute inset-0 bg-gradient-to-t from-gray-200/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                            
+
                             @if($item->gambar)
-                                <img src="{{ asset($item->gambar) }}" 
-                                     class="max-h-full object-contain transition-transform duration-700 group-hover:scale-110 group-hover:rotate-3" 
-                                     alt="{{ $item->nama }}">
+                            <img src="{{ asset($item->gambar) }}"
+                                class="max-h-full object-contain transition-transform duration-700 group-hover:scale-110 group-hover:rotate-3"
+                                alt="{{ $item->nama }}">
                             @else
-                                <div class="text-center text-gray-300">
-                                    <i class="fas fa-camera text-4xl mb-1 block"></i> 
-                                    <span class="text-[10px] font-semibold text-gray-400">No Image</span>
-                                </div>
+                            <div class="text-center text-gray-300">
+                                <i class="fas fa-camera text-4xl mb-1 block"></i>
+                                <span class="text-[10px] font-semibold text-gray-400">No Image</span>
+                            </div>
                             @endif
                         </div>
 
@@ -146,9 +151,12 @@
                                     <span class="text-[10px] md:text-xs font-bold text-gray-700">{{ $item->stok }} Unit</span>
                                 </div>
                             </div>
-                            
-                            <form action="{{ route('pelanggan.keranjang.index') }}" method="GET">
-                                <button type="submit" {{ $item->stok <= 0 ? 'disabled' : '' }} 
+
+                            <form action="{{ route('pelanggan.keranjang.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="barang_id" value="{{ $item->id }}">
+
+                                <button type="submit" {{ $item->stok <= 0 ? 'disabled' : '' }}
                                     class="w-full py-2.5 md:py-3 bg-[#0f172a] text-white rounded-xl text-[8px] md:text-[10px] font-black uppercase tracking-widest hover:bg-[#f3a933] hover:text-[#0f172a] transition-all duration-300 shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
                                     <i class="fas fa-calendar-plus mr-1 md:mr-2"></i> Booking
                                 </button>
@@ -181,7 +189,7 @@
             <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-[8px] md:text-[10px] text-gray-500 uppercase tracking-[0.2em]">
                 <p>&copy; 2026 Lenscape Team | PBL Project</p>
                 <p class="flex items-center gap-2">
-                    <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span> 
+                    <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                     Server Online: Batam, ID
                 </p>
             </div>
@@ -205,4 +213,5 @@
     </script>
 
 </body>
+
 </html>
