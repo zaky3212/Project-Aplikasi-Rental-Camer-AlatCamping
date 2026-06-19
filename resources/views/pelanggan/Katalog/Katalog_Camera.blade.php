@@ -27,7 +27,10 @@
             <a href="{{ route('pelanggan.dashboard') }}" class="{{ Route::is('pelanggan.dashboard') ? 'text-[#f3a933]' : 'hover:text-[#f3a933]' }} transition">Beranda</a>
             <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" class="{{ Route::is('pelanggan.Katalog.Katalog_Camera') ? 'text-[#f3a933]' : 'hover:text-[#f3a933]' }} transition">Katalog Camera</a>
             <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" class="{{ Route::is('pelanggan.Katalog.Katalog_Camping') ? 'text-[#f3a933]' : 'hover:text-[#f3a933]' }} transition">Katalog Camping</a>
-            <a href="#" class="hover:text-[#f3a933] transition">Riwayat Sewa</a>
+             <a href="{{ route('pelanggan.riwayat.index') }}"
+                class="{{ Route::is('pelanggan.riwayat.*') ? 'text-[#f3a933]' : 'hover:text-[#f3a933]' }} transition">
+                Riwayat Sewa
+            </a>
             <a href="{{ route('profile.edit') }}" class="{{ Route::is('profile.edit') ? 'text-[#f3a933]' : 'hover:text-[#f3a933]' }} transition">Profil</a>
         </div>
 
