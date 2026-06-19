@@ -33,7 +33,7 @@ class DashboardController extends Controller
         ->get();
 
     // FIX: Arahkan ke views/pelanggan/dashboard.blade.php
-    return view('pelanggan.dashboard', compact('kameraPilihan', 'campingFavorit'));
+    return view('welcome', compact('kameraPilihan', 'campingFavorit'));
 }
 
     /**

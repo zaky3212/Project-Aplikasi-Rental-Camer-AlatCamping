@@ -20,9 +20,7 @@ use App\Http\Controllers\Pelanggan\RiwayatController;
 // Dashboard Controller Utama 
 use App\Http\Controllers\DashboardController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [DashboardController::class, 'index'])->name('home');
 
 // ================= ROUTE ADMIN =================
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
