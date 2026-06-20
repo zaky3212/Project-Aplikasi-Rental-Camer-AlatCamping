@@ -31,7 +31,7 @@
                 class="{{ Route::is('pelanggan.riwayat.*') ? 'text-[#f3a933]' : 'hover:text-[#f3a933]' }} transition">
                 Riwayat Sewa
             </a>
-            <a href="{{ route('profile.edit') }}" class="{{ Route::is('profile.edit') ? 'text-[#f3a933]' : 'hover:text-[#f3a933]' }} transition">Profil</a>
+            <a href="{{ route('pelanggan.profile') }}" class="{{ Route::is('pelanggan.profile') ? 'text-[#f3a933]' : 'hover:text-[#f3a933]' }} transition">Profil</a>
         </div>
 
         <div class="flex items-center gap-4 md:gap-6 z-10">

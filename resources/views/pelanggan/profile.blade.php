@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +8,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .sidebar-open { overflow: hidden; }
+        .sidebar-open {
+            overflow: hidden;
+        }
     </style>
 </head>
+
 <body class="bg-[#f8f9fa] font-sans">
 
     <div class="flex min-h-screen relative">
-        
+
         <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden transition-opacity duration-300"></div>
 
         <aside id="sidebar" class="fixed lg:sticky top-0 left-0 w-64 bg-[#0f172a] text-white flex flex-col h-screen shadow-xl z-50 transition-transform duration-300 -translate-x-full lg:translate-x-0">
@@ -27,35 +31,35 @@
             </div>
 
             <nav class="flex-1 px-0 space-y-1 overflow-y-auto">
-                <a href="{{ route('pelanggan.dashboard') }}" 
-                   class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold {{ Route::is('pelanggan.dashboard') ? 'bg-[#f3a933]/10 text-[#f3a933]' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}"> 
+                <a href="{{ route('pelanggan.dashboard') }}"
+                    class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold {{ Route::is('pelanggan.dashboard') ? 'bg-[#f3a933]/10 text-[#f3a933]' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
                     <i class="fas fa-home w-5"></i>
                     <span>Dashboard</span>
                 </a>
 
-                <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" 
-                   class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold {{ Route::is('pelanggan.Katalog.Katalog_Camera') ? 'bg-[#f3a933]/10 text-[#f3a933]' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}"
+                    class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold {{ Route::is('pelanggan.Katalog.Katalog_Camera') ? 'bg-[#f3a933]/10 text-[#f3a933]' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
                     <i class="fas fa-camera-retro w-5"></i>
                     <span>Katalog Camera</span>
                 </a>
 
-                <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" 
-                   class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold {{ Route::is('pelanggan.Katalog.Katalog_Camping') ? 'bg-[#f3a933]/10 text-[#f3a933]' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}"
+                    class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold {{ Route::is('pelanggan.Katalog.Katalog_Camping') ? 'bg-[#f3a933]/10 text-[#f3a933]' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
                     <i class="fas fa-campground w-5"></i>
                     <span>Katalog Alat Camping</span>
                 </a>
 
-                <a href="{{ route('pelanggan.penyewaan') }}" 
-                   class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold {{ Route::is('pelanggan.penyewaan') ? 'bg-[#f3a933]/10 text-[#f3a933]' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}"> 
+                <a href="{{ route('pelanggan.penyewaan') }}"
+                    class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold {{ Route::is('pelanggan.penyewaan') ? 'bg-[#f3a933]/10 text-[#f3a933]' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
                     <i class="fas fa-shopping-cart w-5"></i>
                     <span>Sewa Alat</span>
                 </a>
 
-                <a href="#" 
-                   class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold text-gray-400 hover:bg-white/5 hover:text-white">
+                <a href="{{ route('pelanggan.riwayat.index') }}"
+                    class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold {{ Route::is('pelanggan.riwayat.*') ? 'bg-white/5 text-[#f3a933]' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
                     <i class="fas fa-history w-5"></i>
                     <span>Riwayat Sewa</span>
-                </a>
+                </a>    
             </nav>
 
             <div class="p-4 border-t border-white/5 bg-[#0f172a]">
@@ -80,7 +84,7 @@
         </aside>
 
         <main class="flex-1 min-w-0 h-screen overflow-y-auto">
-            
+
             <header class="lg:hidden bg-white border-b border-gray-100 p-4 flex justify-between items-center sticky top-0 z-30 shadow-sm">
                 <h1 class="font-bold text-xl text-[#0f172a]">Lens<span class="text-[#f3a933]">cape</span></h1>
                 <button onclick="toggleSidebar()" class="p-2 bg-gray-50 rounded-lg text-[#0f172a]">
@@ -104,7 +108,7 @@
                 @endif
 
                 <div class="space-y-6">
-                    
+
                     <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
                         <div class="mb-6 border-b border-gray-50 pb-4">
                             <h3 class="font-bold text-gray-800 flex items-center gap-2 text-lg">
@@ -119,19 +123,19 @@
 
                             <div>
                                 <label for="name" class="block text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-2">Nama Lengkap</label>
-                                <input id="name" name="name" type="text" value="{{ old('name', Auth::user()->name) }}" required autofocus autocomplete="name" 
-                                       class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-[#f3a933] focus:ring-2 focus:ring-[#f3a933]/20 outline-none transition-all text-sm text-gray-800 font-medium">
+                                <input id="name" name="name" type="text" value="{{ old('name', Auth::user()->name) }}" required autofocus autocomplete="name"
+                                    class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-[#f3a933] focus:ring-2 focus:ring-[#f3a933]/20 outline-none transition-all text-sm text-gray-800 font-medium">
                                 @error('name')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <div>
                                 <label for="email" class="block text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-2">Alamat Email</label>
                                 <input id="email" name="email" type="email" value="{{ old('email', Auth::user()->email) }}" required autocomplete="username"
-                                       class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-[#f3a933] focus:ring-2 focus:ring-[#f3a933]/20 outline-none transition-all text-sm text-gray-800 font-medium">
+                                    class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-[#f3a933] focus:ring-2 focus:ring-[#f3a933]/20 outline-none transition-all text-sm text-gray-800 font-medium">
                                 @error('email')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -158,9 +162,9 @@
                             <div>
                                 <label for="update_password_current_password" class="block text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-2">Kata Sandi Saat Ini</label>
                                 <input id="update_password_current_password" name="current_password" type="password" autocomplete="current-password"
-                                       class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-[#f3a933] focus:ring-2 focus:ring-[#f3a933]/20 outline-none transition-all text-sm text-gray-800">
+                                    class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-[#f3a933] focus:ring-2 focus:ring-[#f3a933]/20 outline-none transition-all text-sm text-gray-800">
                                 @error('current_password', 'updatePassword')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -168,18 +172,18 @@
                                 <div>
                                     <label for="update_password_password" class="block text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-2">Kata Sandi Baru</label>
                                     <input id="update_password_password" name="password" type="password" autocomplete="new-password"
-                                           class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-[#f3a933] focus:ring-2 focus:ring-[#f3a933]/20 outline-none transition-all text-sm text-gray-800">
+                                        class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-[#f3a933] focus:ring-2 focus:ring-[#f3a933]/20 outline-none transition-all text-sm text-gray-800">
                                     @error('password', 'updatePassword')
-                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                     @enderror
                                 </div>
 
                                 <div>
                                     <label for="update_password_password_confirmation" class="block text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-2">Konfirmasi Sandi Baru</label>
                                     <input id="update_password_password_confirmation" name="password_confirmation" type="password" autocomplete="new-password"
-                                           class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-[#f3a933] focus:ring-2 focus:ring-[#f3a933]/20 outline-none transition-all text-sm text-gray-800">
+                                        class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-[#f3a933] focus:ring-2 focus:ring-[#f3a933]/20 outline-none transition-all text-sm text-gray-800">
                                     @error('password_confirmation', 'updatePassword')
-                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
@@ -205,7 +209,7 @@
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
-            
+
             if (sidebar.classList.contains('-translate-x-full')) {
                 sidebar.classList.remove('-translate-x-full');
                 overlay.classList.remove('hidden');
@@ -218,4 +222,5 @@
         }
     </script>
 </body>
+
 </html>

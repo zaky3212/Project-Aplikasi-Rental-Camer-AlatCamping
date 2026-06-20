@@ -45,7 +45,7 @@
             <div class="relative flex items-center gap-2 md:gap-3">
                 <span class="text-white text-[10px] md:text-xs hidden md:block uppercase tracking-wider font-medium">{{ Auth::user()->name ?? 'Pelanggan' }}</span>
 
-                <div id="profileMenuButton" class="w-8 h-8 md:w-10 md:h-10 bg-[#f3a933] rounded-full flex items-center justify-center font-bold text-[#0f172a] text-xs md:text-sm shadow-inner cursor-pointer select-none active:scale-95 transition-transform">
+                <div id="btnProfile" class="w-8 h-8 md:w-10 md:h-10 bg-[#f3a933] rounded-full flex items-center justify-center font-bold text-[#0f172a] text-xs md:text-sm shadow-inner cursor-pointer select-none active:scale-95 transition-transform">
                     {{ substr(Auth::user()->name ?? 'P', 0, 1) }}
                 </div>
 
@@ -193,31 +193,33 @@
     </div>
 
     <script>
-        // Menu Mobile
-        const btnMenu = document.getElementById('btnMobileMenu');
-        const mobileMenu = document.getElementById('mobileMenu');
-        if (btnMenu && mobileMenu) {
-            btnMenu.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
+    // Menu Mobile (Pastikan elemen mobileMenu ada di HTML Anda)
+    const btnMenu = document.getElementById('btnMobileMenu');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (btnMenu && mobileMenu) {
+        btnMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
 
-        // Dropdown Profil
-        const btnProfile = document.getElementById('btnProfile');
-        const profileDropdown = document.getElementById('profileDropdown');
+    // Dropdown Profil
+    const btnProfile = document.getElementById('btnProfile');
+    const profileDropdown = document.getElementById('profileDropdown');
 
+    if (btnProfile && profileDropdown) {
         btnProfile.addEventListener('click', (e) => {
-            e.stopPropagation();
+            e.stopPropagation(); // Mencegah event klik menutup dropdown seketika
             profileDropdown.classList.toggle('hidden');
         });
 
-        // Klik di luar untuk menutup dropdown
-        window.addEventListener('click', () => {
-            if (!profileDropdown.classList.contains('hidden')) {
+        // Klik di mana saja di luar area dropdown untuk menutupnya
+        window.addEventListener('click', (e) => {
+            if (!btnProfile.contains(e.target) && !profileDropdown.contains(e.target)) {
                 profileDropdown.classList.add('hidden');
             }
         });
-    </script>
+    }
+</script>
 
 
 </body>
