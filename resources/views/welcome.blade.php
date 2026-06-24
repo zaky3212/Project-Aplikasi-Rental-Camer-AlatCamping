@@ -84,10 +84,9 @@
                 @endauth
             </div>
         </div>
-        </header>
+    </header>
 
     <section id="beranda" class="container mx-auto px-6 pt-10 pb-20 flex flex-col-reverse md:flex-row items-center gap-12 relative z-10">
-
         <div class="w-full md:w-1/2 flex flex-col items-start">
             <p class="text-[#f3a933] font-bold text-sm tracking-widest uppercase mb-4">Gaya Terbaik Untuk Petualanganmu</p>
             <h2 class="text-5xl md:text-6xl font-serif font-black text-[#181e4b] leading-[1.2] mb-6">
@@ -114,7 +113,6 @@
             <p class="text-gray-500 font-semibold text-sm tracking-wider uppercase mb-2">Keunggulan Lenscape</p>
             <h3 class="text-4xl font-serif font-black text-[#181e4b]">MENGAPA MEMILIH KAMI?</h3>
         </div>
-
         <div class="absolute top-10 right-10 text-[#fff1da] text-6xl -z-10 font-sans tracking-widest leading-none">++++<br>++++<br>++++</div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -150,67 +148,91 @@
         </div>
     </section>
 
-  <section id="kamera" class="container mx-auto px-6 py-16">
-    <div class="text-center mb-12">
-        <p class="text-gray-500 font-semibold text-sm tracking-wider mb-2">Favorite</p>
-        <h3 class="text-4xl font-serif font-black text-[#181e4b]">Kamera</h3>
-    </div>
+    <!-- BAGIAN KAMERA ASLI DARI DATABASE -->
+    <section id="kamera" class="container mx-auto px-6 py-16">
+        <div class="text-center mb-12">
+            <p class="text-gray-500 font-semibold text-sm tracking-wider mb-2">Favorite</p>
+            <h3 class="text-4xl font-serif font-black text-[#181e4b]">Kamera</h3>
+        </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
-        @for ($i = 0; $i < 4; $i++)
-            <div class="bg-white border border-gray-100 rounded-2xl p-4 hover:shadow-xl transition relative group">
-                <div class="relative h-[200px] bg-gray-50 rounded-xl mb-4 overflow-hidden flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Kamera" class="object-cover h-full w-full group-hover:scale-110 transition duration-500">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+            @forelse ($kameras as $kamera)
+            <div class="bg-white border border-gray-100 rounded-2xl p-4 hover:shadow-xl transition relative group flex flex-col justify-between">
+                <div>
+                    <div class="relative h-[200px] bg-gray-50 rounded-xl mb-4 overflow-hidden flex items-center justify-center p-4">
+                        @if($kamera->gambar)
+                        <img src="{{ asset($kamera->gambar) }}" alt="{{ $kamera->nama }}" class="object-contain h-full w-full group-hover:scale-110 transition duration-500">
+                        @else
+                        <i class="fas fa-camera text-4xl text-gray-300"></i>
+                        @endif
+                    </div>
+                    <h4 class="font-bold text-[#181e4b] text-base truncate pr-2" title="{{ $kamera->nama }}">{{ $kamera->nama }}</h4>
                 </div>
-                <h4 class="font-bold text-[#181e4b] text-base truncate pr-2">Sony Alpha A6000</h4>
                 <div class="flex justify-between items-center mt-3">
-                    <p class="text-[#f3a933] font-bold">Rp 150.000<span class="text-xs text-gray-400 font-normal">/hari</span></p>
-                    <a href="#" class="w-8 h-8 rounded-full bg-blue-50 text-blue-900 flex items-center justify-center hover:bg-[#f3a933] hover:text-white transition">
+                    <p class="text-[#f3a933] font-bold">Rp {{ number_format($kamera->harga_sewa, 0, ',', '.') }}<span class="text-xs text-gray-400 font-normal">/hari</span></p>
+                    <a href="{{ route('pelanggan.Katalog.detail_barang', $kamera->id) }}" class="w-8 h-8 rounded-full bg-blue-50 text-blue-900 flex items-center justify-center hover:bg-[#f3a933] hover:text-white transition">
                         <i class="fas fa-plus text-xs"></i>
                     </a>
                 </div>
             </div>
-        @endfor
-    </div>
+            @empty
+            <div class="col-span-full text-center py-8 text-gray-500">
+                <i class="fas fa-box-open text-4xl mb-3"></i>
+                <p>Belum ada data kamera tersedia.</p>
+            </div>
+            @endforelse
+        </div>
 
-    <div class="text-center">
-        <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" 
-           class="inline-block px-8 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl border-2 border-transparent hover:bg-[#f3a933] hover:text-white hover:border-[#f3a933] transition-all duration-300 text-sm shadow-sm">
-            Lihat Lebih Banyak
-        </a>
-    </div>
-</section>
+        <div class="text-center">
+            <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}"
+                class="inline-block px-8 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl border-2 border-transparent hover:bg-[#f3a933] hover:text-white hover:border-[#f3a933] transition-all duration-300 text-sm shadow-sm">
+                Lihat Lebih Banyak
+            </a>
+        </div>
+    </section>
 
-<section id="camping" class="container mx-auto px-6 py-16">
-    <div class="text-center mb-12">
-        <p class="text-gray-500 font-semibold text-sm tracking-wider mb-2">Favorite</p>
-        <h3 class="text-4xl font-serif font-black text-[#181e4b]">Alat Camping</h3>
-    </div>
+    <!-- BAGIAN CAMPING ASLI DARI DATABASE -->
+    <section id="camping" class="container mx-auto px-6 py-16">
+        <div class="text-center mb-12">
+            <p class="text-gray-500 font-semibold text-sm tracking-wider mb-2">Favorite</p>
+            <h3 class="text-4xl font-serif font-black text-[#181e4b]">Alat Camping</h3>
+        </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
-        @for ($i = 0; $i < 4; $i++)
-            <div class="bg-white border border-gray-100 rounded-2xl p-4 transition duration-300 hover:shadow-xl relative group">
-                <div class="relative h-[200px] bg-gray-50 rounded-xl mb-4 overflow-hidden flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Tenda" class="object-cover h-full w-full group-hover:scale-110 transition duration-500">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+            @forelse ($campings as $camping)
+            <div class="bg-white border border-gray-100 rounded-2xl p-4 transition duration-300 hover:shadow-xl relative group flex flex-col justify-between">
+                <div>
+                    <div class="relative h-[200px] bg-gray-50 rounded-xl mb-4 overflow-hidden flex items-center justify-center p-4">
+                        @if($camping->gambar)
+                        <img src="{{ asset($camping->gambar) }}" alt="{{ $camping->nama }}" class="object-contain h-full w-full group-hover:scale-110 transition duration-500">
+                        @else
+                        <i class="fas fa-campground text-4xl text-gray-300"></i>
+                        @endif
+                    </div>
+                    <h4 class="font-bold text-[#181e4b] text-base truncate pr-2" title="{{ $camping->nama }}">{{ $camping->nama }}</h4>
                 </div>
-                <h4 class="font-bold text-[#181e4b] text-base truncate pr-2">Tenda Dome Kapasitas 4</h4>
                 <div class="flex justify-between items-center mt-3">
-                    <p class="text-[#f3a933] font-bold">Rp 45.000<span class="text-xs text-gray-400 font-normal">/hari</span></p>
-                    <a href="#" class="w-8 h-8 rounded-full bg-blue-50 text-blue-900 flex items-center justify-center hover:bg-[#f3a933] hover:text-white transition">
+                    <p class="text-[#f3a933] font-bold">Rp {{ number_format($camping->harga_sewa, 0, ',', '.') }}<span class="text-xs text-gray-400 font-normal">/hari</span></p>
+                    <a href="{{ route('pelanggan.Katalog.detail_barang', $camping->id) }}" class="w-8 h-8 rounded-full bg-blue-50 text-blue-900 flex items-center justify-center hover:bg-[#f3a933] hover:text-white transition">
                         <i class="fas fa-plus text-xs"></i>
                     </a>
                 </div>
             </div>
-        @endfor
-    </div>
+            @empty
+            <div class="col-span-full text-center py-8 text-gray-500">
+                <i class="fas fa-box-open text-4xl mb-3"></i>
+                <p>Belum ada data alat camping tersedia.</p>
+            </div>
+            @endforelse
+        </div>
 
-    <div class="text-center">
-        <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" 
-           class="inline-block px-8 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl border-2 border-transparent hover:bg-[#f3a933] hover:text-white hover:border-[#f3a933] transition-all duration-300 text-sm shadow-sm">
-            Lihat Lebih Banyak
-        </a>
-    </div>
-</section>
+        <div class="text-center">
+            <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}"
+                class="inline-block px-8 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl border-2 border-transparent hover:bg-[#f3a933] hover:text-white hover:border-[#f3a933] transition-all duration-300 text-sm shadow-sm">
+                Lihat Lebih Banyak
+            </a>
+        </div>
+    </section>
 
     <footer id="tentang" class="container mx-auto px-6 py-16 mt-10 border-t border-gray-100">
         <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-12">
@@ -269,12 +291,10 @@
         const menu = document.getElementById('mobile-menu');
         const links = document.querySelectorAll('.mobile-link');
 
-        // Buka tutup menu kalau logo burger dipencet
         btn.addEventListener('click', () => {
             menu.classList.toggle('hidden');
         });
 
-        // Tutup menu otomatis kalau salah satu link dipencet
         links.forEach(link => {
             link.addEventListener('click', () => {
                 menu.classList.add('hidden');

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\BarangController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\PenyewaanController;
 use App\Http\Controllers\Admin\UserController;
+use App\Models\Barang;
 
 // Controller Pelanggan
 use App\Http\Controllers\Pelanggan\PelangganController;
@@ -20,8 +21,20 @@ use App\Http\Controllers\Pelanggan\CheckoutController; // TAMBAHAN CHECKOUT
 use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+    // Ambil 4 barang untuk Kamera (Asumsi pakai relasi kategori atau nama barang)
+    $kameras = Barang::whereHas('kategori', function ($query) {
+        $query->where('nama_kategori', 'like', '%Camera%')
+            ->orWhere('nama_kategori', 'like', '%Kamera%');
+    })->take(4)->get();
+
+    // Ambil 4 barang untuk Camping
+    $campings = Barang::whereHas('kategori', function ($query) {
+        $query->where('nama_kategori', 'like', '%Camping%')
+            ->orWhere('nama_kategori', 'like', '%Tenda%');
+    })->take(4)->get();
+
+    return view('welcome', compact('kameras', 'campings'));
+});
 
 // ================= ROUTE ADMIN =================
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
