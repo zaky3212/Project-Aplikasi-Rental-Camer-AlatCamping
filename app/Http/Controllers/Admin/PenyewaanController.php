@@ -18,7 +18,7 @@ class PenyewaanController extends Controller
         // Fitur pencarian nama penyewa atau kode transaksi
         if ($request->has('search')) {
             $search = $request->search;
-            $query->whereHas('user', function($q) use ($search) {
+            $query->whereHas('user', function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%");
             })->orWhere('kode_transaksi', 'like', "%{$search}%");
         }
@@ -61,9 +61,13 @@ class PenyewaanController extends Controller
         return redirect()->route('admin.penyewaan.index')->with('success', 'Status transaksi berhasil diupdate dan stok sudah disesuaikan!');
     }
 
-    public function destroy($id)
+    public function show($id)
     {
-        Penyewaan::findOrFail($id)->delete();
-        return redirect()->route('admin.penyewaan.index')->with('success', 'Data transaksi dihapus.');
+        $penyewaan = Penyewaan::with([
+            'user',
+            'detail_penyewaan.barang'
+        ])->findOrFail($id);
+
+        return view('admin.penyewaan.detail', compact('penyewaan'));
     }
 }
