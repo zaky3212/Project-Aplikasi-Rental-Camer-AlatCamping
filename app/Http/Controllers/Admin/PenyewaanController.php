@@ -25,10 +25,9 @@ class PenyewaanController extends Controller
 
                 $p->denda = $selisihHari * $tarifDenda;
                 $p->alasan_denda = "Telat mengembalikan alat selama {$selisihHari} hari.";
-                $p->save(); 
+                $p->save();
             } else {
-
-            $p->denda = 0;
+                $p->denda = 0;
                 $p->alasan_denda = null;
                 $p->save();
             }
@@ -79,6 +78,17 @@ class PenyewaanController extends Controller
         }
 
         return redirect()->route('admin.penyewaan.index')->with('success', 'Status transaksi berhasil diperbarui!');
+    }
+
+    // Function untuk nampilin detail transaksi (dari GitHub)
+    public function show($id)
+    {
+        $penyewaan = Penyewaan::with([
+            'user',
+            'detail_penyewaan.barang'
+        ])->findOrFail($id);
+
+        return view('admin.penyewaan.detail', compact('penyewaan'));
     }
 
     public function destroy($id)

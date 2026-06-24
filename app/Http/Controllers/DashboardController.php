@@ -2,85 +2,46 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Barang; // PENTING: Tambahkan ini agar bisa memanggil data barang
+use App\Models\Barang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
-{
-    // 1. Ambil 4 barang TERBARU (Kamera)
-    $kameraPilihan = Barang::whereHas('kategori', function($query) {
-            $query->where('nama_kategori', 'like', '%Kamera%')
-                  ->orWhere('nama_kategori', 'like', '%camera%')
-                  ->orWhere('nama_kategori', 'like', '%Lensa%');
-        })
-        ->latest()
-        ->take(4)
-        ->get();
-
-    // 2. Ambil 4 barang TERBARU (Camping)
-    $campingFavorit = Barang::whereHas('kategori', function($query) {
-            $query->where('nama_kategori', 'not like', '%Kamera%')
-                  ->where('nama_kategori', 'not like', '%camera%')
-                  ->where('nama_kategori', 'not like', '%Lensa%');
-        })
-        ->latest()
-        ->take(4)
-        ->get();
-
-    // FIX: Arahkan ke views/pelanggan/dashboard.blade.php
-    return view('pelanggan.dashboard', compact('kameraPilihan', 'campingFavorit'));
-}
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
     {
-        //
-    }
+        // 1. Ambil data barang
+        $kameraPilihan = Barang::whereHas('kategori', function($query) {
+                $query->where('nama_kategori', 'like', '%Kamera%')
+                      ->orWhere('nama_kategori', 'like', '%camera%')
+                      ->orWhere('nama_kategori', 'like', '%Lensa%');
+            })->latest()->take(4)->get();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $campingFavorit = Barang::whereHas('kategori', function($query) {
+                $query->where('nama_kategori', 'not like', '%Kamera%')
+                      ->where('nama_kategori', 'not like', '%camera%')
+                      ->where('nama_kategori', 'not like', '%Lensa%');
+            })->latest()->take(4)->get();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        // 2. Logika pengecekan Auth
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
+            return view('pelanggan.dashboard', compact('kameraPilihan', 'campingFavorit'));
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        // 3. Jika tamu
+        return view('welcome', compact('kameraPilihan', 'campingFavorit'));
+    } // <--- KURUNG INI MENUTUP METHOD INDEX
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    // Method lain tetap berada di dalam class
+    public function create() { /* ... */ }
+    public function store(Request $request) { /* ... */ }
+    public function show(string $id) { /* ... */ }
+    public function edit(string $id) { /* ... */ }
+    public function update(Request $request, string $id) { /* ... */ }
+    public function destroy(string $id) { /* ... */ }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-}
+} 

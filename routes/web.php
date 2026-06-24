@@ -16,10 +16,12 @@ use App\Http\Controllers\Pelanggan\KatalogController;
 use App\Http\Controllers\Pelanggan\KeranjangController;
 use App\Http\Controllers\Pelanggan\PenyewaanPelangganController;
 use App\Http\Controllers\Pelanggan\CheckoutController; // TAMBAHAN CHECKOUT
+use App\Http\Controllers\Pelanggan\RiwayatController;
 
 // Dashboard Controller Utama 
 use App\Http\Controllers\DashboardController;
 
+<<<<<<< HEAD
 Route::get('/', function () {
     // Ambil 4 barang untuk Kamera (Asumsi pakai relasi kategori atau nama barang)
     $kameras = Barang::whereHas('kategori', function ($query) {
@@ -35,6 +37,9 @@ Route::get('/', function () {
 
     return view('welcome', compact('kameras', 'campings'));
 });
+=======
+Route::get('/', [DashboardController::class, 'index'])->name('home');
+>>>>>>> cc1c1051e29d127d2d4a092828dd46210fb8fe13
 
 // ================= ROUTE ADMIN =================
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -74,6 +79,11 @@ Route::middleware(['auth', 'role:pelanggan'])->prefix('pelanggan')->name('pelang
         Route::get('/camping/semua', [KatalogController::class, 'lihatSemuaCamping'])->name('Katalog_Camping.semua');
 
         Route::get('/barang/{id}', [KatalogController::class, 'detailBarang'])->name('detail_barang');
+    });
+    
+    Route::prefix('riwayat')->name('riwayat.')->group(function () {
+        Route::get('/', [RiwayatController::class, 'index'])->name('index');
+        Route::get('/{id}', [RiwayatController::class, 'show'])->name('detail');
     });
 });
 
