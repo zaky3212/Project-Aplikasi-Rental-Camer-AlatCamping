@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Penyewaan;
 use App\Models\DetailPenyewaan;
+use App\Models\Barang; // Wajib dipanggil buat ngecek dan motong stok
 use Illuminate\Support\Facades\Auth;
 use Midtrans\Config;
 use Midtrans\Snap;
@@ -30,6 +31,14 @@ class CheckoutController extends Controller
 
         foreach ($selectedIds as $id) {
             if (isset($keranjangUtama[$id])) {
+
+                // --- PENJAGA PINTU: CEK STOK REAL-TIME SEBELUM CHECKOUT ---
+                $cekBarang = Barang::find($id);
+                if (!$cekBarang || $cekBarang->stok <= 0) {
+                    return redirect()->route('pelanggan.keranjang.index')->with('error', "Waduh bre, alat {$keranjangUtama[$id]['nama']} barusan aja ludes disewa orang! Batalin centangnya dulu ya.");
+                }
+                // ----------------------------------------------------------
+
                 $keranjangCheckout[$id] = $keranjangUtama[$id];
                 $totalHarga += $keranjangUtama[$id]['harga_sewa'] * $keranjangUtama[$id]['lama_sewa'];
             }
@@ -114,17 +123,52 @@ class CheckoutController extends Controller
             if ($request->transaction_status == 'capture' || $request->transaction_status == 'settlement') {
 
                 // 3. Cari transaksi di database berdasarkan kode_transaksi (order_id)
-                $penyewaan = Penyewaan::where('kode_transaksi', $request->order_id)->first();
+                $penyewaan = Penyewaan::with('detail_penyewaan')->where('kode_transaksi', $request->order_id)->first();
 
-                // 4. Ubah statusnya jadi 'Paid'
-                if ($penyewaan) {
+                // 4. Ubah statusnya jadi 'Paid' dan KURANGI STOK (Hanya kalau sebelumnya Unpaid biar gak dobel)
+                if ($penyewaan && $penyewaan->status == 'Unpaid') {
                     $penyewaan->status = 'Paid';
                     $penyewaan->save();
+
+                    // --- STOK LANGSUNG DIKURANGI SAAT LUNAS ---
+                    foreach ($penyewaan->detail_penyewaan as $detail) {
+                        $barang = Barang::find($detail->barang_id);
+                        if ($barang && $barang->stok > 0) {
+                            $barang->decrement('stok', 1);
+                        }
+                    }
                 }
             }
         }
 
         // Beri tahu server Midtrans bahwa web kita sudah menerima notifikasinya
         return response()->json(['message' => 'Callback received from Lenscape']);
+    }
+
+    /**
+     * FUNGSI UPDATE STATUS DARI FRONTEND (AJAX)
+     * Dipanggil pas popup Midtrans memunculkan onSuccess biar gak nyangkut Unpaid di localhost
+     */
+    public function paymentSuccess(Request $request, $id)
+    {
+        $penyewaan = Penyewaan::with('detail_penyewaan')->findOrFail($id);
+
+        if ($penyewaan->status == 'Unpaid') {
+            $penyewaan->status = 'Paid';
+            $penyewaan->save();
+
+            // --- STOK LANGSUNG DIKURANGI SAAT LUNAS ---
+            foreach ($penyewaan->detail_penyewaan as $detail) {
+                $barang = Barang::find($detail->barang_id);
+                if ($barang && $barang->stok > 0) {
+                    $barang->decrement('stok', 1);
+                }
+            }
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Status pembayaran berhasil diupdate jadi Paid dan Stok otomatis terpotong!'
+        ]);
     }
 }

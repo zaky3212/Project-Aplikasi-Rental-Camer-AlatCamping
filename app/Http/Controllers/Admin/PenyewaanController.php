@@ -42,7 +42,7 @@ class PenyewaanController extends Controller
             })->orWhere('kode_transaksi', 'like', "%{$search}%");
         }
 
-        $penyewaans = $query->get();
+        $penyewaans = $query->paginate(10);
 
         return view('admin.penyewaan.index', compact('penyewaans'));
     }
@@ -80,7 +80,6 @@ class PenyewaanController extends Controller
         return redirect()->route('admin.penyewaan.index')->with('success', 'Status transaksi berhasil diperbarui!');
     }
 
-    // Function untuk nampilin detail transaksi (dari GitHub)
     public function show($id)
     {
         $penyewaan = Penyewaan::with([

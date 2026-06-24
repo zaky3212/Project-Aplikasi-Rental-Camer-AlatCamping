@@ -21,7 +21,7 @@ use App\Http\Controllers\Pelanggan\RiwayatController;
 // Dashboard Controller Utama 
 use App\Http\Controllers\DashboardController;
 
-<<<<<<< HEAD
+// ================= ROUTE LANDING PAGE =================
 Route::get('/', function () {
     // Ambil 4 barang untuk Kamera (Asumsi pakai relasi kategori atau nama barang)
     $kameras = Barang::whereHas('kategori', function ($query) {
@@ -36,10 +36,7 @@ Route::get('/', function () {
     })->take(4)->get();
 
     return view('welcome', compact('kameras', 'campings'));
-});
-=======
-Route::get('/', [DashboardController::class, 'index'])->name('home');
->>>>>>> cc1c1051e29d127d2d4a092828dd46210fb8fe13
+})->name('home'); // Ditambahin name('home') dari versi GitHub biar nggak ada link yang putus
 
 // ================= ROUTE ADMIN =================
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -57,6 +54,9 @@ Route::middleware(['auth', 'role:pelanggan'])->prefix('pelanggan')->name('pelang
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [PelangganController::class, 'profile'])->name('profile');
+
+    Route::post('/pelanggan/pembayaran/success/{id}', [CheckoutController::class, 'paymentSuccess'])->name('pelanggan.pembayaran.success');
+    Route::post('/pembayaran/success/{id}', [CheckoutController::class, 'paymentSuccess'])->name('pembayaran.success');
 
     Route::get('/penyewaan', [PenyewaanPelangganController::class, 'index'])->name('penyewaan');
     Route::post('/penyewaan/proses', [PenyewaanPelangganController::class, 'store'])->name('penyewaan.store');
@@ -80,7 +80,7 @@ Route::middleware(['auth', 'role:pelanggan'])->prefix('pelanggan')->name('pelang
 
         Route::get('/barang/{id}', [KatalogController::class, 'detailBarang'])->name('detail_barang');
     });
-    
+
     Route::prefix('riwayat')->name('riwayat.')->group(function () {
         Route::get('/', [RiwayatController::class, 'index'])->name('index');
         Route::get('/{id}', [RiwayatController::class, 'show'])->name('detail');

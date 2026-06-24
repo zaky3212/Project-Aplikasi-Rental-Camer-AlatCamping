@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pembayaran - Lenscape</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap'); body { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
-    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+
+    <!-- Token CSRF Wajib Biar Fetch Jalan -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
 </head>
+
 <body class="bg-[#0f172a] text-white flex items-center justify-center min-h-screen relative overflow-hidden">
 
     <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=1638&auto=format&fit=crop')] bg-cover bg-center opacity-10"></div>
@@ -46,24 +57,44 @@
 
     <script type="text/javascript">
         var payButton = document.getElementById('pay-button');
-        payButton.addEventListener('click', function () {
-            // Memanggil fitur Snap Midtrans berdasarkan Token yang dilempar dari Controller
+        payButton.addEventListener('click', function() {
             window.snap.pay('{{ $snapToken }}', {
-                onSuccess: function(result){
-                    // Kalau berhasil bayar, arahkan ke dashboard atau riwayat
-                    window.location.href = "{{ route('pelanggan.dashboard') }}";
+                onSuccess: function(result) {
+                    // Nembak ke backend buat ngubah status jadi Paid
+                    fetch("{{ route('pelanggan.pembayaran.success', $penyewaan->id) }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                transaction_status: result.transaction_status
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            alert('Pembayaran Berhasil! Mengalihkan ke Dashboard...');
+                            window.location.href = "{{ route('pelanggan.riwayat.index') }}";
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Ada masalah saat update status di database!');
+                        });
                 },
-                onPending: function(result){
-                    alert("Menunggu pembayaran lu nih bre!"); console.log(result);
+                onPending: function(result) {
+                    alert("Menunggu pembayaran lu nih bre!");
+                    console.log(result);
                 },
-                onError: function(result){
-                    alert("Pembayaran gagal!"); console.log(result);
+                onError: function(result) {
+                    alert("Pembayaran gagal!");
+                    console.log(result);
                 },
-                onClose: function(){
+                onClose: function() {
                     alert('Lu nutup popup sebelum bayar, jangan lupa diselesaikan transaksinya ya bre!');
                 }
             });
         });
     </script>
 </body>
+
 </html>
