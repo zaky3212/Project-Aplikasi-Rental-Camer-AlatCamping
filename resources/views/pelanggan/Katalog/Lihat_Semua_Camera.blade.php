@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +9,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
     </style>
 </head>
+
 <body class="bg-gray-50 font-sans overflow-x-hidden pt-24">
 
     <nav class="fixed top-0 w-full z-50 bg-[#0f172a]/90 backdrop-blur-lg border-b border-white/10 py-3 md:py-4 px-4 md:px-12 flex justify-between items-center transition-all">
@@ -21,7 +26,10 @@
             <a href="{{ route('pelanggan.dashboard') }}" class="hover:text-[#f3a933] transition">Beranda</a>
             <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" class="text-[#f3a933] transition">Katalog Camera</a>
             <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" class="hover:text-[#f3a933] transition">Katalog Camping</a>
-            <a href="#" class="hover:text-[#f3a933] transition">Riwayat Sewa</a>
+            <a href="{{ route('pelanggan.riwayat.index') }}"
+                class="{{ Route::is('pelanggan.riwayat.*') ? 'text-[#f3a933]' : 'hover:text-[#f3a933]' }} transition">
+                Riwayat Sewa
+            </a>
             <a href="{{ route('pelanggan.profile') }}" class="hover:text-[#f3a933] transition">Profil</a>
         </div>
         <div class="flex items-center gap-4 md:gap-6 z-10">
@@ -40,21 +48,21 @@
     </nav>
 
     <div class="max-w-7xl mx-auto px-4 md:px-6 py-8 space-y-12">
-        
-       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-200 pb-6">
+
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-200 pb-6">
             <div class="flex items-center gap-4">
-                <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" 
-                   class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-[#0f172a] hover:text-white hover:border-[#0f172a] transition duration-300 shadow-sm group" 
-                   title="Kembali ke Katalog">
+                <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}"
+                    class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-[#0f172a] hover:text-white hover:border-[#0f172a] transition duration-300 shadow-sm group"
+                    title="Kembali ke Katalog">
                     <i class="fas fa-arrow-left text-sm transition-transform group-hover:-translate-x-1"></i>
                 </a>
-                
+
                 <div>
                     <h1 class="text-2xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Perlengkapan Kamera</h1>
                     <p class="text-xs md:text-sm text-gray-500 mt-1">Menampilkan seluruh sub-kategori perangkat fotografi aktif.</p>
                 </div>
             </div>
-            
+
             <div class="w-full md:w-80 relative">
                 <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
                     <i class="fas fa-search text-xs"></i>
@@ -65,7 +73,7 @@
 
         @foreach($categories as $cat)
         <section class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-            
+
             <div class="flex justify-between items-center mb-6">
                 <div>
                     <h2 class="text-lg md:text-xl font-bold text-gray-800 tracking-tight">{{ $cat->nama_kategori }}</h2>
@@ -83,24 +91,24 @@
 
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5">
                 @foreach($cat->barang as $item)
-               <a href="{{ route('pelanggan.Katalog.detail_barang', $item->id) }}" class="bg-gray-50/60 rounded-2xl border border-gray-100 p-3 flex flex-col justify-between hover:shadow-md transition duration-300 group relative text-left block">
-                    
+                <a href="{{ route('pelanggan.Katalog.detail_barang', $item->id) }}" class="bg-gray-50/60 rounded-2xl border border-gray-100 p-3 flex flex-col justify-between hover:shadow-md transition duration-300 group relative text-left block">
+
                     <div class="absolute top-5 right-5 z-10">
                         @if($item->stok > 0)
-                            <span class="px-2 py-0.5 bg-emerald-500 text-white text-[7px] font-black uppercase rounded-full shadow">Tersedia</span>
+                        <span class="px-2 py-0.5 bg-emerald-500 text-white text-[7px] font-black uppercase rounded-full shadow">Tersedia</span>
                         @else
-                            <span class="px-2 py-0.5 bg-red-500 text-white text-[7px] font-black uppercase rounded-full shadow">Habis</span>
+                        <span class="px-2 py-0.5 bg-red-500 text-white text-[7px] font-black uppercase rounded-full shadow">Habis</span>
                         @endif
                     </div>
 
                     <div class="aspect-square w-full bg-white rounded-xl p-3 flex items-center justify-center relative overflow-hidden shadow-sm">
                         @if($item->gambar)
-                            <img src="{{ asset($item->gambar) }}" class="max-h-full object-contain transition duration-500 group-hover:scale-105" alt="{{ $item->nama }}">
+                        <img src="{{ asset($item->gambar) }}" class="max-h-full object-contain transition duration-500 group-hover:scale-105" alt="{{ $item->nama }}">
                         @else
-                            <div class="text-center text-gray-300">
-                                <i class="fas fa-camera text-2xl mb-1 block"></i>
-                                <span class="text-[9px] font-medium text-gray-400">No Image</span>
-                            </div>
+                        <div class="text-center text-gray-300">
+                            <i class="fas fa-camera text-2xl mb-1 block"></i>
+                            <span class="text-[9px] font-medium text-gray-400">No Image</span>
+                        </div>
                         @endif
                     </div>
 
@@ -120,14 +128,14 @@
                                 </span>
                             </div>
                             <form action="{{ route('pelanggan.keranjang.index') }}" method="GET">
-                                <button type="submit" {{ $item->stok <= 0 ? 'disabled' : '' }} 
+                                <button type="submit" {{ $item->stok <= 0 ? 'disabled' : '' }}
                                     class="w-full py-1.5 bg-[#f3a933] text-[#0f172a] hover:bg-[#0f172a] hover:text-white rounded-lg text-[9px] font-black uppercase tracking-wider transition duration-300 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed">
                                     BOOKING
                                 </button>
                             </form>
                         </div>
                     </div>
-               </a>
+                </a>
                 @endforeach
             </div>
         </section>
@@ -143,4 +151,5 @@
     </footer>
 
 </body>
+
 </html>

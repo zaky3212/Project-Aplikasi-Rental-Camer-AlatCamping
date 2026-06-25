@@ -31,7 +31,10 @@
             <a href="{{ route('pelanggan.dashboard') }}" class="hover:text-[#f3a933] transition">Beranda</a>
             <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" class="hover:text-[#f3a933] transition">Katalog Camera</a>
             <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" class="hover:text-[#f3a933] transition">Katalog Camping</a>
-            <a href="#" class="hover:text-[#f3a933] transition">Riwayat Sewa</a>
+            <a href="{{ route('pelanggan.riwayat.index') }}"
+                class="{{ Route::is('pelanggan.riwayat.*') ? 'text-[#f3a933]' : 'hover:text-[#f3a933]' }} transition">
+                Riwayat Sewa
+            </a>
             <a href="{{ route('pelanggan.profile') }}" class="hover:text-[#f3a933] transition">Profil</a>
         </div>
         <div class="flex items-center gap-4 md:gap-6 z-10">
@@ -42,12 +45,24 @@
             </a>
             <div class="h-6 w-[1px] bg-white/20 hidden xs:block"></div>
             <div class="relative flex items-center gap-2 md:gap-3">
-                <span class="text-white text-[10px] md:text-xs hidden md:block uppercase tracking-wider font-medium">{{ Auth::user()->name ?? 'Pelanggan' }}</span>
+                <span class="text-white text-[10px] md:text-xs hidden md:block uppercase tracking-wider font-medium">
+                    {{ Auth::user()->name ?? 'Pelanggan' }}
+                </span>
+
                 <div id="profileMenuButton" class="w-8 h-8 md:w-10 md:h-10 bg-[#f3a933] rounded-full flex items-center justify-center font-bold text-[#0f172a] text-xs md:text-sm shadow-inner cursor-pointer select-none active:scale-95 transition-transform">
                     {{ substr(Auth::user()->name ?? 'P', 0, 1) }}
                 </div>
-            </div>
-        </div>
+
+                <div id="profileDropdown" class="hidden absolute right-0 top-14 mt-2 w-48 bg-[#0f172a] border border-white/10 rounded-2xl p-2 shadow-2xl z-50">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit"
+                            class="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl border border-red-500/20 bg-[#0f172a] text-red-500 hover:bg-red-500/10 transition-all duration-300">
+                            <i class="fas fa-power-off"></i>
+                            <span class="font-bold uppercase tracking-widest text-xs">Keluar</span>
+                        </button>
+                    </form>
+                </div>
     </nav>
 
     <div class="max-w-5xl mx-auto px-4 md:px-6 py-8">
@@ -149,6 +164,22 @@
             <p>Server Online: Batam, ID</p>
         </div>
     </footer>
+
+    <script>
+        const profileMenuButton = document.getElementById('profileMenuButton');
+        const profileDropdown = document.getElementById('profileDropdown');
+
+        profileMenuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!profileMenuButton.contains(e.target) && !profileDropdown.contains(e.target)) {
+                profileDropdown.classList.add('hidden');
+            }
+        });
+    </script>
 
 </body>
 
