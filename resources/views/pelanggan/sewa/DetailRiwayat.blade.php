@@ -37,50 +37,35 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-8 mb-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div class="bg-gray-50 p-5 rounded-2xl">
                     <p class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Tanggal Mulai</p>
                     <p class="font-bold text-gray-800 text-lg">{{ \Carbon\Carbon::parse($penyewaan->tanggal_mulai)->format('d M Y') }}</p>
+                </div>
+                <div class="bg-gray-50 p-5 rounded-2xl">
+                    <p class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Tanggal Selesai</p>
+                    <p class="font-bold text-gray-800 text-lg">{{ \Carbon\Carbon::parse($penyewaan->tanggal_selesai)->format('d M Y') }}</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+                <div class="bg-red-50 p-5 rounded-2xl border border-red-100">
+                    <p class="text-red-400 text-xs font-bold uppercase tracking-widest mb-1">Denda</p>
+                    @if($penyewaan->denda > 0)
+                    <p class="font-bold text-red-600 text-lg">Rp {{ number_format($penyewaan->denda, 0, ',', '.') }}</p>
+                    <p class="text-[9px] text-red-500 mt-1 italic">{{ $penyewaan->alasan_denda }}</p>
+                    @else
+                    <p class="font-bold text-gray-400 text-lg">-</p>
+                    @endif
                 </div>
                 <div class="bg-[#0f172a] p-5 rounded-2xl text-white">
                     <p class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Total Harga</p>
                     <p class="font-bold text-xl text-[#f3a933]">Rp {{ number_format($penyewaan->total_harga, 0, ',', '.') }}</p>
                 </div>
             </div>
-
-            <div>
-                <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-6 px-1">Daftar Item Disewa</h3>
-                <div class="space-y-4">
-                    @foreach($penyewaan->detail_penyewaan as $detail)
-                    <div class="group flex justify-between items-center p-5 rounded-2xl border border-gray-100 hover:border-[#f3a933]/30 hover:shadow-md transition-all duration-300">
-                        <div class="flex items-center gap-4">
-                            <div class="w-16 h-16 rounded-xl overflow-hidden bg-gray-100 shrink-0">
-                                @if($detail->barang && $detail->barang->gambar)
-                                <img src="{{ asset($detail->barang->gambar) }}"
-                                    alt="{{ $detail->barang->nama }}"
-                                    class="w-full h-full object-cover">
-                                @else
-                                <div class="w-full h-full flex items-center justify-center text-gray-400">
-                                    <i class="fa-solid fa-camera"></i>
-                                </div>
-                                @endif
-                            </div>
-
-                            <div>
-                                <p class="font-bold text-gray-900">{{ $detail->barang->nama ?? 'Barang tidak ditemukan' }}</p>
-                                <p class="text-xs text-gray-400 font-medium">
-                                    Qty: {{ $detail->jumlah }} | Rp {{ number_format($detail->harga_satuan, 0, ',', '.') }}
-                                </p>
-                            </div>
-                        </div>
-                        <p class="font-bold text-gray-900 group-hover:text-[#f3a933] transition-colors">
-                            Rp {{ number_format($detail->subtotal, 0, ',', '.') }}
-                        </p>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
         </div>
+    </div>
+    </div>
     </div>
     </div>
 

@@ -9,7 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
     </style>
 </head>
 
@@ -67,8 +70,9 @@
                     <thead>
                         <tr class="bg-gray-50 border-b border-gray-100">
                             <th class="py-4 px-6 text-[10px] font-black text-gray-400 uppercase tracking-widest">Kode Transaksi</th>
-                            <th class="py-4 px-6 text-[10px] font-black text-gray-400 uppercase tracking-widest">Tanggal</th>
+                            <th class="py-4 px-6 text-[10px] font-black text-gray-400 uppercase tracking-widest">Periode Sewa</th>
                             <th class="py-4 px-6 text-[10px] font-black text-gray-400 uppercase tracking-widest">Total Harga</th>
+                            <th class="py-4 px-6 text-[10px] font-black text-gray-400 uppercase tracking-widest">Denda</th>
                             <th class="py-4 px-6 text-[10px] font-black text-gray-400 uppercase tracking-widest">Status</th>
                             <th class="py-4 px-6 text-[10px] font-black text-gray-400 uppercase tracking-widest">Aksi</th>
                         </tr>
@@ -77,18 +81,20 @@
                         @forelse($penyewaans as $item)
                         <tr class="hover:bg-gray-50 transition-colors">
                             <td class="py-5 px-6 font-bold text-gray-800 text-sm">{{ $item->kode_transaksi }}</td>
-                            <td class="py-5 px-6 text-gray-600 text-sm">{{ \Carbon\Carbon::parse($item->tanggal_mulai)->format('d M Y') }}</td>
+                            <td class="py-5 px-6 text-gray-600 text-sm">
+                                {{ \Carbon\Carbon::parse($item->tanggal_mulai)->format('d M Y') }}
+                                <span class="text-gray-400 font-bold mx-1">/</span>
+                                {{ \Carbon\Carbon::parse($item->tanggal_selesai)->format('d M Y') }}
+                            </td>
                             <td class="py-5 px-6 font-black text-gray-900 text-sm">Rp {{ number_format($item->total_harga, 0, ',', '.') }}</td>
+                            <td class="py-5 px-6 text-sm">
+                                @if($item->denda > 0)
+                                <span class="font-bold text-red-600">Rp {{ number_format($item->denda, 0, ',', '.') }}</span>
+                                @else
+                                <span class="text-gray-400">-</span>
+                                @endif
+                            </td>
                             <td class="py-5 px-6">
-                                @php
-                                $statusColors = [
-                                'Unpaid' => 'bg-yellow-100 text-yellow-700',
-                                'Paid' => 'bg-blue-100 text-blue-700',
-                                'Disewa' => 'bg-purple-100 text-purple-700',
-                                'Selesai' => 'bg-emerald-100 text-emerald-700',
-                                'Batal' => 'bg-red-100 text-red-700',
-                                ];
-                                @endphp
                                 <span class="px-3 py-1 {{ $statusColors[$item->status] ?? 'bg-gray-100' }} text-[9px] font-black uppercase rounded-full">
                                     {{ $item->status }}
                                 </span>
@@ -99,7 +105,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="py-10 text-center text-gray-400 text-sm">Belum ada riwayat sewa.</td>
+                            <td colspan="6" class="py-10 text-center text-gray-400 text-sm">Belum ada riwayat sewa.</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -124,4 +130,5 @@
         });
     </script>
 </body>
+
 </html>

@@ -41,6 +41,10 @@ Route::get('/', function () {
 // ================= ROUTE ADMIN =================
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+    
+    // Tambahkan baris ini
+    Route::get('/dashboard/export', [AdminController::class, 'exportExcel'])->name('export.excel');
+    
     Route::resource('barang', BarangController::class);
     Route::resource('kategori', KategoriController::class);
     Route::resource('penyewaan', PenyewaanController::class);
