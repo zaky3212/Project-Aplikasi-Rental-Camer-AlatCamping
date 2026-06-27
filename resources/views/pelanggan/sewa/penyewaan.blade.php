@@ -52,11 +52,7 @@
                     <span>Sewa Alat</span>
                 </a>
 
-                <a href="#"
-                    class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold text-gray-400 hover:bg-white/5 hover:text-white">
-                    <i class="fas fa-history w-5"></i>
-                    <span>Riwayat Sewa</span>
-                </a>
+                <a href="{{ route('pelanggan.riwayat.index') }}" class="text-[#f3a933] transition">Riwayat Sewa</a>
             </nav>
 
             <div class="p-4 border-t border-white/5 bg-[#0f172a]">

@@ -28,6 +28,7 @@
             <a href="{{ route('pelanggan.dashboard') }}" class="hover:text-[#f3a933] transition">Beranda</a>
             <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" class="hover:text-[#f3a933] transition">Katalog Camera</a>
             <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" class="hover:text-[#f3a933] transition">Katalog Camping</a>
+            <a href="{{ route('pelanggan.riwayat.index') }}" class="text-[#f3a933] transition">Riwayat Sewa</a>
             <a href="{{ route('pelanggan.profile') }}" class="hover:text-[#f3a933] transition">Profil</a>
         </div>
         <div class="flex items-center gap-4 z-10">
