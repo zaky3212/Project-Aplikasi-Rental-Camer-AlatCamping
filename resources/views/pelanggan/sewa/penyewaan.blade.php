@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sewa Alat - Lenscape</title>
+    <link rel="icon" href="{{ asset('images/Lenscape-Logo.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body class="bg-[#f8f9fa] font-sans">
 
     <div class="flex min-h-screen relative">
@@ -20,41 +23,41 @@
                 </button>
             </div>
 
-          <nav class="flex-1 px-0 space-y-1 overflow-y-auto">
-    <a href="{{ route('pelanggan.dashboard') }}" 
-       class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold 
-       {{ request()->routeIs('pelanggan.dashboard') ? 'bg-[#f3a933] text-[#0f172a] shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}"> 
-        <i class="fas fa-home w-5"></i>
-        <span>Dashboard</span>
-    </a>
+            <nav class="flex-1 px-0 space-y-1 overflow-y-auto">
+                <a href="{{ route('pelanggan.dashboard') }}"
+                    class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold 
+       {{ request()->routeIs('pelanggan.dashboard') ? 'bg-[#f3a933] text-[#0f172a] shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <i class="fas fa-home w-5"></i>
+                    <span>Dashboard</span>
+                </a>
 
-    <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" 
-       class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold
+                <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}"
+                    class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold
        {{ request()->routeIs('pelanggan.Katalog.Katalog_Camera') ? 'bg-[#f3a933] text-[#0f172a] shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
-        <i class="fas fa-camera-retro w-5"></i>
-        <span>Katalog Camera</span>
-    </a>
+                    <i class="fas fa-camera-retro w-5"></i>
+                    <span>Katalog Camera</span>
+                </a>
 
-    <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" 
-       class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold
+                <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}"
+                    class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold
        {{ request()->routeIs('pelanggan.Katalog.Katalog_Camping') ? 'bg-[#f3a933] text-[#0f172a] shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
-        <i class="fas fa-campground w-5"></i>
-        <span>Katalog Alat Camping</span>
-    </a>
+                    <i class="fas fa-campground w-5"></i>
+                    <span>Katalog Alat Camping</span>
+                </a>
 
-    <a href="{{ route('pelanggan.penyewaan') }}" 
-       class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold 
-       {{ request()->routeIs('pelanggan.penyewaan') ? 'bg-[#f3a933] text-[#0f172a] shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}"> 
-        <i class="fas fa-shopping-cart w-5"></i>
-        <span>Sewa Alat</span>
-    </a>
+                <a href="{{ route('pelanggan.penyewaan') }}"
+                    class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold 
+       {{ request()->routeIs('pelanggan.penyewaan') ? 'bg-[#f3a933] text-[#0f172a] shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <i class="fas fa-shopping-cart w-5"></i>
+                    <span>Sewa Alat</span>
+                </a>
 
-    <a href="#" 
-       class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold text-gray-400 hover:bg-white/5 hover:text-white">
-        <i class="fas fa-history w-5"></i>
-        <span>Riwayat Sewa</span>
-    </a>
-</nav>
+                <a href="#"
+                    class="flex items-center space-x-3 p-4 transition-all duration-300 lg:rounded-r-full lg:mr-4 font-semibold text-gray-400 hover:bg-white/5 hover:text-white">
+                    <i class="fas fa-history w-5"></i>
+                    <span>Riwayat Sewa</span>
+                </a>
+            </nav>
 
             <div class="p-4 border-t border-white/5 bg-[#0f172a]">
                 <div class="flex items-center space-x-3 mb-6 px-2">
@@ -95,151 +98,151 @@
                         <i class="fas fa-search"></i>
                     </span>
                     <input type="text" placeholder="Cari alat (contoh: Canon)..." class="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#f3a933] outline-none text-sm shadow-sm">
-                    
+
                 </div>
 
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-    <table class="w-full text-left border-collapse">
-        <thead class="bg-gray-50/50 border-b border-gray-100">
-            <tr>
-                <th class="px-6 py-4 text-[10px] font-bold uppercase text-gray-400 tracking-widest">Foto</th>
-                <th class="px-6 py-4 text-[10px] font-bold uppercase text-gray-400 tracking-widest">Nama Barang</th>
-                <th class="px-6 py-4 text-[10px] font-bold uppercase text-gray-400 tracking-widest">Harga/Hari</th>
-                <th class="px-6 py-4 text-[10px] font-bold uppercase text-gray-400 tracking-widest">Stok</th>
-                <th class="px-6 py-4 text-[10px] font-bold uppercase text-gray-400 tracking-widest text-center">Aksi</th>
-                <th class="px-6 py-4 text-[10px] font-bold uppercase text-gray-400 tracking-widest text-center">Status Barang</th>
-            </tr>
-        </thead>
-     <tbody class="divide-y divide-gray-50">
-    <!-- DATA DUMMY 1: KAMERA -->
-    <tr class="hover:bg-gray-50/50 transition">
-        <td class="px-6 py-4">
-            <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                <i class="fas fa-camera text-[#f3a933]"></i>
-            </div>
-        </td>
-        <td class="px-6 py-4">
-            <p class="text-sm font-bold text-gray-800">Canon EOS R6 (Contoh)</p>
-            <span class="text-[9px] px-2 py-0.5 bg-blue-50 text-blue-500 rounded-full font-bold uppercase">
-                Kamera
-            </span>
-        </td>
-        <td class="px-6 py-4 text-sm font-semibold text-gray-700">Rp 250.000</td>
-        <td class="px-6 py-4 text-xs font-bold text-emerald-500">
-            3 Unit
-        </td>
-        <td class="px-6 py-4 text-center">
-            <button onclick="openModal('dummy1', 'Canon EOS R6 (Contoh)')" 
-                    class="bg-[#f3a933] text-[#0f172a] px-4 py-2 rounded-lg text-xs font-bold hover:bg-[#d9962a] transition-colors">
-                Sewa
-            </button>
-        </td>
-        <td class="px-6 py-4 text-center">
-            <span class="px-3 py-1 bg-emerald-100 text-emerald-600 rounded-full text-[10px] font-bold uppercase">Tersedia</span>
-        </td>
-    </tr>
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-gray-50/50 border-b border-gray-100">
+                            <tr>
+                                <th class="px-6 py-4 text-[10px] font-bold uppercase text-gray-400 tracking-widest">Foto</th>
+                                <th class="px-6 py-4 text-[10px] font-bold uppercase text-gray-400 tracking-widest">Nama Barang</th>
+                                <th class="px-6 py-4 text-[10px] font-bold uppercase text-gray-400 tracking-widest">Harga/Hari</th>
+                                <th class="px-6 py-4 text-[10px] font-bold uppercase text-gray-400 tracking-widest">Stok</th>
+                                <th class="px-6 py-4 text-[10px] font-bold uppercase text-gray-400 tracking-widest text-center">Aksi</th>
+                                <th class="px-6 py-4 text-[10px] font-bold uppercase text-gray-400 tracking-widest text-center">Status Barang</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50">
+                            <!-- DATA DUMMY 1: KAMERA -->
+                            <tr class="hover:bg-gray-50/50 transition">
+                                <td class="px-6 py-4">
+                                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-camera text-[#f3a933]"></i>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <p class="text-sm font-bold text-gray-800">Canon EOS R6 (Contoh)</p>
+                                    <span class="text-[9px] px-2 py-0.5 bg-blue-50 text-blue-500 rounded-full font-bold uppercase">
+                                        Kamera
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-sm font-semibold text-gray-700">Rp 250.000</td>
+                                <td class="px-6 py-4 text-xs font-bold text-emerald-500">
+                                    3 Unit
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <button onclick="openModal('dummy1', 'Canon EOS R6 (Contoh)')"
+                                        class="bg-[#f3a933] text-[#0f172a] px-4 py-2 rounded-lg text-xs font-bold hover:bg-[#d9962a] transition-colors">
+                                        Sewa
+                                    </button>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span class="px-3 py-1 bg-emerald-100 text-emerald-600 rounded-full text-[10px] font-bold uppercase">Tersedia</span>
+                                </td>
+                            </tr>
 
-    <!-- DATA DUMMY 2: CAMPING -->
-    <tr class="hover:bg-gray-50/50 transition">
-        <td class="px-6 py-4">
-            <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                <i class="fas fa-campground text-[#f3a933]"></i>
-            </div>
-        </td>
-        <td class="px-6 py-4">
-            <p class="text-sm font-bold text-gray-800">Tenda Kapasitas 4P (Contoh)</p>
-            <span class="text-[9px] px-2 py-0.5 bg-orange-50 text-orange-500 rounded-full font-bold uppercase">
-                Camping
-            </span>
-        </td>
-        <td class="px-6 py-4 text-sm font-semibold text-gray-700">Rp 85.000</td>
-        <td class="px-6 py-4 text-xs font-bold text-emerald-500">
-            5 Unit
-        </td>
-        <td class="px-6 py-4 text-center">
-            <button onclick="openModal('dummy2', 'Tenda Kapasitas 4P (Contoh)')" 
-                    class="bg-[#f3a933] text-[#0f172a] px-4 py-2 rounded-lg text-xs font-bold hover:bg-[#d9962a] transition-colors">
-                Sewa
-            </button>
-        </td>
-        <td class="px-6 py-4 text-center">
-            <span class="px-3 py-1 bg-emerald-100 text-emerald-600 rounded-full text-[10px] font-bold uppercase">Tersedia</span>
-        </td>
-    </tr>
+                            <!-- DATA DUMMY 2: CAMPING -->
+                            <tr class="hover:bg-gray-50/50 transition">
+                                <td class="px-6 py-4">
+                                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-campground text-[#f3a933]"></i>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <p class="text-sm font-bold text-gray-800">Tenda Kapasitas 4P (Contoh)</p>
+                                    <span class="text-[9px] px-2 py-0.5 bg-orange-50 text-orange-500 rounded-full font-bold uppercase">
+                                        Camping
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-sm font-semibold text-gray-700">Rp 85.000</td>
+                                <td class="px-6 py-4 text-xs font-bold text-emerald-500">
+                                    5 Unit
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <button onclick="openModal('dummy2', 'Tenda Kapasitas 4P (Contoh)')"
+                                        class="bg-[#f3a933] text-[#0f172a] px-4 py-2 rounded-lg text-xs font-bold hover:bg-[#d9962a] transition-colors">
+                                        Sewa
+                                    </button>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span class="px-3 py-1 bg-emerald-100 text-emerald-600 rounded-full text-[10px] font-bold uppercase">Tersedia</span>
+                                </td>
+                            </tr>
 
-    <!-- DATA DUMMY 3: STOK HABIS -->
-    <tr class="hover:bg-gray-50/50 transition">
-        <td class="px-6 py-4">
-            <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                <i class="fas fa-camera text-gray-300"></i>
-            </div>
-        </td>
-        <td class="px-6 py-4">
-            <p class="text-sm font-bold text-gray-800">Sony Alpha A7 (Contoh)</p>
-            <span class="text-[9px] px-2 py-0.5 bg-blue-50 text-blue-500 rounded-full font-bold uppercase">
-                Kamera
-            </span>
-        </td>
-        <td class="px-6 py-4 text-sm font-semibold text-gray-700">Rp 300.000</td>
-        <td class="px-6 py-4 text-xs font-bold text-red-500">
-            0 Unit
-        </td>
-        <td class="px-6 py-4 text-center">
-            <button disabled class="bg-gray-200 text-gray-400 px-4 py-2 rounded-lg text-xs font-bold cursor-not-allowed">
-                Habis
-            </button>
-        </td>
-        <td class="px-6 py-4 text-center">
-            <span class="px-3 py-1 bg-red-100 text-red-600 rounded-full text-[10px] font-bold uppercase">Dipinjam</span>
-        </td>
-    </tr>
+                            <!-- DATA DUMMY 3: STOK HABIS -->
+                            <tr class="hover:bg-gray-50/50 transition">
+                                <td class="px-6 py-4">
+                                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-camera text-gray-300"></i>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <p class="text-sm font-bold text-gray-800">Sony Alpha A7 (Contoh)</p>
+                                    <span class="text-[9px] px-2 py-0.5 bg-blue-50 text-blue-500 rounded-full font-bold uppercase">
+                                        Kamera
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-sm font-semibold text-gray-700">Rp 300.000</td>
+                                <td class="px-6 py-4 text-xs font-bold text-red-500">
+                                    0 Unit
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <button disabled class="bg-gray-200 text-gray-400 px-4 py-2 rounded-lg text-xs font-bold cursor-not-allowed">
+                                        Habis
+                                    </button>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span class="px-3 py-1 bg-red-100 text-red-600 rounded-full text-[10px] font-bold uppercase">Dipinjam</span>
+                                </td>
+                            </tr>
 
-    {{-- DATA DARI DATABASE --}}
-    @foreach($barangs as $item)
-    <tr class="hover:bg-gray-50/50 transition">
-        <td class="px-6 py-4">
-            <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                @if($item->kategori == 'Kamera')
-                    <i class="fas fa-camera text-gray-300"></i>
-                @else
-                    <i class="fas fa-campground text-gray-300"></i>
-                @endif
-            </div>
-        </td>
-        <td class="px-6 py-4">
-            <p class="text-sm font-bold text-gray-800">{{ $item->nama_barang }}</p>
-            <span class="text-[9px] px-2 py-0.5 {{ $item->kategori == 'Kamera' ? 'bg-blue-50 text-blue-500' : 'bg-orange-50 text-orange-500' }} rounded-full font-bold uppercase">
-                {{ $item->kategori }}
-            </span>
-        </td>
-        <td class="px-6 py-4 text-sm font-semibold text-gray-700">Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
-        <td class="px-6 py-4 text-xs font-bold {{ $item->stok > 0 ? 'text-emerald-500' : 'text-red-500' }}">
-            {{ $item->stok }} Unit
-        </td>
-        <td class="px-6 py-4 text-center">
-            @if($item->stok > 0)
-                <button onclick="openModal('{{ $item->id }}', '{{ $item->nama_barang }}')" 
-                        class="bg-[#f3a933] text-[#0f172a] px-4 py-2 rounded-lg text-xs font-bold hover:bg-[#d9962a] transition-colors">
-                    Sewa
-                </button>
-            @else
-                <button disabled class="bg-gray-200 text-gray-400 px-4 py-2 rounded-lg text-xs font-bold cursor-not-allowed">
-                    Habis
-                </button>
-            @endif
-        </td>
-        <td class="px-6 py-4 text-center">
-            @if($item->stok > 0)
-                <span class="px-3 py-1 bg-emerald-100 text-emerald-600 rounded-full text-[10px] font-bold uppercase">Tersedia</span>
-            @else
-                <span class="px-3 py-1 bg-red-100 text-red-600 rounded-full text-[10px] font-bold uppercase">Dipinjam</span>
-            @endif
-        </td>
-    </tr>
-    @endforeach
-</tbody>
-    </table>
-</div>
+                            {{-- DATA DARI DATABASE --}}
+                            @foreach($barangs as $item)
+                            <tr class="hover:bg-gray-50/50 transition">
+                                <td class="px-6 py-4">
+                                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                                        @if($item->kategori == 'Kamera')
+                                        <i class="fas fa-camera text-gray-300"></i>
+                                        @else
+                                        <i class="fas fa-campground text-gray-300"></i>
+                                        @endif
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <p class="text-sm font-bold text-gray-800">{{ $item->nama_barang }}</p>
+                                    <span class="text-[9px] px-2 py-0.5 {{ $item->kategori == 'Kamera' ? 'bg-blue-50 text-blue-500' : 'bg-orange-50 text-orange-500' }} rounded-full font-bold uppercase">
+                                        {{ $item->kategori }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-sm font-semibold text-gray-700">Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
+                                <td class="px-6 py-4 text-xs font-bold {{ $item->stok > 0 ? 'text-emerald-500' : 'text-red-500' }}">
+                                    {{ $item->stok }} Unit
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    @if($item->stok > 0)
+                                    <button onclick="openModal('{{ $item->id }}', '{{ $item->nama_barang }}')"
+                                        class="bg-[#f3a933] text-[#0f172a] px-4 py-2 rounded-lg text-xs font-bold hover:bg-[#d9962a] transition-colors">
+                                        Sewa
+                                    </button>
+                                    @else
+                                    <button disabled class="bg-gray-200 text-gray-400 px-4 py-2 rounded-lg text-xs font-bold cursor-not-allowed">
+                                        Habis
+                                    </button>
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    @if($item->stok > 0)
+                                    <span class="px-3 py-1 bg-emerald-100 text-emerald-600 rounded-full text-[10px] font-bold uppercase">Tersedia</span>
+                                    @else
+                                    <span class="px-3 py-1 bg-red-100 text-red-600 rounded-full text-[10px] font-bold uppercase">Dipinjam</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 <footer class="mt-12 pb-8 text-center text-[10px] text-gray-400 uppercase tracking-widest">
                     <p>&copy; {{ date('Y') }} Lenscape - Project Based Learning</p>
                 </footer>
@@ -293,4 +296,5 @@
         }
     </script>
 </body>
+
 </html>

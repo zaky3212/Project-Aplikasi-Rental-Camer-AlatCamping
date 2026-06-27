@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beranda Pelanggan - Lenscape</title>
+    <link rel="icon" href="{{ asset('images/Lenscape-Logo.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -193,33 +194,33 @@
     </div>
 
     <script>
-    // Menu Mobile (Pastikan elemen mobileMenu ada di HTML Anda)
-    const btnMenu = document.getElementById('btnMobileMenu');
-    const mobileMenu = document.getElementById('mobileMenu');
-    if (btnMenu && mobileMenu) {
-        btnMenu.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-    }
+        // Menu Mobile (Pastikan elemen mobileMenu ada di HTML Anda)
+        const btnMenu = document.getElementById('btnMobileMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (btnMenu && mobileMenu) {
+            btnMenu.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
 
-    // Dropdown Profil
-    const btnProfile = document.getElementById('btnProfile');
-    const profileDropdown = document.getElementById('profileDropdown');
+        // Dropdown Profil
+        const btnProfile = document.getElementById('btnProfile');
+        const profileDropdown = document.getElementById('profileDropdown');
 
-    if (btnProfile && profileDropdown) {
-        btnProfile.addEventListener('click', (e) => {
-            e.stopPropagation(); // Mencegah event klik menutup dropdown seketika
-            profileDropdown.classList.toggle('hidden');
-        });
+        if (btnProfile && profileDropdown) {
+            btnProfile.addEventListener('click', (e) => {
+                e.stopPropagation(); // Mencegah event klik menutup dropdown seketika
+                profileDropdown.classList.toggle('hidden');
+            });
 
-        // Klik di mana saja di luar area dropdown untuk menutupnya
-        window.addEventListener('click', (e) => {
-            if (!btnProfile.contains(e.target) && !profileDropdown.contains(e.target)) {
-                profileDropdown.classList.add('hidden');
-            }
-        });
-    }
-</script>
+            // Klik di mana saja di luar area dropdown untuk menutupnya
+            window.addEventListener('click', (e) => {
+                if (!btnProfile.contains(e.target) && !profileDropdown.contains(e.target)) {
+                    profileDropdown.classList.add('hidden');
+                }
+            });
+        }
+    </script>
 
 
 </body>

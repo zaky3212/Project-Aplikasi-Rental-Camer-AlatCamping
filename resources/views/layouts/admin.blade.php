@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Lenscape - Dashboard Admin')</title>
+    <link rel="icon" href="{{ asset('images/Lenscape-Logo.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        #sidebar { transition: transform 0.3s ease-in-out; }
+        #sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
     </style>
     @stack('styles')
 </head>
@@ -28,7 +32,7 @@
             </div>
 
             <nav class="flex-1 px-0 space-y-1 overflow-y-auto">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 p-4 transition {{ Route::is('admin.dashboard') ? 'bg-[#f3a933] text-[#0f172a] rounded-r-full mr-4 font-semibold shadow-lg' : 'hover:bg-white/5 text-gray-400' }}"> 
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 p-4 transition {{ Route::is('admin.dashboard') ? 'bg-[#f3a933] text-[#0f172a] rounded-r-full mr-4 font-semibold shadow-lg' : 'hover:bg-white/5 text-gray-400' }}">
                     <i class="fas fa-home w-5"></i><span>Dashboard</span>
                 </a>
                 <a href="{{ route('admin.kategori.index') }}" class="flex items-center space-x-3 p-4 transition {{ Route::is('admin.kategori.*') ? 'bg-[#f3a933] text-[#0f172a] rounded-r-full mr-4 font-semibold shadow-lg' : 'hover:bg-white/5 text-gray-400' }}">
@@ -42,7 +46,7 @@
                 </a>
                 <a href="{{ route('admin.user.index') }}" class="flex items-center space-x-3 p-4 transition {{ Route::is('admin.user.*') ? 'bg-[#f3a933] text-[#0f172a] rounded-r-full mr-4 font-semibold shadow-lg' : 'hover:bg-white/5 text-gray-400' }}">
                     <i class="fas fa-user-cog w-5"></i><span>Kelola User</span> </a>
-                </nav>
+            </nav>
 
             <div class="p-4 border-t border-white/5 bg-[#0f172a]">
                 <div class="flex items-center space-x-3 mb-6 px-2">
@@ -91,7 +95,7 @@
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
-            
+
             if (sidebar.classList.contains('-translate-x-full')) {
                 sidebar.classList.remove('-translate-x-full');
                 overlay.classList.remove('hidden');
@@ -105,4 +109,5 @@
     </script>
     @stack('scripts')
 </body>
+
 </html>
