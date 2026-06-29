@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\BarangController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\PenyewaanController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\RiwayatSewaController;
 use App\Models\Barang;
 
 // Controller Pelanggan
@@ -42,13 +43,18 @@ Route::get('/', function () {
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     
-    // Tambahkan baris ini
+    
     Route::get('/dashboard/export', [AdminController::class, 'exportExcel'])->name('export.excel');
     
     Route::resource('barang', BarangController::class);
     Route::resource('kategori', KategoriController::class);
     Route::resource('penyewaan', PenyewaanController::class);
     Route::resource('user', UserController::class);
+
+    // ================= RIWAYAT SEWA =================
+    Route::get('/riwayat-sewa', [RiwayatSewaController::class, 'index'])->name('riwayat.index');
+
+    Route::get('/riwayat-sewa/{id}', [RiwayatSewaController::class, 'show'])->name('riwayat.detail');
 
     Route::put('/penyewaan/{id}/status', [PenyewaanController::class, 'updateStatus'])->name('penyewaan.updateStatus');
 });
