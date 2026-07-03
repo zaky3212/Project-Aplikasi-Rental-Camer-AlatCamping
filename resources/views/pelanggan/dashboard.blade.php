@@ -1,73 +1,9 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.pelanggan')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beranda Pelanggan - Lenscape</title>
-    <link rel="icon" href="{{ asset('images/Lenscape-Logo.png') }}">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@section('title', 'Beranda Pelanggan - Lenscape')
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-    </style>
-</head>
-
-<body class="bg-gray-50 text-slate-900 overflow-x-hidden">
-
-    <nav class="fixed top-0 w-full z-50 bg-[#0f172a]/90 backdrop-blur-lg border-b border-white/10 py-3 md:py-4 px-4 md:px-12 flex justify-between items-center transition-all">
-        <a href="{{ route('pelanggan.dashboard') }}" class="text-xl md:text-2xl font-bold tracking-tight text-white z-10">
-            Lens<span class="text-[#f3a933]">cape</span>
-        </a>
-
-        <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 text-sm font-semibold text-gray-300">
-            <a href="{{ route('pelanggan.dashboard') }}" class="text-[#f3a933] transition">Beranda</a>
-            <a href="{{ route('pelanggan.Katalog.Katalog_Camera') }}" class="hover:text-[#f3a933] transition">Katalog Camera</a>
-            <a href="{{ route('pelanggan.Katalog.Katalog_Camping') }}" class="hover:text-[#f3a933] transition">Katalog Camping</a>
-            <a href="{{ route('pelanggan.riwayat.index') }}"
-                class="{{ Route::is('pelanggan.riwayat.*') ? 'text-[#f3a933]' : 'hover:text-[#f3a933]' }} transition">
-                Riwayat Sewa
-            </a>
-            <a href="{{ route('pelanggan.profile') }}" class="hover:text-[#f3a933] transition">Profil</a>
-        </div>
-
-        <div class="flex items-center gap-4 md:gap-6 z-10">
-            <a href="{{ route('pelanggan.keranjang.index') }}" class="text-white hover:text-[#f3a933] transition relative flex items-center mt-1">
-                <i class="fas fa-shopping-cart text-lg"></i>
-                <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full border border-[#0f172a]">2</span>
-            </a>
-
-            <div class="h-6 w-[1px] bg-white/20 hidden xs:block"></div>
-
-            <div class="relative flex items-center gap-2 md:gap-3">
-                <span class="text-white text-[10px] md:text-xs hidden md:block uppercase tracking-wider font-medium">{{ Auth::user()->name ?? 'Pelanggan' }}</span>
-
-                <div id="btnProfile" class="w-8 h-8 md:w-10 md:h-10 bg-[#f3a933] rounded-full flex items-center justify-center font-bold text-[#0f172a] text-xs md:text-sm shadow-inner cursor-pointer select-none active:scale-95 transition-transform">
-                    {{ substr(Auth::user()->name ?? 'P', 0, 1) }}
-                </div>
-
-                <div id="profileDropdown" class="hidden absolute right-0 top-full mt-3 w-48 bg-[#0f172a] border border-white/10 rounded-2xl p-3 shadow-2xl z-50">
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="w-full group flex items-center justify-center space-x-2 bg-red-500/5 hover:bg-red-600 p-2.5 rounded-xl transition-all duration-300 border border-red-500/20 hover:border-red-600 shadow-sm">
-                            <i class="fas fa-power-off text-red-500 group-hover:text-white transition-colors"></i>
-                            <span class="text-red-500 group-hover:text-white text-xs font-bold uppercase tracking-widest">Keluar</span>
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-            <button id="btnMobileMenu" class="lg:hidden text-white text-xl hover:text-[#f3a933] transition">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </nav>
-
-    <section class="relative h-[60vh] md:h-[500px] mt-[60px] md:mt-[70px] overflow-hidden">
+@section('content')
+    <section class="relative h-[60vh] md:h-[500px] overflow-hidden">
         <img src="https://images.unsplash.com/photo-1542332213-9b5a5a3fad35?q=80&w=1638&auto=format&fit=crop" class="w-full h-full object-cover brightness-[0.4]" alt="Banner Home">
         <div class="absolute inset-0 flex items-center px-6 md:px-20 max-w-7xl mx-auto w-full">
             <div class="text-white mt-10 w-full">
@@ -190,39 +126,10 @@
                 @endforelse
             </div>
         </section>
-
     </div>
+@endsection
 
-    <script>
-        // Menu Mobile (Pastikan elemen mobileMenu ada di HTML Anda)
-        const btnMenu = document.getElementById('btnMobileMenu');
-        const mobileMenu = document.getElementById('mobileMenu');
-        if (btnMenu && mobileMenu) {
-            btnMenu.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
-
-        // Dropdown Profil
-        const btnProfile = document.getElementById('btnProfile');
-        const profileDropdown = document.getElementById('profileDropdown');
-
-        if (btnProfile && profileDropdown) {
-            btnProfile.addEventListener('click', (e) => {
-                e.stopPropagation(); // Mencegah event klik menutup dropdown seketika
-                profileDropdown.classList.toggle('hidden');
-            });
-
-            // Klik di mana saja di luar area dropdown untuk menutupnya
-            window.addEventListener('click', (e) => {
-                if (!btnProfile.contains(e.target) && !profileDropdown.contains(e.target)) {
-                    profileDropdown.classList.add('hidden');
-                }
-            });
-        }
-    </script>
-
-
-</body>
-
-</html>
+@push('scripts')
+<script>
+</script>
+@endpush
