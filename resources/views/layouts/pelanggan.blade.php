@@ -1,3 +1,5 @@
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 <!DOCTYPE html>
 <html lang="id">
 
